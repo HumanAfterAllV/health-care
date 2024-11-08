@@ -4,12 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Form } from "@/components/ui/form"
-import CustomFormField from "../CustomFormField"
-import SubmitButton from "../SubmitButton"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { userFormValidation } from "@/lib/validations"
 import { createUser } from "@/lib/actions/patient.actions"
+import CustomFormField from "../CustomFormField"
+import SubmitButton from "../SubmitButton"
 
 
 
@@ -45,8 +45,8 @@ export default function PatientForm() {
 
         const user  = await createUser(userData)
 
-        console.log(`User created successfully: ${user}`)
-        router.push(`/patients/${user.$id}/register`)
+        console.log(`User created successfully: ${user.name}`)
+        router.push(`/patients/${user.email}/register`)
     }
     catch (error) {
         console.log(error)
