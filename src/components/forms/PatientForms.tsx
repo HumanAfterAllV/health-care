@@ -6,7 +6,7 @@ import { z } from "zod"
 import { Form } from "@/components/ui/form"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { userFormValidation } from "@/lib/validations"
+import { UserFormValidation } from "@/lib/validations"
 import { createUser } from "@/lib/actions/patient.actions"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
@@ -24,13 +24,13 @@ export enum FormFieldTypes {
 }
  
  
-export default function PatientForm() {
+export default function PatientForm(): JSX.Element {
     const router = useRouter()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const form = useForm<z.infer<typeof userFormValidation>>({
-        resolver: zodResolver(userFormValidation),
+    const form = useForm<z.infer<typeof UserFormValidation>>({
+        resolver: zodResolver(UserFormValidation),
         defaultValues: {
         name: "",
         email: "",
@@ -38,15 +38,20 @@ export default function PatientForm() {
         },
     })
  
-  async function onSubmit({name, email, phone} : z.infer<typeof userFormValidation>) {
+  async function onSubmit({name, email, phone} : z.infer<typeof UserFormValidation>) {
     setIsLoading(true);
     try {
         const userData = {name, email, phone}
 
         const user  = await createUser(userData)
 
-        console.log(`User created successfully: ${user.name}`)
-        router.push(`/patients/${user.email}/register`)
+        if(user){
+            console.log(`User created successfully: ${user}`)
+            router.push(`/patients/${user.userId}/register`)
+        }
+        else{
+            throw new Error("An error occurred. Please try again.")
+        }
     }
     catch (error) {
         console.log(error)
