@@ -10,18 +10,20 @@ import {
     FormMessage,
   } from "@/components/ui/form";
 
-import { Input } from "@/components/ui/input"
 import { Control } from "react-hook-form";
 import { FormFieldTypes } from "./forms/PatientForms";
 import { E164Number } from "libphonenumber-js/core";
+  
 import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Select, SelectContent, SelectTrigger } from "./ui/select";
-import { SelectValue } from "@radix-ui/react-select";
+  
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
+
+import PhoneInput from 'react-phone-number-input'
+import DatePicker from "react-datepicker";
 
 interface CustomProps {
     control: Control<any>,

@@ -4,7 +4,7 @@ import { getUser } from "@/lib/actions/patient.actions"
 import Image from "next/image"
 import Link from "next/link"
 
-export default async function Register({params: {userId} }: SearchParamProps){
+export default async function Register({params: {userId} }: SearchParamProps): Promise<JSX.Element> {
 
     const user = await getUser(userId);
     

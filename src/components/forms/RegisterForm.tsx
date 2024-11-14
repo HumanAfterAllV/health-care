@@ -57,7 +57,8 @@ export default function RegisterForm({user}: {user: any}): JSX.Element {
             birthDate: new Date(values.birthDate),
             identificationDocument,
         }
-        console.log(`Patient data: ${patientData}`);
+        
+        console.log(`Patient data:`, JSON.stringify(patientData, null, 2));
         const patient = await registerPatient(patientData);
         if(patient) router.push(`/patients/${user.userId}/new-appointment`);
     }

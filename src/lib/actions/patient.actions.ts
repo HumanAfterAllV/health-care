@@ -76,7 +76,7 @@ export const registerPatient = async (params: RegisterUserParams) => {
         .eq("email", patient.email)
         .single();
 
-        if(existingPatient && existingPatientError){
+        if(existingPatientError){
             throw existingPatientError;
         }
 
@@ -98,19 +98,22 @@ export const registerPatient = async (params: RegisterUserParams) => {
             }
             fileUrl = supabase.storage.from("healthcare_storage").getPublicUrl(filePath).data?.publicUrl;
             console.log(`File URL: ${fileUrl}`);
+
+            if (!fileUrl) {
+                throw new Error("Failed to generate public URL for uploaded file.");
+            }
         }
 
         let result; 
         if(existingPatient){
-            const {data, error} = await supabase.from("patient").update([{
+            const {data, error} = await supabase
+            .from("patient")
+            .update([{
                 ...patient,
                 identificationDocumentUrl: fileUrl,
             }]).eq("userId", existingPatient.userId).select();
 
-            if(error){
-                throw error;
-            }
-            if(!data || data.length === 0){
+            if(error || !data || data.length === 0){
                 throw new Error("No data returned from supabase");
             }
 
@@ -121,12 +124,8 @@ export const registerPatient = async (params: RegisterUserParams) => {
                 ...patient,
                 identificationDocumentUrl: fileUrl,
             }]).select();
-    
-    
-            if(error){
-                throw error;
-            }
-            if(!data || data.length === 0){
+
+            if(error || !data || data.length === 0){
                 throw new Error("No data returned from supabase");
             }
     
@@ -142,3 +141,4 @@ export const registerPatient = async (params: RegisterUserParams) => {
     }
 
 };
+
