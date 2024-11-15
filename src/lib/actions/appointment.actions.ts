@@ -3,7 +3,7 @@ import { supabase } from "../supabaseClient";
 
 export const createAppointment = async (appointment: CreateAppointmentParams) => {
     try {
-        const { data, error } = await supabase.from("appointment").insert([{
+        const { data: insertData, error: insertError } = await supabase.from("appointment").insert([{
             userId: appointment.userId,
             patient: appointment.patient,
             primaryPhysician: appointment.primaryPhysician,
@@ -11,18 +11,37 @@ export const createAppointment = async (appointment: CreateAppointmentParams) =>
             reason: appointment.reason,
             note: appointment.note,
             status: appointment.status,
-        }]).select()
+        }]).select("appointmentId").single();
 
-        if (error) {
-            throw error;
+        if (insertError) {
+            throw insertError;
         }
 
-        if (!data) {
+        if (!insertData) {
             throw new Error("No data returned from supabase");
         }
-        return data[0];
+        console.log("Inserted appointment:", insertData.appointmentId);
+        return insertData;
     } catch (error: any) {
         console.error('Error creating appointment:', error);
+        throw error;
+    }
+}
+
+export const getDoctorAppointment = async (userId: string) => {
+    try {
+        const {data, error} = await supabase
+        .from("appointment")
+        .select("primaryPhysician, schedule")
+        .eq("userId", userId).single();
+
+        if(error){
+            throw error;
+        }
+        return data;
+    }
+    catch(error){
+        console.error('Error getting appointments:', error);
         throw error;
     }
 }

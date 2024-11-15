@@ -43,51 +43,53 @@ export default function AppointmentForm({ type, userId, patient }: AppointmentFo
         },
     })
  
-  async function onSubmit(values : z.infer<typeof AppointmentFormValidation>) {
-    setIsLoading(true);
+    async function onSubmit(values : z.infer<typeof AppointmentFormValidation>) {
+        setIsLoading(true);
 
-    let status;
+        let status;
 
-    switch (type) {
-        case "schedule":
-            status = "scheduled";
-            break;
-        case "cancel":
-            status = "canceled";
-            break;
-        default:
-            status = "pending";
-            break;
-    }
-    try {
-        if(type === "create" && patient){
-            const appointmentData = {
-                userId,
-                patient,
-                primaryPhysician: values.primaryPhysician,
-                schedule: new Date(values.schedule),
-                reason: values.reason!,
-                note: values.note,
-                status: status as Status,
-
-            }
-            const newAppointment = await createAppointment(appointmentData);
-
-            if(newAppointment){
-                form.reset();
-                router.push(`/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.id}`)
-            }
+        switch (type) {
+            case "schedule":
+                status = "scheduled";
+                break;
+            case "cancel":
+                status = "canceled";
+                break;
+            default:
+                status = "pending";
+                break;
         }
+        try {
+            if(type === "create" && patient){
+                const appointmentData = {
+                    userId,
+                    patient: patient.name,
+                    primaryPhysician: values.primaryPhysician,
+                    schedule: new Date(values.schedule),
+                    reason: values.reason!,
+                    note: values.note,
+                    status: status as Status,
+
+                }
+                const newAppointment = await createAppointment(appointmentData);
+
+                console.log(newAppointment)
+
+                if(newAppointment && newAppointment.appointmentId){
+                    form.reset();
+                    router.push(`/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.appointmentId}`)
+                }
+            }
 
 
+        }
+        catch (error) {
+            console.log(error)
+        }
+        finally{
+            setIsLoading(false)
+        }
     }
-    catch (error) {
-        console.log(error)
-    }
-    finally{
-        setIsLoading(false)
-    }
-  }
 
   let buttonLabel;
   
