@@ -1,14 +1,27 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { getDoctorAppointment } from "@/lib/actions/appointment.actions";
-import { Doctors } from "@/constants";
-import { formatDateTime } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
-export default async function Success({params: {userId}} : SearchParamProps): Promise<JSX.Element>  {
-    const doctorAppointment = await getDoctorAppointment(userId);
+import RenderUserAppointment from "@/components/RenderUserAppointment";
 
-    const doctor = Doctors.find((doc) => doc.name === doctorAppointment.primaryPhysician);
+export default function Success(): JSX.Element {
+
+
+/*     if (!appointmentId) {
+        console.error("No appointmentId provided.");
+        return <div>Error: No appointment ID provided.</div>;
+    }
+
+    const doctorAppointment = await getDoctorAppointment(appointmentId);
+
+    if (!doctorAppointment) {
+    console.error("Appointment not found.");
+    return <div>Error: Appointment not found.</div>;
+}
+
+    const userId = await getPatientUser();
+    const doctor = Doctors.find((doc) => doc.name === doctorAppointment.primaryPhysician); */
 
     return (
         <div className="flex h-screen max-h-screen px-[5%]">
@@ -36,34 +49,7 @@ export default async function Success({params: {userId}} : SearchParamProps): Pr
                         We will be in touch with you shortly to confirm your appointment.
                     </p>
                 </section>
-                <section className="request-details">
-                    <p>Appointment details</p>
-                    <div className="flex items-center gap-3">
-                        <Image
-                            src={doctor?.image || "/assets/images/default-doctor.png"}
-                            height={100}
-                            width={100}
-                            alt="doctor"
-                            className="size-6"
-                        />
-                        <p className="whitespace-nowrap">{doctorAppointment.primaryPhysician}</p>
-                    </div>
-                    <div className="flex gap-2">
-                        <Image
-                            src="/assets/icons/calendar.svg"
-                            height={24}
-                            width={24}
-                            alt="calendar"
-                        />
-                        <p>{formatDateTime(doctorAppointment.schedule).dateTime}</p>
-                    </div>
-                </section>
-
-                <Button variant="outline" className="shad-primary-btn" asChild>
-                    <Link href={`/patients/${userId}/new-appointment`}>
-                        New Appointment
-                    </Link>
-                </Button>
+                <RenderUserAppointment/>
                 <p className="copyright mt-10 py-12">
                     © 2024 CarePulse
                 </p>

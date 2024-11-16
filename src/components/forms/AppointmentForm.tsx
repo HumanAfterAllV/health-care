@@ -35,7 +35,7 @@ export default function AppointmentForm({ type, userId, patient }: AppointmentFo
     const form = useForm<z.infer<typeof AppointmentFormValidation>>({
         resolver: zodResolver(AppointmentFormValidation),
         defaultValues: {
-            primaryPhysician: patient.primaryPhysician,
+            primaryPhysician: "",
             schedule: new Date(),
             reason: "",
             note: "",
@@ -74,10 +74,15 @@ export default function AppointmentForm({ type, userId, patient }: AppointmentFo
                 const newAppointment = await createAppointment(appointmentData);
 
                 console.log(newAppointment)
+                console.log("Redirecting with userId:", userId);
+                console.log("Redirecting with appointmentId:", newAppointment.appointmentId);
 
-                if(newAppointment && newAppointment.appointmentId){
+                if(newAppointment?.appointmentId){
                     form.reset();
                     router.push(`/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.appointmentId}`)
+                }
+                else {
+                    console.error("Failed to redirect: Missing appointmentId.");
                 }
             }
 
@@ -142,9 +147,10 @@ export default function AppointmentForm({ type, userId, patient }: AppointmentFo
                         <CustomFormField
                             fieldType={FormFieldTypes.DATE_PICKER}
                             control={form.control}
-                            name="Expected appointment date"
+                            name="schedule"
+                            label="Expected appointment date and time"
                             showTimeSelect
-                            dateFormat="MM/dd/yyyy - h:mm aa"
+                            dateFormat="MM/dd/yyyy  -  h:mm aa"
                         />
                         <div className="flex flex-col gap-6 xl:flex-row">
                             <CustomFormField

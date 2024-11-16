@@ -83,7 +83,7 @@ export const registerPatient = async (params: RegisterUserParams) => {
         let fileUrl = null;
         if(identificationDocument instanceof File){
             console.log(`Uploading file...: ${identificationDocument.name}`);
-            const filePath = `patient-document/${uuidv4()}-${identificationDocument.name}`;
+            const filePath = `patient-document/${patient.userId}/${uuidv4()}-${identificationDocument.name}`;
             console.log(`File path: ${filePath}`);
             const {data: fileData, error: uploadError} = await supabase
             .storage
