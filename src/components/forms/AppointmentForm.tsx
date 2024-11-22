@@ -27,7 +27,7 @@ interface AppointmentFormProps {
     patient: Patient; 
     appointment?: Appointment;
     setOpen?: Dispatch<SetStateAction<boolean>>;
-}
+} 
 
 export default function AppointmentForm({ type, userId, patient, appointment, setOpen }: AppointmentFormProps): JSX.Element {
     const router = useRouter()

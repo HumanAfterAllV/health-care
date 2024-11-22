@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 /* ========================================== TAILWIND STYLES */
 @layer base {
   /* Remove scrollbar */
@@ -182,6 +184,14 @@
   }
 
   /* =====  SHADCN OVERRIDES */
+  .btn-custom {
+    @apply relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md border border-black bg-transparent px-6 font-bold text-black transition-all duration-100 shadow-[5px_5px_rgb(82_82_82)];
+  }
+  
+  .btn-custom:hover {
+    @apply translate-x-[3px] translate-y-[3px] shadow-none;
+  }
+  
   .shad-primary-btn {
     @apply bg-green-500 text-white !important;
   }
