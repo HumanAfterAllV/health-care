@@ -3,18 +3,21 @@ import { z } from "zod";
 export const UserFormValidation = z.object({
   name: z
     .string()
-    .min(2, "Name must be at least 2 characters")
+    .min(1, "Name is required")
+    .min(2, "Name must be at least 5 characters")
     .max(50, "Name must be at most 50 characters"),
-  email: z.string().email("Invalid email address"),
+  email: z.string().email("Invalid email address").min(1, "Email is required"),
   phone: z
     .string()
+    .min(1, "Phone number is required")
     .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
 });
 
 export const PatientFormValidation = z.object({
   name: z
     .string()
-    .min(2, "Name must be at least 2 characters")
+    .min(1, "Name is required")
+    .min(2, "Name must be at least 5 characters")
     .max(50, "Name must be at most 50 characters"),
   email: z.string().email("Invalid email address"),
   phone: z
@@ -24,18 +27,22 @@ export const PatientFormValidation = z.object({
   gender: z.enum(["Male", "Female", "Other"]),
   address: z
     .string()
+    .min(1, "Address is required")
     .min(5, "Address must be at least 5 characters")
     .max(500, "Address must be at most 500 characters"),
   occupation: z
     .string()
+    .min(1, "Occupation is required")
     .min(2, "Occupation must be at least 2 characters")
     .max(500, "Occupation must be at most 500 characters"),
   emergencyContactName: z
     .string()
+    .min(1, "Emergency contact name is required")
     .min(2, "Contact name must be at least 2 characters")
     .max(50, "Contact name must be at most 50 characters"),
   emergencyContactNumber: z
     .string()
+    .min(1, "Contact number is required")
     .refine(
       (emergencyContactNumber) => /^\+\d{10,15}$/.test(emergencyContactNumber),
       "Invalid phone number"
@@ -43,10 +50,13 @@ export const PatientFormValidation = z.object({
   primaryPhysician: z.string().min(2, "Select at least one doctor"),
   insuranceProvider: z
     .string()
+    .min(1, "Insurance provider is required")
     .min(2, "Insurance name must be at least 2 characters")
     .max(50, "Insurance name must be at most 50 characters"),
   insurancePolicyNumber: z
-    .string()
+    .number()
+    .int("Policy number must be a number")
+    .positive("Policy number must be a positive number")
     .min(2, "Policy number must be at least 2 characters")
     .max(50, "Policy number must be at most 50 characters"),
   allergies: z.string().optional(),
@@ -54,7 +64,7 @@ export const PatientFormValidation = z.object({
   familyMedicalHistory: z.string().optional(),
   pastMedicalHistory: z.string().optional(),
   identificationType: z.string().optional(),
-  identificationNumber: z.string().optional(),
+  identificationNumber: z.number().int("Identification number must be a number.").optional(),
   identificationDocument: z.custom<File[]>().optional(),
   treatmentConsent: z
     .boolean()

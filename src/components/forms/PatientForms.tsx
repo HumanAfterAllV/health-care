@@ -10,12 +10,10 @@ import { z } from "zod"
 import { Form } from "@/components/ui/form"
 
 import { UserFormValidation } from "@/lib/validations"
-import { createUser } from "@/lib/actions/patient.actions"
+import { createUser, checkEmailExists } from "@/lib/actions/patient.actions"
 
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
-
-
 
 export enum FormFieldTypes {
     INPUT="input",
@@ -45,13 +43,20 @@ export default function PatientForm(): JSX.Element {
   async function onSubmit({name, email, phone} : z.infer<typeof UserFormValidation>) {
     setIsLoading(true);
     try {
-        const userData = {name, email, phone}
+        const existingUser = await checkEmailExists(email)
 
-        const user  = await createUser(userData)
+        if(existingUser){
+            console.log(`User already exists: ${existingUser.userId}`)
+            alert("User already exists. Redirecting to appointment page.")
+            router.push(`/patients/${existingUser.userId}/new-appointment`)
+            return
+        }
 
-        if(user){
-            console.log(`User created successfully: ${user}`)
-            router.push(`/patients/${user.userId}/register`)
+        const newUser  = await createUser({ name, email, phone })
+
+        if(newUser){
+            console.log(`User created successfully: ${newUser}`)
+            router.push(`/patients/${newUser.userId}/register`)
         }
         else{
             throw new Error("An error occurred. Please try again.")

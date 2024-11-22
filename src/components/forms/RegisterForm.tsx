@@ -15,8 +15,10 @@ import { Label } from "../ui/label"
 
 
 import { FormFieldTypes } from "./PatientForms"
+
 import { PatientFormValidation } from "@/lib/validations"
 import { registerPatient } from "@/lib/actions/patient.actions"
+
 import { Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constants"
 
 import CustomFormField from "../CustomFormField"
@@ -24,7 +26,7 @@ import SubmitButton from "../SubmitButton"
 import FileUploader from "../FileUploader"
  
  
-export default function RegisterForm({user}: {user: any}): JSX.Element {
+export default function RegisterForm({user}: {user: User}): JSX.Element {
     const router = useRouter()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)

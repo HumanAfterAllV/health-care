@@ -1,11 +1,15 @@
 import Image from "next/image"
 import Link from "next/link"
-import PatientForms from "@/components/forms/PatientForms"
 
-export default function Page(): JSX.Element {
+import PatientForms from "@/components/forms/PatientForms"
+import PasskeyModal from "@/components/PasskeyModal";
+
+export default function Page({ searchParams }: SearchParamProps): JSX.Element {
+    const isAdmin = searchParams?.admin === "true";
+    
     return(
         <section className="flex h-screen max-h-screen">
-            {/* TODO: OTP Verification | Passkey */}
+            {isAdmin && <PasskeyModal/>}
             <div className="remove-scroll container my-auto">
                 <div className="sub-container max-w-[496px]">
                     <Image src="/assets/icons/logo-full.svg" height={1000} width={1000} alt="patient" className="mb-12 h-10 w-fit"/>

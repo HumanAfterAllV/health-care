@@ -23,6 +23,7 @@ export interface Patient{
 }
 
 export interface Appointment{
+  appointmentId: string;
   patient: Patient;
   schedule: Date;
   status: Status;
@@ -31,4 +32,5 @@ export interface Appointment{
   note: string;
   userId: string;
   cancellationReason: string | null;
+  createdAt: Date;
 }

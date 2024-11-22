@@ -12,12 +12,15 @@ export const createUser = async (user: CreateUserParams) => {
 
         const userId = uuidv4(); 
 
-        const { data, error } = await supabase.from("patient").insert([{
+        const { data, error } = await supabase
+        .from("patient")
+        .insert([{
             userId,
             name: user.name,
             email: user.email,
             phone: user.phone,
         }]).select()
+        .single();
 
         if(error){
             throw error;
@@ -26,26 +29,31 @@ export const createUser = async (user: CreateUserParams) => {
         if (!data) {
             throw new Error("No data returned from supabase");
         }
-        return parseStringify(data[0]);
-    } catch (error: any) {
+        return data;
+    } catch (error: unknown) {
         console.error('Error creating user:', error);
-        if (error && error?.code === "23505") {
-            try {
-                const { data: existingUser, error: listError } = await supabase.from("patient").select("*").eq("email", user.email);
-                if(listError){
-                    throw listError;
-                }
-                
-                return existingUser[0];
-            } catch (listError: any) {
-                console.error('Error listing existing user:', listError);
-                throw listError;
-            }
-        } else {
-            throw error;
-        }
     }
 };
+
+export const checkEmailExists = async (email: string) => {
+    try{
+        const {data, error} = await supabase
+        .from("patient")
+        .select("*")
+        .eq("email", email)
+        .single();
+
+        if(error && error.code !== "PGRST116"){
+            throw error;
+        }
+
+        return data || null;
+    }
+    catch(error){
+        console.error('Error checking email:', error);
+        throw error;
+    }
+}
 
 export const getUser = async (userId: string) => {
     try{
@@ -80,7 +88,7 @@ export const registerPatient = async (params: RegisterUserParams) => {
             throw existingPatientError;
         }
 
-        let fileUrl = null;
+        let fileUrl: string | null = null;
         if(identificationDocument instanceof File){
             console.log(`Uploading file...: ${identificationDocument.name}`);
             const filePath = `patient-document/${patient.userId}/${uuidv4()}-${identificationDocument.name}`;

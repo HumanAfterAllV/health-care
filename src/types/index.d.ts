@@ -14,7 +14,7 @@ declare type SearchParamProps = {
     phone: string;
   }
   declare interface User extends CreateUserParams {
-    $id: string;
+    userId: string;
   }
   
   declare interface RegisterUserParams extends CreateUserParams {
@@ -32,7 +32,7 @@ declare type SearchParamProps = {
     currentMedication?: string | undefined;
     familyMedicalHistory?: string | undefined;
     pastMedicalHistory?: string | undefined;
-    identificationType: string | undefined;
+    identificationType?: string | undefined;
     identificationNumber?: string | undefined;
     identificationDocument?: File | File[] | undefined | null;
     privacyConsent: boolean;

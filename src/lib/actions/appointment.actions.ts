@@ -1,3 +1,6 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
 import { supabase } from "../supabaseClient";
 
 
@@ -25,8 +28,8 @@ export const createAppointment = async (appointment: CreateAppointmentParams) =>
 
         console.log("Inserted appointment:", insertData.appointmentId);
         return insertData;
-
-    } catch (error: any) {
+    
+    } catch (error: unknown) {
         console.error('Error creating appointment:', error);
         throw error;
     }
@@ -73,3 +76,81 @@ export const getPatientUser = async () => {
         throw error;
     }
 } */
+
+
+export const getRecentAppointments = async () => {
+    try{
+
+        const {data, error} = await supabase
+        .from("appointment")
+        .select("*")
+
+        if(error){
+            throw error;
+        }
+        
+        if(!data){
+            throw new Error("No appointments found");
+        }
+
+        const initialCounts = {
+            scheduledCount: 0,
+            pendingCount: 0,
+            cancelledCount: 0,
+        }
+
+        const counts = data.reduce((acc, appointment) => {
+            switch(appointment.status){
+                case "scheduled":
+                    acc.scheduledCount++;
+                    break;
+                case "pending":
+                    acc.pendingCount++;
+                    break;
+                case "cancelled":
+                    acc.cancelledCount++;
+                    break;
+                default:
+                    console.warn("Unknown status:", appointment.status);
+            }
+            return acc;
+        }, initialCounts)
+
+        console.log("Appointment counts:", counts);
+        return {data, counts};
+    }
+    catch(error){
+        console.error('Error getting appointments:', error);
+        throw error
+    }
+}
+
+export const updateAppointment = async ({appointmentId, appointment}) => {
+    try{
+        const {data, error} = await supabase
+        .from("appointment")
+        .update({
+            primaryPhysician: appointment.primaryPhysician,
+            schedule: appointment.schedule,
+            status: appointment.status,
+            cancellationReason: appointment.cancellationReason
+        })
+        .eq("appointmentId", appointmentId)
+        .select()
+        .single();
+
+        if(error){
+            console.error("Error updating appointment:", error);
+            throw error;
+        }
+
+        console.log(`Updated appointment: ${appointmentId}`);
+        console.log(appointment);
+        revalidatePath("/admin");
+        return data;
+    }
+    catch(error){
+        console.error('Error updating appointment:', error);
+        throw error;
+    }
+}
