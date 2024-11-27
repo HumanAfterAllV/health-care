@@ -38,11 +38,11 @@ export default function DataTable<TData, TValue>({
     })
    
     return (
-        <div className="data-table">
-            <Table className="shad-table">
-                <TableHeader className="bg-dark-200">
+        <>
+            <Table>
+                <TableHeader className="text-gray-500">
                     {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id} className="shad-table-row-header">
+                    <TableRow key={headerGroup.id} className="">
                         {headerGroup.headers.map((header) => {
                             return (
                                 <TableHead key={header.id}>
@@ -64,7 +64,7 @@ export default function DataTable<TData, TValue>({
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
-                                className="shad-table-row"
+                                className=""
                             >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>
@@ -114,7 +114,7 @@ export default function DataTable<TData, TValue>({
                 </Button>
 
             </div>
-        </div>
+        </>
     )
 }
 

@@ -43,9 +43,18 @@ export const getDoctorAppointment = async (appointmentId: string) => {
     try {
         const {data, error} = await supabase
         .from("appointment")
-        .select("primaryPhysician, schedule, userId")
+        .select(`
+            appointmentId,
+            patient,
+            schedule, 
+            primaryPhysician(
+                name,
+                specialty
+            )
+            ,userId
+        `)
         .eq("appointmentId", appointmentId)
-        .single();
+        .single()
 
         if(error){
             throw error;
@@ -53,29 +62,33 @@ export const getDoctorAppointment = async (appointmentId: string) => {
         console.log("Appointment:", appointmentId);
         return data;
     }
-    catch(error){
+    catch(error: unknown){
         console.error('Error getting appointments:', error);
         throw error;
     }
 }
 
-/* 
-export const getPatientUser = async () => {
+export const getDoctorsList = async () => {
     try{
-        const {data: {user}, error} = await supabase.auth.getUser();
+        const {data: doctors, error: error} = await supabase
+        .from("doctor")
+        .select("doctor_id, name, specialty")
 
         if(error){
-            console.error("Error getting user:", error);
             throw error;
         }
 
-        return user?.id;
+        if(!doctors){
+            throw new Error("No doctors found, try again...");
+        }
+
+        return doctors;
     }
-    catch(error){
-        console.error('Error getting user:', error);
+    catch(error: unknown){
+        console.error('Error getting appointments:', error);
         throw error;
     }
-} */
+}
 
 
 export const getRecentAppointments = async () => {
@@ -83,8 +96,8 @@ export const getRecentAppointments = async () => {
 
         const {data, error} = await supabase
         .from("appointment")
-        .select("*")
-
+        .select(`*, primaryPhysician(name)`)
+        
         if(error){
             throw error;
         }
@@ -119,7 +132,7 @@ export const getRecentAppointments = async () => {
         console.log("Appointment counts:", counts);
         return {data, counts};
     }
-    catch(error){
+    catch(error: unknown){
         console.error('Error getting appointments:', error);
         throw error
     }
@@ -129,12 +142,7 @@ export const updateAppointment = async ({appointmentId, appointment}) => {
     try{
         const {data, error} = await supabase
         .from("appointment")
-        .update({
-            primaryPhysician: appointment.primaryPhysician,
-            schedule: appointment.schedule,
-            status: appointment.status,
-            cancellationReason: appointment.cancellationReason
-        })
+        .update(appointment)
         .eq("appointmentId", appointmentId)
         .select()
         .single();
@@ -149,7 +157,7 @@ export const updateAppointment = async ({appointmentId, appointment}) => {
         revalidatePath("/admin");
         return data;
     }
-    catch(error){
+    catch(error: unknown){
         console.error('Error updating appointment:', error);
         throw error;
     }

@@ -45,7 +45,7 @@ const RenderField = ({field, props}: {field: any; props: CustomProps})=> {
     switch(fieldType){
         case FormFieldTypes.INPUT:
             return (
-                <div className="flex rounded-mb border border-dark-500 bg-dark-400">
+                <div className="flex rounded-mb border border-dark-500">
                     {iconSrc && (
                         <Image src={iconSrc} alt={iconAlt || 'icon'} height={24} width={24} className="ml-2"/>
                     )}
@@ -53,7 +53,9 @@ const RenderField = ({field, props}: {field: any; props: CustomProps})=> {
                         <Input
                             placeholder={placeholder}
                             {...field}
+                            onChange={field.onChange}
                             className="shad-input border-0"
+                            value={field.value}
                         />
                     </FormControl>
                 </div>
@@ -73,7 +75,7 @@ const RenderField = ({field, props}: {field: any; props: CustomProps})=> {
             )
         case FormFieldTypes.DATE_PICKER:
             return (
-                <div className="flex rounded-md border border-dark-500 bg-dark-400">
+                <div className="flex rounded-md border border-dark-500">
                     <Image src="/assets/icons/calendar.svg" height={24} width={24} alt="calendar" className="ml-2"/>
                     <FormControl>
                         <DatePicker

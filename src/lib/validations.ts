@@ -4,12 +4,12 @@ export const UserFormValidation = z.object({
   name: z
     .string()
     .min(1, "Name is required")
-    .min(2, "Name must be at least 5 characters")
+    .min(5, "Name must be at least 5 characters")
     .max(50, "Name must be at most 50 characters"),
   email: z.string().email("Invalid email address").min(1, "Email is required"),
   phone: z
     .string()
-    .min(1, "Phone number is required")
+    .min(1, "Phone number is required").min(10, "Phone number must be at least 10 characters")
     .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
 });
 
@@ -17,7 +17,7 @@ export const PatientFormValidation = z.object({
   name: z
     .string()
     .min(1, "Name is required")
-    .min(2, "Name must be at least 5 characters")
+    .min(5, "Name must be at least 5 characters")
     .max(50, "Name must be at most 50 characters"),
   email: z.string().email("Invalid email address"),
   phone: z
@@ -43,6 +43,7 @@ export const PatientFormValidation = z.object({
   emergencyContactNumber: z
     .string()
     .min(1, "Contact number is required")
+    .min(10, "Contact number must be at least 10 characters")
     .refine(
       (emergencyContactNumber) => /^\+\d{10,15}$/.test(emergencyContactNumber),
       "Invalid phone number"
@@ -54,18 +55,17 @@ export const PatientFormValidation = z.object({
     .min(2, "Insurance name must be at least 2 characters")
     .max(50, "Insurance name must be at most 50 characters"),
   insurancePolicyNumber: z
-    .number()
-    .int("Policy number must be a number")
-    .positive("Policy number must be a positive number")
+    .string()
     .min(2, "Policy number must be at least 2 characters")
     .max(50, "Policy number must be at most 50 characters"),
+  bloodType: z.string().min(1, "Blood type is required"),
   allergies: z.string().optional(),
   currentMedication: z.string().optional(),
   familyMedicalHistory: z.string().optional(),
   pastMedicalHistory: z.string().optional(),
-  identificationType: z.string().optional(),
-  identificationNumber: z.number().int("Identification number must be a number.").optional(),
-  identificationDocument: z.custom<File[]>().optional(),
+  identificationType: z.string(),
+  identificationNumber: z.string(),
+  identificationDocument: z.custom<File[]>(),
   treatmentConsent: z
     .boolean()
     .default(false)
@@ -106,13 +106,9 @@ export const ScheduleAppointmentSchema = z.object({
 });
 
 export const CancelAppointmentSchema = z.object({
-  primaryPhysician: z.string().min(2, "Select at least one doctor"),
-  schedule: z.coerce.date(),
-  reason: z.string().optional(),
-  note: z.string().optional(),
   cancellationReason: z
     .string()
-    .min(2, "Reason must be at least 2 characters")
+    .min(5, "Reason must be at least 5 characters")
     .max(500, "Reason must be at most 500 characters"),
 });
 
@@ -126,3 +122,14 @@ export function getAppointmentSchema(type: string) {
       return ScheduleAppointmentSchema;
   }
 }
+
+export const MedicalNoteSchema = z.object({
+  height: z.string().min(1, "Height is required"),
+  weight: z.string().min(1, "Weight is required"),
+  bloodPressure: z.string().min(1, "Blood pressure is required"),
+  heartRate: z.string().min(1, "Heart rate is required"),
+  temperature: z.string().min(1, "Temperature is required"),
+  oxygenSaturation: z.string().min(1, "Oxygen saturation is required"),
+  muscleMassIndex: z.string().min(1, "Muscle mass index is required"),
+  pdf: z.custom<File[]>(),
+});

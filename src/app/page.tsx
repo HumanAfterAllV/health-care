@@ -1,49 +1,51 @@
 "use client"
 
-import { useEffect, useRef } from "react";
+/* import { useEffect, useRef } from "react"; */
 import Link from "next/link";
 import Image from "next/image";
 
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import  BackgroundVideo  from "@/components/BackgroundVideo";
+ import { User, Activity, Microscope } from "lucide-react";
+/* import { ScrollTrigger } from "gsap/ScrollTrigger"; */
 
-import { Button } from "@/components/ui/button";
+/* import { gsap } from "gsap"; */
+
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 import Logo from "@/components/Logo";
+import { Doctors } from "@/constants";
+import { Button } from "@/components/ui/button";
 
 export default function Page(): JSX.Element {
-
+/* 
     const headerRef = useRef<HTMLHeadElement>(null);
     const heroRef = useRef<HTMLDivElement>(null);
     const servicesRef = useRef<HTMLDivElement>(null);
-    const ctaRef = useRef<HTMLDivElement>(null);
+    const doctorsRef = useRef<HTMLDivElement>(null);
+    const ctaRef = useRef<HTMLDivElement>(null); */
 
-    useEffect(() => {
-        gsap.from(headerRef.current, {
-            y: -100,
+/*     useEffect(() => {
+        const headerAnimation = gsap.from(headerRef.current, {
             opacity: 0,
             duration: 1,
+            y: -100,
+            delay: 0.5,
             ease: "power3.out",
-        })
-
-        gsap.from(heroRef.current, {
-            y: 50,
+        });
+        const heroAnimation = gsap.from(heroRef.current.children, {
             opacity: 0,
             duration: 1,
             stagger: 0.2,
+            y: 50,
             ease: "power3.out",
             delay: 0.5,
-        })
+        });
 
-        gsap.from(servicesRef.current, {
+        const servicesAnimation = gsap.from(servicesRef.current.children, {
             opacity: 0,
             duration: 1,
             stagger: 0.2,
@@ -52,10 +54,22 @@ export default function Page(): JSX.Element {
             scrollTrigger: {
                 trigger: servicesRef.current,
                 start: "top 80%",
-            }
-        })
+            },
+        });
 
-        gsap.from(ctaRef.current, {
+        const doctorsAnimation = gsap.from(doctorsRef.current.children, {
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            y: 50,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: doctorsRef.current,
+                start: "top 80%",
+            },
+        });
+
+        const ctaAnimation = gsap.from(ctaRef.current, {
             opacity: 0,
             duration: 1,
             scale: 0.9,
@@ -63,60 +77,68 @@ export default function Page(): JSX.Element {
             ease: "power3.out",
             scrollTrigger: {
                 trigger: ctaRef.current,
-                start: "top 80%"
-            }
-        })
+                start: "top 80%",
+            },
+        });
 
-
-    },[])
+        return () => {
+            headerAnimation.kill();
+            heroAnimation.kill();
+            servicesAnimation.kill();
+            doctorsAnimation.kill();
+            ctaAnimation.kill();
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+        };
+    }, []); */
     return (
         <div className="flex flex-col min-h-screen">
-            <header ref={headerRef} className="bg-white shadow-sm">
+            <header /* ref={headerRef} */ className="bg-white">
                 <div className="flex justify-between items-center max-w-7x1 mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <Link href="/">
                         <Logo />
                     </Link>
                     <nav>
                         <ul className="flex space-x-4">
-                            <li><Link href="/" className="text-gray-600 hover:text-gray-900">Home</Link></li>
-                            <li><Link href="" className="text-gray-600 hover:text-gray-900">Services</Link></li>
-                            <li><Link href="" className="text-gray-600 hover:text-gray-900">Doctors</Link></li>
-                            <li><Link href="" className="text-gray-600 hover:text-gray-900">Contact</Link></li>
+                            <li><Link href="/" className="text-gray-600 hover:text-teal-600">Home</Link></li>
+                            <li><Link href="" className="text-gray-600 hover:text-teal-600">Services</Link></li>
+                            <li><Link href="" className="text-gray-600 hover:text-teal-600">Doctors</Link></li>
+                            <li><Link href="" className="text-gray-600 hover:text-teal-600">Contact</Link></li>
                         </ul>
                     </nav>
                 </div>
             </header>
 
             <main className="flex-grow">
-                <section ref={heroRef} className="relative h-96 flex items-center justify-center">
-                    <BackgroundVideo/>
+                <section /* ref={heroRef} */ className="bg-gradient-to-r from-teal-500 to-blue-500 text-white py-20">
+                    {/* <BackgroundVideo/> */}
                     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="text-center">
-                            <h1 className="text-4x1 font-extrabold text-black sm:text-5xl md:text-6xl">
+                            <h1 className="text-4x1 font-extrabold  sm:text-5xl md:text-6xl">
                                 We take care of your health
                             </h1>
-                            <p className="mt-3 max-w-md mx-auto text-base text-gray-900 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+                            <p className="mt-3 max-w-md mx-auto text-base  sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
                                 We offer quality medical care with a team of professionals <br /> 
                                 dedicated to your well-being.
                             </p>
                             <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-                                <Button className="group btn-custom">
-                                    Appointment
-                                </Button>
+                                <Link href="/patients">
+                                    <Button size="lg" className="bg-white text-teal-600 hover:bg-teal-50">Appointment</Button>
+                                </Link>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section className="py-16 bg-white">
+                <section className="py-20 bg-white">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">
-                            Our services
+                            Services
                         </h2>
                     </div>
-                    <div ref={servicesRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 px-9">
+                    <div /* ref={servicesRef} */ className="grid grid-cols-1 md:grid-cols-3 gap-8 px-9">
                         <Card className="text-black">
                             <CardHeader>
+                                <User className="w-10 h-10 text-teal-500 mb-2"/>
                                 <CardTitle>General medical consultation</CardTitle>
                             </CardHeader>
                             <CardContent>
@@ -128,6 +150,7 @@ export default function Page(): JSX.Element {
                         </Card>
                         <Card className="text-black">
                             <CardHeader>
+                                <Activity className="w-10 h-10 text-teal-500 mb-2"/>
                                 <CardTitle>Specialties</CardTitle>
                             </CardHeader>
                             <CardContent>
@@ -138,6 +161,7 @@ export default function Page(): JSX.Element {
                         </Card>
                         <Card className="text-black">
                             <CardHeader>
+                                <Microscope className="w-10 h-10 text-teal-500 mb-2"/>
                                 <CardTitle>Laboratory</CardTitle>
                             </CardHeader>
                             <CardContent>
@@ -150,7 +174,49 @@ export default function Page(): JSX.Element {
                     </div>
                 </section>
 
-                <section ref={ctaRef} className="bg-gray-50 py-16">
+                <section className="bg-gray-100 py-20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">Doctors</h2>
+                        <div /* ref={doctorsRef} */ className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {Doctors.map((doctor, index) => index < 3 && (
+                                <Card key={index}>
+                                    <CardHeader>
+                                        <Image src={doctor.image} alt={doctor.name} width={100} height={100} className="rounded-full mx-auto"/>
+                                        <CardTitle className="text-center mt-4">{doctor.name}</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <CardDescription className="text-center">
+                                            {doctor.specialty}
+                                        </CardDescription>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <section className="py-20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">
+                            Patient testimonials
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {[
+                                { name: "Juan Pérez", text: "Excelente atención y profesionalismo. Me sentí muy bien cuidado." },
+                                { name: "Laura Gómez", text: "Los doctores son muy amables y explican todo detalladamente." },
+                            ].map((testimonial, index) => (
+                                <Card key={index}>
+                                    <CardContent className="pt-8">
+                                        <p className="text-lg text-gray-600 italic">{`"${testimonial.text}"`}</p>
+                                        <p className="mt-4 font-semibold">{testimonial.name}</p>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <section /* ref={ctaRef} */ className="bg-gray-50 py-16">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="lg:flex lg:items-center lg:justify-between">
                             <div className="flex-1 min-w-0">
@@ -162,9 +228,9 @@ export default function Page(): JSX.Element {
                                 </p>
                             </div>
                             <div className="mt-5 flex lg:mt-0 lg:ml-4">
-                                <Button className="group btn-custom">
+                                <Link href="/patients" className="group btn-custom">
                                     Contact us
-                                </Button>
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -17,6 +17,7 @@ import { Button } from "./ui/button";
 import { Appointment, Patient } from "@/types/supabase.types";
 
 import AppointmentForm from "./forms/AppointmentForm";
+import { CalendarCheck2, TriangleAlert } from "lucide-react";
   
 interface AppointmentModalProps {
     type: "schedule" | "cancel";
@@ -36,10 +37,26 @@ export default function AppointmentModal ({type, patient, userId, appointment}: 
 
     return(
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button variant="ghost" className={`capitalize ${type === "schedule" && "text-green-500"}`}>
-                    {type}
-                </Button>
+            <DialogTrigger asChild className="flex space-x-2">
+                {type === "schedule" ? (
+                    <Button
+                        className="hover:bg-gray-100"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setOpen(true)}
+                    >
+                        <CalendarCheck2 size={16} className="text-teal-500" />
+                    </Button>
+                ) : (
+                    <Button
+                        className="hover:bg-gray-100"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setOpen(true)}
+                    >
+                        <TriangleAlert size={16} className="text-red-500"/>
+                    </Button>
+                )}
             </DialogTrigger>
             <DialogContent className="shad-dialog sm:max-w-md">
                 <DialogHeader className="mb.4 space-y-3">

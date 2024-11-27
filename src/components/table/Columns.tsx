@@ -1,48 +1,42 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table"
 
 import Image from "next/image"
- 
-import StatusBadge from "../StatusBadge";
+import Link from "next/link"
 
+import { ColumnDef } from "@tanstack/react-table"
 import { Appointment } from "@/types/supabase.types";
 
 import { formatDateTime } from "@/lib/utils";
 import { Doctors } from "@/constants";
 
-import AppointmentModal from "../AppointmentModal";
+import { Notebook } from "lucide-react";
+import { Button } from "../ui/button";
 
+import StatusBadge from "../StatusBadge";
+import AppointmentModal from "../AppointmentModal";
 
 export const columns: ColumnDef<Appointment>[] = [
     {
-        header: "#",
-        cell: ({ row }) => <p className="text-15-medium">{row.index + 1}</p>
-    },
-    {
         accessorKey: "patient",
         header: "Patient",
-        cell: ({ row }) => <p className="text-14-medium">{String(row.original.patient)}</p>
-    },
-    {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ row }) => (
-            <div className="min-w-[115px]">
-                <StatusBadge status={row.original.status}/>
-            </div>
-        )
+        cell: ({ row }) => <p>{String(row.original.patient)}</p>
     },
     {
         accessorKey: "schedule",
         header: "Appointment",
-        cell: ({ row }) => <p className="text-14-medium">{formatDateTime(row.original.schedule).dateTime}</p>
+        cell: ({ row }) => <p>{formatDateTime(row.original.schedule).dateTime}</p>
+    },
+    {
+        accessorKey: "reason",
+        header: "Reason",
+        cell: ({ row }) => <p>{row.original.reason}</p>
     },
     {
         accessorKey: "primaryPhysician",
         header: "Doctor",
         cell : ({ row }) => {
-            const doctor = Doctors.find((doctor) => doctor.name === row.original.primaryPhysician);
+            const doctor = Doctors.find((doctor) => doctor.name === row.original.primaryPhysician.name);
 
             return (
                 <div className="flex items-center gap-3">
@@ -53,17 +47,26 @@ export const columns: ColumnDef<Appointment>[] = [
                         height={100}
                         className="size-8"
                     />
-                    <p className="whitespace-nowrap">Dr. {doctor?.name}</p>
+                    <p>Dr. {doctor?.name}</p>
                 </div>
             )
         }
+    },
+        {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row }) => (
+            <div className="min-w-[115px]">
+                <StatusBadge status={row.original.status}/>
+            </div>
+        )
     },
     {
         id: "actions",
         header: () => <div className="pl-4">Actions</div>,
         cell: ({ row : { original: data} }) => {
             return(
-                <div className="flex gap-1">
+                <div className="flex gap-2 items-center">
                     <AppointmentModal 
                         patient={data.patient}
                         userId={data.userId}
@@ -72,6 +75,13 @@ export const columns: ColumnDef<Appointment>[] = [
                         title="Schedule"
                         description="Please confirm the following details to schedule the appointment."                        
                     />
+                    {data.status === "scheduled" && (
+                        <Link className="" href={`/admin/note/${data.appointmentId}`}>
+                            <Button variant="outline" size="sm" className="hover:bg-gray-100">
+                                <Notebook size={16} />
+                            </Button>
+                        </Link>
+                    )}
                     <AppointmentModal
                         patient={data.patient}
                         userId={data.userId}
@@ -83,5 +93,5 @@ export const columns: ColumnDef<Appointment>[] = [
                 </div>
             )
         },
-      },
+    },
 ];

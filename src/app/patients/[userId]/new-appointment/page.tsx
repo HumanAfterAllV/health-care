@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { getUser } from "@/lib/actions/patient.actions";
 import AppointmentForm from "@/components/forms/AppointmentForm";
+import Logo from "@/components/Logo";
 
 
 export default async function NewAppointment({params: {userId}}: SearchParamProps): Promise<JSX.Element> {
@@ -13,14 +14,8 @@ export default async function NewAppointment({params: {userId}}: SearchParamProp
         <div className="flex h-screen max-h-screen">
             <section className="remoce-scrollbar container my-auto">
                 <div className="sub-container max-w-[860px] flex-1 justify-between">
-                    <Link href="/">
-                        <Image
-                            src="/assets/icons/logo-full.svg"
-                            height={1000} 
-                            width={1000}
-                            alt=""
-                            className="mb-12 h-10 w-fit"
-                        />
+                    <Link href="/" className="py-10">
+                        <Logo />
                     </Link>
 
                     <AppointmentForm type="create" userId={userId} patient={patient}/>
@@ -30,7 +25,7 @@ export default async function NewAppointment({params: {userId}}: SearchParamProp
                 </div>
             </section>
             <Image
-                src="/assets/images/appointment-img.png"
+                src="/assets/images/test-5.jpg"
                 height={1000} 
                 width={1000}
                 alt="patient"

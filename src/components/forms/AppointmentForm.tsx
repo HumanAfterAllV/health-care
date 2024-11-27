@@ -2,7 +2,7 @@
  
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Dispatch,SetStateAction,useState } from "react"
+import { Dispatch,SetStateAction,useEffect,useState } from "react"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -12,10 +12,10 @@ import { Form } from "@/components/ui/form"
 import { SelectItem } from "../ui/select"
 
 import { Appointment, Patient } from "@/types/supabase.types"
-import { Doctors } from "@/constants"
+import { Doctors as DoctorImages, ReasonOptions} from "@/constants"
 
 import { getAppointmentSchema } from "@/lib/validations"
-import { createAppointment, updateAppointment } from "@/lib/actions/appointment.actions"
+import { createAppointment, getDoctorsList, updateAppointment } from "@/lib/actions/appointment.actions"
 
 import { FormFieldTypes } from "./PatientForms"
 import CustomFormField from "../CustomFormField"
@@ -27,27 +27,57 @@ interface AppointmentFormProps {
     patient: Patient; 
     appointment?: Appointment;
     setOpen?: Dispatch<SetStateAction<boolean>>;
-} 
+}
+
+interface Doctor {
+    doctor_id?: string;
+    name?: string;
+    specialty?: string;
+    image?: string;
+}
 
 export default function AppointmentForm({ type, userId, patient, appointment, setOpen }: AppointmentFormProps): JSX.Element {
     const router = useRouter()
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [doctors, setDoctos] = useState<Doctor[]>([])
+
+    useEffect(() => {
+        async function fetchDoctors() {
+            try{
+                const data = await getDoctorsList();
+                const combineDoctors = data.map((doctor: Doctor) => {
+                    const doctorImage = DoctorImages.find((d) => d.name === doctor.name)
+                    return {
+                        ...doctor,
+                        image: doctorImage ? doctorImage.image : ""
+                    };
+                });
+                setDoctos(combineDoctors);
+            }
+            catch(error: unknown){   
+                console.error("Error fetching doctors:", error)
+            }
+        }
+
+        fetchDoctors()
+    },[])
 
     const AppointmentFormValidation = getAppointmentSchema(type)
-
+    console.log({type})
     const form = useForm<z.infer<typeof AppointmentFormValidation>>({
         resolver: zodResolver(AppointmentFormValidation),
         defaultValues: {
-            primaryPhysician: appointment ? appointment.primaryPhysician : "",
-            schedule: appointment ? new Date(appointment?.schedule) : new Date(Date.now()),
-            reason: appointment ? appointment.reason : "",
-            note: appointment && appointment.note ? appointment.note : "",
-            cancellationReason: appointment && appointment.cancellationReason ? appointment.cancellationReason : "",
+            primaryPhysician: appointment?.primaryPhysician?.doctor_id || "",
+            schedule: appointment ? new Date(appointment.schedule) : new Date(Date.now()),
+            reason: appointment?.reason || "",
+            note: appointment?.note || "",
+            cancellationReason: appointment?.cancellationReason || "",
         },
     })
  
     async function onSubmit(values : z.infer<typeof AppointmentFormValidation>) {
+        console.log("Submitting form:", type);
         setIsLoading(true);
 
         let status;
@@ -63,23 +93,40 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                 status = "pending";
                 break;
         }
+        console.log({type});
         try {
-            if(type === "create" && patient){
+            if(type === "cancel" && appointment){
+
+                const appointmentUpdate = {
+                    userId,
+                    appointmentId: appointment?.appointmentId,
+                    appointment: {
+                        status,
+                        cancellationReason: values?.cancellationReason,
+                    },
+                };
+
+                console.log("Updating appointment:", appointmentUpdate);
+
+                const updatedAppointment = await updateAppointment(appointmentUpdate);
+
+                if(updatedAppointment){
+                    form.reset();
+                    console.log("Appointment updated successfully:", updatedAppointment);
+                    if (setOpen) setOpen(false);
+                }
+            }
+            else if(type === "create" && patient){
                 const appointmentData = {
                     userId,
                     patient: patient.name,
-                    primaryPhysician: values.primaryPhysician,
-                    schedule: new Date(values.schedule),
-                    reason: values.reason!,
-                    note: values.note,
+                    primaryPhysician: ((values as Appointment)).primaryPhysician,
+                    schedule: new Date((values as Appointment).schedule),
+                    reason: (values as Appointment).reason!,
+                    note: (values as Appointment).note,
                     status: status as Status,
-
                 }
                 const newAppointment = await createAppointment(appointmentData);
-
-                console.log(newAppointment)
-                console.log("Redirecting with userId:", userId);
-                console.log("Redirecting with appointmentId:", newAppointment.appointmentId);
 
                 if(newAppointment?.appointmentId){
                     form.reset();
@@ -95,8 +142,8 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                         userId,
                         appointmentId: appointment?.appointmentId,
                         appointment: {
-                            primaryPhysician: values.primaryPhysician,
-                            schedule: new Date(values.schedule),
+                            primaryPhysician: (values as Appointment).primaryPhysician,
+                            schedule: new Date((values as Appointment).schedule),
                             status: status as Status,
                             cancellationReason: values.cancellationReason
                         },
@@ -145,7 +192,7 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
                 {type === "create" && <section className="mb-12 space-y-4">
                     <h1 className="header">New Appointment</h1>
-                    <p className="text-dark-700">Request a new appointment in 10 seconds.</p>
+                    <p className="text-dark-600">Request a new appointment in 10 seconds.</p>
                 </section>}
 
                 {type !== "cancel" && (
@@ -157,17 +204,17 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                             label="Doctor"
                             placeholder="Select doctor"
                         >
-                            {Doctors.map((doctor) => (
-                                <SelectItem key={doctor.name} value={doctor.name}>
-                                    <div className="flex cursor-pointer items-center gap-2">
-                                        <Image 
-                                            src={doctor.image} 
-                                            alt={doctor.name} 
+                            {doctors.map((doctor) => (
+                                <SelectItem key={doctor.doctor_id} value={doctor.doctor_id!} className="cursor-pointer hover:bg-gray-100">
+                                    <div className="flex items-center gap-2">
+                                        <Image
+                                            src={doctor.image!} 
+                                            alt={doctor.name!} 
                                             height={32} 
                                             width={32}
-                                            className="rounded-full border border-dark-500"
+                                            className="rounded-full border border-gray-800"
                                         />
-                                        <p>{doctor.name}</p>
+                                        <p className="flex flex-1 gap-5">{doctor.name} - {doctor.specialty}</p>
                                     </div>
                                 </SelectItem>
                             ))}
@@ -183,17 +230,24 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                         />
                         <div className="flex flex-col gap-6 xl:flex-row">
                             <CustomFormField
-                                fieldType={FormFieldTypes.TEXTAREA}
+                                fieldType={FormFieldTypes.SELECT}
                                 control={form.control}
                                 name="reason"
                                 label="Reason for appointment"
-                                placeholder="Enter reason for appointment"
-                            />
+                                placeholder="Select reason for appointment"
+                            >
+                                {ReasonOptions.map((reason) => (
+                                    <SelectItem className="flex cursor-pointer hover:bg-gray-100" key={reason} value={reason}>
+                                        {reason}
+                                    </SelectItem>
+                                ))}
+                                
+                            </CustomFormField>
                             <CustomFormField
                                 fieldType={FormFieldTypes.TEXTAREA}
                                 control={form.control}
                                 name="note"
-                                label="Notes"
+                                label="Notes(Optional)"
                                 placeholder="Enter additional notes"
                             />
                         </div>
@@ -212,7 +266,7 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                     </>
                 )}
 
-                <SubmitButton isLoading={isLoading} className={`${type === 'cancel' ? "shad-danger-btn" : "shad-primary-btn"} w-full`}>
+                <SubmitButton isLoading={isLoading}  className={`${type === 'cancel' ? "shad-danger-btn" : "shad-primary-btn"} w-full`}>
                     {buttonLabel}
                 </SubmitButton>
             </form>

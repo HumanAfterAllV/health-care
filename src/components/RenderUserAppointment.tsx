@@ -13,10 +13,21 @@ import { Button } from "@/components/ui/button";
 
 import Skeleton from "@/components/Skeleton";
 
+interface DoctorAppointment {
+    appointmentId: string;
+    schedule: string;
+    patient: string;
+    primaryPhysician: {
+        name: string;
+        specialty: string;
+    };
+    userId: string;
+}
 export default function RenderUserAppointment(): JSX.Element {
     const searchParams = useSearchParams();
     const appointmentId = searchParams.get('appointmentId');
-    const [doctorAppointment, setDoctorAppointment] = useState<{ primaryPhysician: string; schedule: string ,userId: string} | null>(null);
+
+    const [doctorAppointment, setDoctorAppointment] = useState<DoctorAppointment | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -27,7 +38,8 @@ export default function RenderUserAppointment(): JSX.Element {
             }
             try {
                 const data = await getDoctorAppointment(appointmentId);
-                setDoctorAppointment(data);
+                console.log("Appointment:", data);
+                setDoctorAppointment(data as unknown as DoctorAppointment);
             } catch (err) {
                 if (err instanceof Error) {
                     setError(err.message);
@@ -58,10 +70,24 @@ export default function RenderUserAppointment(): JSX.Element {
         )
     }
 
+    const doctor = Doctors.find((doc) => doc.name === doctorAppointment.primaryPhysician.name);
 
-    const doctor = Doctors.find((doc) => doc.name === doctorAppointment.primaryPhysician);
     return(
         <>
+            <section className="flex flex-col items-center">
+                <Image
+                    src="/assets/gifs/success.gif"
+                    height={300}
+                    width={280}
+                    alt="success"
+                />
+                <h2 className="header mb-6 max-w-[600px] text-center">
+                    Your <span className="text-green-500">appointment request</span> has been successfully submitted <span className="text-gray-600">{doctorAppointment.patient}</span>!
+                </h2>
+                <p>
+                    We will be in touch with you shortly to confirm your appointment.
+                </p>
+            </section>
             <section className="request-details">
                 <p>Appointment details</p>
                 <div className="flex items-center gap-3">
@@ -72,7 +98,7 @@ export default function RenderUserAppointment(): JSX.Element {
                         alt="doctor"
                         className="size-6"
                     />
-                    <p className="whitespace-nowrap">{doctorAppointment.primaryPhysician}</p>
+                    <p className="whitespace-nowrap">{`${doctorAppointment.primaryPhysician.name} - ${doctorAppointment.primaryPhysician.specialty}`}</p>
                 </div>
                 <div className="flex gap-2">
                     <Image

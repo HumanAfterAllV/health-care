@@ -12,7 +12,7 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-  title: "Health Care",
+  title: "NextCare",
   description: "A health care management system",
   icons: {
     icon: '/assets/icons/logo-icon.svg',

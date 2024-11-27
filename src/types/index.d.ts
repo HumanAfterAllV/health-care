@@ -4,9 +4,10 @@ declare type SearchParamProps = {
     params: { [key: string]: string };
     searchParams: { [key: string]: string | string[] | undefined };
   };
-  
+
   declare type Gender = "Male" | "Female" | "Other";
   declare type Status = "pending" | "scheduled" | "cancelled";
+  declare type BloodType = "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   
   declare interface CreateUserParams {
     name: string;
@@ -16,6 +17,11 @@ declare type SearchParamProps = {
   declare interface User extends CreateUserParams {
     userId: string;
   }
+
+  declare interface PrimaryPhysician{
+    doctor_id: string;
+  }
+  
   
   declare interface RegisterUserParams extends CreateUserParams {
     userId: string;
@@ -25,7 +31,7 @@ declare type SearchParamProps = {
     occupation: string;
     emergencyContactName: string;
     emergencyContactNumber: string;
-    primaryPhysician: string;
+    primaryPhysician:string;
     insuranceProvider?: string;
     insurancePolicyNumber?: string;
     allergies?: string | undefined;
@@ -41,7 +47,7 @@ declare type SearchParamProps = {
   declare type CreateAppointmentParams = {
     userId: string;
     patient: string;
-    primaryPhysician: string;
+    primaryPhysician: PrimaryPhysician |string | Record<string, string>;
     reason: string;
     schedule: Date;
     status: Status;
@@ -54,3 +60,18 @@ declare type SearchParamProps = {
     appointment: Appointment;
     type: string;
   };
+
+
+  declare interface CreateMedicalNoteParams {
+    noteId: string;
+    pdf: File[] | File | undefined;
+    height: number | string;
+    weight: number | string;
+    bloodPressure: string;
+    heartRate: string;
+    temperature: string;
+    oxygenSaturation: string;
+    muscleMassIndex: string;
+    userId: string;
+    appointmentId: string;
+  }

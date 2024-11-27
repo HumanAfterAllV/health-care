@@ -19,7 +19,7 @@ import { FormFieldTypes } from "./PatientForms"
 import { PatientFormValidation } from "@/lib/validations"
 import { registerPatient } from "@/lib/actions/patient.actions"
 
-import { Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constants"
+import { BloodTypes, Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constants"
 
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
@@ -191,7 +191,7 @@ export default function RegisterForm({user}: {user: User}): JSX.Element {
                     placeholder="Select a physician"
                 >
                     {Doctors.map((doctor) => (
-                        <SelectItem key={doctor.name} value={doctor.name}>
+                        <SelectItem key={doctor.name} value={doctor.name} className="hover:bg-gray-100">
                             <div className="flex cursor-pointer items-center gap-2">
                                 <Image 
                                     src={doctor.image} 
@@ -200,7 +200,7 @@ export default function RegisterForm({user}: {user: User}): JSX.Element {
                                     width={32}
                                     className="rounded-full border border-dark-500"
                                 />
-                                <p>{doctor.name}</p>
+                                <p>{doctor.name} - {doctor.specialty!}</p>
                             </div>
                         </SelectItem>
                     ))}
@@ -220,6 +220,20 @@ export default function RegisterForm({user}: {user: User}): JSX.Element {
                         label="Policy number"
                         placeholder="Policy number"
                     />
+
+                    <CustomFormField
+                        fieldType={FormFieldTypes.SELECT}
+                        control={form.control}
+                        name="bloodType"
+                        label="Blood type"
+                        placeholder="Select blood type"
+                    >
+                        {BloodTypes.map((type) => (
+                            <SelectItem value={type} key={type} className="flex cursor-pointer hover:bg-gray-100">
+                                {type}
+                            </SelectItem>
+                        ))}
+                    </CustomFormField>
                 </div>
                 <div className="flex flex-col gap-6 xl:flex-row">
                     <CustomFormField
@@ -267,7 +281,7 @@ export default function RegisterForm({user}: {user: User}): JSX.Element {
                         placeholder="Select an identification type"
                     >
                         {IdentificationTypes.map((type) => (
-                            <SelectItem key={type} value={type} className="cursor-pointer">
+                            <SelectItem key={type} value={type} className="cursor-pointer hover:bg-gray-100">
                                 {type}
                             </SelectItem>
                         ))}

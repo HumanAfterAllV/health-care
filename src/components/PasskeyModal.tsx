@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 import Image from "next/image"
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 import {
     AlertDialog,
@@ -26,7 +26,6 @@ import { decryptKey, encryptKey } from "@/lib/utils";
 
 export default function PasskeyModal(): JSX.Element {
     const router = useRouter()
-    const path = usePathname();
     const [open, setOpen]  = useState<boolean>(true)
     const [passkey, setPassKey] = useState<string>("");
     const [error, setError] = useState<string>("");
@@ -48,7 +47,9 @@ export default function PasskeyModal(): JSX.Element {
             setError("Invalid Passkey. Please try again.")
         }
 
-    },[encryptedKey])
+    },[encryptedKey]);
+
+
     const closeModal = () => {
         setOpen(false)
         router.push("/")
@@ -61,11 +62,15 @@ export default function PasskeyModal(): JSX.Element {
             localStorage.setItem("accessKey", encryptedKey)
             setOpen(false)
             router.push("/admin")
-            
         }
         else{
             setError("Invalid Passkey. Please try again.")
         }
+    }
+
+    const handleInputChange = (value: string) => {
+        setPassKey(value)
+        if(error) setError("")
     }
     return(
         <div>
@@ -88,7 +93,7 @@ export default function PasskeyModal(): JSX.Element {
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <div>
-                        <InputOTP maxLength={6} value={passkey} onChange={(value) => setPassKey(value)}>
+                        <InputOTP maxLength={6} value={passkey} onChange={handleInputChange}>
                             <InputOTPGroup className="shad-otp">
                                 <InputOTPSlot className="shad-otp-slot" index={0} />
                                 <InputOTPSlot className="shad-otp-slot" index={1} />

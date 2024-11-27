@@ -9,9 +9,10 @@ export interface Patient{
   occupation: string;
   emergencyContactName: string;
   emergencyContactNumber: string;
-  primaryPhysician: string;
+  primaryPhysician: string | Record<string,string>;
   insuranceProvider: string;
   insurancePolicyNumber: string;
+  bloodType: BloodType;
   allergies: string | undefined;
   currentMedication: string | undefined;
   familyMedicalHistory: string | undefined;
@@ -22,15 +23,29 @@ export interface Patient{
   privacyConsent: boolean;
 }
 
+
 export interface Appointment{
   appointmentId: string;
   patient: Patient;
   schedule: Date;
   status: Status;
-  primaryPhysician: string;
+  primaryPhysician: PrimaryPhysician | Record<string, string>;
   reason: string;
   note: string;
   userId: string;
-  cancellationReason: string | null;
+  cancellationReason?: string | null;
   createdAt: Date;
+}
+
+export interface MedicalNote{
+  noteId: string;
+  height: string;
+  weight: string;
+  bloodPressure: string;
+  heartRate: string;
+  temperature: string;
+  oxygenSaturation: string;
+  muscleMassIndex: number | string;
+  userId: string;
+  appointmentId: string;
 }
