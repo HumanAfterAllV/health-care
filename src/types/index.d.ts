@@ -8,6 +8,7 @@ declare type SearchParamProps = {
   declare type Gender = "Male" | "Female" | "Other";
   declare type Status = "pending" | "scheduled" | "cancelled";
   declare type BloodType = "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+
   
   declare interface CreateUserParams {
     name: string;
@@ -17,11 +18,6 @@ declare type SearchParamProps = {
   declare interface User extends CreateUserParams {
     userId: string;
   }
-
-  declare interface PrimaryPhysician{
-    doctor_id: string;
-  }
-  
   
   declare interface RegisterUserParams extends CreateUserParams {
     userId: string;
@@ -47,7 +43,7 @@ declare type SearchParamProps = {
   declare type CreateAppointmentParams = {
     userId: string;
     patient: string;
-    primaryPhysician: PrimaryPhysician |string | Record<string, string>;
+    primaryPhysician: string | PrimaryPhysicianDetails;
     reason: string;
     schedule: Date;
     status: Status;
@@ -75,3 +71,23 @@ declare type SearchParamProps = {
     userId: string;
     appointmentId: string;
   }
+
+  declare interface PrimaryPhysician {
+    name?: string;
+    specialty?: string;
+    doctor_id?: string;
+  };
+
+  declare interface UserDetails {
+    userId?: string;
+    name?: string;
+    birthDate?:  Date;
+    allergies?: string;
+    bloodType?: BloodType;
+    currentMedication?: string;
+    familyMedicalHistory?: string;
+    pastMedicalHistory?: string;
+  }
+
+
+  

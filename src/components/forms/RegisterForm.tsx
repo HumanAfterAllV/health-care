@@ -13,13 +13,12 @@ import { Form, FormControl } from "@/components/ui/form"
 import { SelectItem } from "../ui/select"
 import { Label } from "../ui/label"
 
-
-import { FormFieldTypes } from "./PatientForms"
-
 import { PatientFormValidation } from "@/lib/validations"
 import { registerPatient } from "@/lib/actions/patient.actions"
 
 import { BloodTypes, Doctors, GenderOptions, IdentificationTypes, PatientFormDefaultValues } from "@/constants"
+
+import { FormFieldTypes } from "@/types/supabase.types"
 
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"

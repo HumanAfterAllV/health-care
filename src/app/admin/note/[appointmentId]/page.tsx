@@ -1,13 +1,15 @@
-import PatientInfo from "@/components/medical/PatientInfo";
-import { getDoctorAppointment } from "@/lib/actions/appointment.actions";
+import { MedicalNoteProvider } from "@/components/medical/MedicalNoteContext";
+import MedicalNoteForm from "@/components/medical/MedicalNoteForm";
+import { getDoctorAppointmentForMedicalNote } from "@/lib/actions/doctor.actions";
+import { Appointment } from "@/types/supabase.types";
 
 export default async function Page({params: {appointmentId} }: SearchParamProps): Promise<JSX.Element> {
     
-    const appointment = await getDoctorAppointment(appointmentId);
-
+    const appointment: Appointment = await getDoctorAppointmentForMedicalNote(appointmentId);
     return (
-        <div className="flex h-screen bg-gradient-to-br from-teal-100 to-blue-100 p-4 space-x-4">
-            <PatientInfo appoinment={appointment}/>
-        </div>
+
+        <MedicalNoteProvider appointment={appointment}>
+            <MedicalNoteForm/>
+        </MedicalNoteProvider>
     )
 }

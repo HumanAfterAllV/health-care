@@ -1,9 +1,6 @@
-/* import Link from "next/link";
- */
 import { getRecentAppointments } from "@/lib/actions/appointment.actions";
 
 import { Input } from "@/components/ui/input";
-
 import { columns } from "@/components/table/Columns";
 import StatCard from "@/components/StatCard";
 import DataTable from "@/components/table/DataTable";

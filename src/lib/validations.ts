@@ -124,12 +124,43 @@ export function getAppointmentSchema(type: string) {
 }
 
 export const MedicalNoteSchema = z.object({
-  height: z.string().min(1, "Height is required"),
-  weight: z.string().min(1, "Weight is required"),
-  bloodPressure: z.string().min(1, "Blood pressure is required"),
-  heartRate: z.string().min(1, "Heart rate is required"),
-  temperature: z.string().min(1, "Temperature is required"),
-  oxygenSaturation: z.string().min(1, "Oxygen saturation is required"),
-  muscleMassIndex: z.string().min(1, "Muscle mass index is required"),
-  pdf: z.custom<File[]>(),
+  height: z
+  .number()
+  .min(1, "Height is required")
+  .min(50, "Height must be at least 50 cm")
+  .max(300, "Height must be at most 300 cm"),
+  weight: z
+  .number()
+  .min(1, "Weight is required")
+  .min(1, "Weight must be at least 1 kg")
+  .max(300, "Weight must be at most 300 kg"),
+  bloodPressure: z
+  .string()
+  .min(1, "Blood pressure is required")
+  .regex(/^\d{2,3}\/\d{2,3}$/, "Blood pressure must follow the format '120/80'")
+  .refine((val) => {
+    const [systolic, diastolic] = val.split("/").map(Number);
+    return systolic >= 50 && systolic <= 200 && diastolic >= 30 && diastolic <= 130;
+  }, "Blood pressure values must be within a reasonable range"),
+  heartRate: z
+  .number()
+  .min(1, "Heart rate is required")
+  .min(30, "Heart rate must be at least 30 bpm")
+  .max(220, "Heart rate must be at most 220 bpm"),
+  temperature: z
+  .number()
+  .min(1, "Temperature is required")
+  .min(35, "Temperature must be at least 34°C")
+  .max(45, "Temperature must be at most 45°C"),
+  oxygenSaturation: z
+  .number()
+  .min(1, "Oxygen saturation is required")
+  .min(50, "Oxygen saturation must be at least 50%")
+  .max(100, "Oxygen saturation must be at most 100%"),
+  pdf: z
+  .custom<File[]>()
+  .refine(
+    (files) => files.length === 1 && files[0].type === "application/pdf",
+    "You must upload a valid PDF file"
+  ),
 });

@@ -12,20 +12,12 @@ import { Form } from "@/components/ui/form"
 import { UserFormValidation } from "@/lib/validations"
 import { createUser, checkEmailExists } from "@/lib/actions/patient.actions"
 
+import { FormFieldTypes } from "@/types/supabase.types"
+
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 
-export enum FormFieldTypes {
-    INPUT="input",
-    TEXTAREA="textarea",
-    PHONE_INPUT="phoneInput",
-    CHECKBOX="checkbox",
-    DATE_PICKER= "datePicker",
-    SELECT=  "select",
-    SKELETON= "skeleton",
-}
- 
- 
+
 export default function PatientForm(): JSX.Element {
     const router = useRouter()
 

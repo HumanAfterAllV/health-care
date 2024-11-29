@@ -36,8 +36,14 @@ export const columns: ColumnDef<Appointment>[] = [
         accessorKey: "primaryPhysician",
         header: "Doctor",
         cell : ({ row }) => {
-            const doctor = Doctors.find((doctor) => doctor.name === row.original.primaryPhysician.name);
-
+            const doctor = Doctors.find((doctor) => {
+                if (Array.isArray(row.original.primaryPhysician)) {
+                    return doctor.name === row.original.primaryPhysician[0].name;
+                } else if (typeof row.original.primaryPhysician === "object") {
+                    return doctor.name === row.original.primaryPhysician.name;
+                }
+                return doctor.name === row.original.primaryPhysician;
+            });
             return (
                 <div className="flex items-center gap-3">
                     <Image
@@ -57,7 +63,7 @@ export const columns: ColumnDef<Appointment>[] = [
         header: "Status",
         cell: ({ row }) => (
             <div className="min-w-[115px]">
-                <StatusBadge status={row.original.status}/>
+                <StatusBadge status={row.original.status || "pending"}/>
             </div>
         )
     },

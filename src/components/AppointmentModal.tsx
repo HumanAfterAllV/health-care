@@ -22,7 +22,7 @@ import { CalendarCheck2, TriangleAlert } from "lucide-react";
 interface AppointmentModalProps {
     type: "schedule" | "cancel";
     patient: Patient;
-    userId: string;
+    userId: string | UserDetails[] | UserDetails
     appointment?: Appointment;
     title?: string;
     description?: string;

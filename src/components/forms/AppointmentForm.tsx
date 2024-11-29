@@ -11,19 +11,18 @@ import { z } from "zod"
 import { Form } from "@/components/ui/form"
 import { SelectItem } from "../ui/select"
 
-import { Appointment, Patient } from "@/types/supabase.types"
+import { Appointment, Patient, FormFieldTypes } from "@/types/supabase.types"
 import { Doctors as DoctorImages, ReasonOptions} from "@/constants"
 
 import { getAppointmentSchema } from "@/lib/validations"
 import { createAppointment, getDoctorsList, updateAppointment } from "@/lib/actions/appointment.actions"
 
-import { FormFieldTypes } from "./PatientForms"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 
 interface AppointmentFormProps {
     type: "create" | "cancel" | "schedule";
-    userId: string;
+    userId: string | UserDetails | UserDetails[];
     patient: Patient; 
     appointment?: Appointment;
     setOpen?: Dispatch<SetStateAction<boolean>>;
@@ -64,11 +63,11 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
     },[])
 
     const AppointmentFormValidation = getAppointmentSchema(type)
-    console.log({type})
+
     const form = useForm<z.infer<typeof AppointmentFormValidation>>({
         resolver: zodResolver(AppointmentFormValidation),
         defaultValues: {
-            primaryPhysician: appointment?.primaryPhysician?.doctor_id || "",
+            primaryPhysician: typeof appointment?.primaryPhysician === 'object' && 'doctor_id' in appointment.primaryPhysician ? appointment.primaryPhysician.doctor_id : "",
             schedule: appointment ? new Date(appointment.schedule) : new Date(Date.now()),
             reason: appointment?.reason || "",
             note: appointment?.note || "",
@@ -77,7 +76,6 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
     })
  
     async function onSubmit(values : z.infer<typeof AppointmentFormValidation>) {
-        console.log("Submitting form:", type);
         setIsLoading(true);
 
         let status;
@@ -93,7 +91,6 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                 status = "pending";
                 break;
         }
-        console.log({type});
         try {
             if(type === "cancel" && appointment){
 
@@ -118,7 +115,7 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
             }
             else if(type === "create" && patient){
                 const appointmentData = {
-                    userId,
+                    userId: typeof userId === 'string' ? userId : userId[0].userId!,
                     patient: patient.name,
                     primaryPhysician: ((values as Appointment)).primaryPhysician,
                     schedule: new Date((values as Appointment).schedule),
@@ -127,6 +124,7 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                     status: status as Status,
                 }
                 const newAppointment = await createAppointment(appointmentData);
+                console.log("Creating appointment:", appointmentData);
 
                 if(newAppointment?.appointmentId){
                     form.reset();
@@ -144,6 +142,7 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                         appointment: {
                             primaryPhysician: (values as Appointment).primaryPhysician,
                             schedule: new Date((values as Appointment).schedule),
+                            reason: (values as Appointment).reason!,
                             status: status as Status,
                             cancellationReason: values.cancellationReason
                         },

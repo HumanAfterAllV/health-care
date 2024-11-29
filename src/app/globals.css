@@ -191,7 +191,7 @@
   }
   
   .shad-primary-btn {
-    @apply bg-teal-600 text-white !important;
+    @apply bg-teal-500 text-white !important;
   }
 
   .shad-danger-btn {
@@ -203,15 +203,15 @@
   }
 
   .shad-input-label {
-    @apply bg-white text-14-medium text-dark-600 !important;
+    @apply bg-transparent text-xs text-dark-200 !important;
   }
 
   .shad-input {
-    @apply bg-white placeholder:text-dark-600 border-dark-200 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply bg-white placeholder:text-gray-400 border-dark-200 h-11 focus-visible:ring-0 focus-visible:ring-offset-0   !important;
   }
 
   .shad-input-icon {
-    @apply bg-white placeholder:text-dark-600 border-dark-200 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply bg-white placeholder:text-gray-400 text-xs border-dark-200 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
   }
 
   .shad-textArea {

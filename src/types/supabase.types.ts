@@ -9,7 +9,7 @@ export interface Patient{
   occupation: string;
   emergencyContactName: string;
   emergencyContactNumber: string;
-  primaryPhysician: string | Record<string,string>;
+  primaryPhysician: string;
   insuranceProvider: string;
   insurancePolicyNumber: string;
   bloodType: BloodType;
@@ -23,19 +23,19 @@ export interface Patient{
   privacyConsent: boolean;
 }
 
-
-export interface Appointment{
+export interface Appointment {
   appointmentId: string;
   patient: Patient;
   schedule: Date;
-  status: Status;
-  primaryPhysician: PrimaryPhysician | Record<string, string>;
-  reason: string;
-  note: string;
-  userId: string;
+  status?: Status;
+  primaryPhysician: string | PrimaryPhysician | PrimaryPhysician[];
+  reason?: string;
+  note?: string;
+  userId: string | UserDetails | UserDetails[]
   cancellationReason?: string | null;
-  createdAt: Date;
+  createdAt?: Date; 
 }
+
 
 export interface MedicalNote{
   noteId: string;
@@ -48,4 +48,15 @@ export interface MedicalNote{
   muscleMassIndex: number | string;
   userId: string;
   appointmentId: string;
+}
+
+
+export enum FormFieldTypes {
+  INPUT="input",
+  TEXTAREA="textarea",
+  PHONE_INPUT="phoneInput",
+  CHECKBOX="checkbox",
+  DATE_PICKER= "datePicker",
+  SELECT=  "select",
+  SKELETON= "skeleton",
 }

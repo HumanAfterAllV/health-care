@@ -11,7 +11,6 @@ import {
   } from "@/components/ui/form";
 
 import { Control } from "react-hook-form";
-import { FormFieldTypes } from "./forms/PatientForms";
 import { E164Number } from "libphonenumber-js/core";
   
 import 'react-phone-number-input/style.css'
@@ -25,27 +24,31 @@ import { Checkbox } from "./ui/checkbox";
 import PhoneInput from 'react-phone-number-input'
 import DatePicker from "react-datepicker";
 
+import { FormFieldTypes } from "@/types/supabase.types";
+
 interface CustomProps {
     control: Control<any>,
     fieldType:  FormFieldTypes,
     name: string,
     label? : string,
     placeholder?: string,
+    value?: string,
     iconSrc?: string,
     iconAlt?: string,
     disabled?: boolean,
     dateFormat?: string,
     showTimeSelect?: boolean,
     children?: React.ReactNode,
-    renderSkeleton?: (field: any) => React.ReactNode,
+    onChange?: (e) => void;
+    renderSkeleton?: (field) => React.ReactNode,
 }
 
-const RenderField = ({field, props}: {field: any; props: CustomProps})=> {
+const RenderField = ({field, props}: {field; props: CustomProps})=> {
     const {fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton, disabled} = props;
     switch(fieldType){
         case FormFieldTypes.INPUT:
             return (
-                <div className="flex rounded-mb border border-dark-500">
+                <div className="flex border rounded-md border-gray-300">
                     {iconSrc && (
                         <Image src={iconSrc} alt={iconAlt || 'icon'} height={24} width={24} className="ml-2"/>
                     )}
@@ -53,9 +56,7 @@ const RenderField = ({field, props}: {field: any; props: CustomProps})=> {
                         <Input
                             placeholder={placeholder}
                             {...field}
-                            onChange={field.onChange}
                             className="shad-input border-0"
-                            value={field.value}
                         />
                     </FormControl>
                 </div>
