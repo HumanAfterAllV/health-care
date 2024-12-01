@@ -25,7 +25,7 @@ export default function PatientInfo(): JSX.Element {
 
     return (
         <Card className="w-1/5 h-full overflow-auto bg-white rounded-lg shadow-xl">
-            <CardHeader className="bg-teal-700 mb-4 text-white">
+            <CardHeader className="bg-black mb-4 text-white">
                 <CardTitle className="flex text-3xl mb-2">
                     <Link href="/admin">
                         <ArrowLeft width={24} height={24} color="#ffffff" className="mt-2 mr-2 cursor-pointer"/>
@@ -64,7 +64,7 @@ export default function PatientInfo(): JSX.Element {
                             </p>
                         </div>
                         <div className="mt-8 space-y-4">
-                            <h3 className="font-semibold mb-2">Family History:</h3>
+                            <h3 className="font-semibold mb-2">Family Medical History:</h3>
                             <p className="text-sm">
                                 {typeof appointment.userId === "object" && "familyMedicalHistory" in appointment.userId ? appointment.userId.familyMedicalHistory : "N/A"}
                             </p>
@@ -80,7 +80,7 @@ export default function PatientInfo(): JSX.Element {
                         <div className="mt-6 space-y-4">
                             <Form {...form}>
                                 <form action="">
-                                    <div className="grid w-full items-center pb-4">
+                                    <div className="grid grid-cols-2 w-full gap-1 items-center pb-2">
                                         <CustomFormField
                                             fieldType={FormFieldTypes.INPUT}
                                             control={form.control}
@@ -90,8 +90,6 @@ export default function PatientInfo(): JSX.Element {
                                             iconSrc="/assets/icons/height.svg"
                                             iconAlt="height"
                                         />
-                                    </div>
-                                    <div className="grid w-full items-center pb-4">
                                         <CustomFormField
                                             fieldType={FormFieldTypes.INPUT}
                                             control={form.control}
@@ -101,6 +99,8 @@ export default function PatientInfo(): JSX.Element {
                                             iconSrc="/assets/icons/weight.svg"
                                             iconAlt="weight"
                                         />
+                                    </div>
+                                    <div className="grid w-full items-center pb-4">
                                     </div>
                                     <div className="grid w-full items-center pb-4">
                                         <CustomFormField
