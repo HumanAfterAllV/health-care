@@ -6,7 +6,7 @@ declare type SearchParamProps = {
   };
 
   declare type Gender = "Male" | "Female" | "Other";
-  declare type Status = "pending" | "scheduled" | "cancelled";
+  declare type Status = "pending" | "scheduled" | "cancelled" | "completed"?;
   declare type BloodType = "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
 
   
@@ -81,6 +81,7 @@ declare type SearchParamProps = {
   declare interface UserDetails {
     userId?: string;
     name?: string;
+    gender?: string;
     birthDate?:  Date;
     allergies?: string;
     bloodType?: BloodType;

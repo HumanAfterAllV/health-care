@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { getRecentAppointments } from "@/lib/actions/appointment.actions";
 
 import { Input } from "@/components/ui/input";
@@ -6,17 +8,23 @@ import StatCard from "@/components/StatCard";
 import DataTable from "@/components/table/DataTable";
 
 import { Search } from "lucide-react";
+import Logo from "@/components/Logo";
 
 export default async function Page(): Promise<JSX.Element> {
     const { data, counts } = await getRecentAppointments();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-teal-100 to-blue-100 p-8">
-            <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
-                <div className="p-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-6">
-                        Admin Dashboard
-                    </h1>
+        <div className="min-h-screen bg-gradient-to-br from-teal-100 to-blue-100">
+            <header className="container mx-auto px-4 py-3 bg-white rounded-lg shadow-xl overflow-hidden mb-10 justify-between items-center">
+                <Link href="/" className="cursor-pointer">
+                    <Logo/>
+                </Link>
+                <div className="">
+
+                </div>
+            </header>
+            <main className="container mx-auto px-6 py-8 bg-white rounded-lg shadow-xl overflow-hidden">
+                <div className="p-6">
                     <div className="flex justify-between items-center mb-6">
                         <div className="relative">
                             {/* Search patients */}
@@ -53,7 +61,7 @@ export default async function Page(): Promise<JSX.Element> {
                         <DataTable columns={columns} data={data} />
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     );
 }

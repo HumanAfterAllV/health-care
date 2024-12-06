@@ -191,7 +191,7 @@
   }
   
   .shad-primary-btn {
-    @apply bg-teal-500 text-white !important;
+    @apply bg-teal-500 hover:bg-teal-300 text-white !important;
   }
 
   .shad-danger-btn {
@@ -355,4 +355,20 @@
 
 .PhoneInputInput::placeholder {
   color: #1a1d21;
+}
+
+
+.ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #0d9488;
+}
+.ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #0d9488;
+}
+.ProseMirror h3 {
+  font-size: 1.17em;
+  font-weight: bold;
 }

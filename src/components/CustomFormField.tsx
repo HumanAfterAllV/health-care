@@ -21,6 +21,8 @@ import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 
+import { useEditor } from "@tiptap/react";
+
 import PhoneInput from 'react-phone-number-input'
 import DatePicker from "react-datepicker";
 

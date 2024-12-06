@@ -1,35 +1,63 @@
+import { useRouter } from "next/navigation";
+
+import { useMedicalNote } from "../../hooks/MedicalNoteContext";
+
 import CustomFormField from "../CustomFormField";
 
-import { useMedicalNote } from "./MedicalNoteContext";
-
 import { FormFieldTypes } from "@/types/supabase.types";
+import { Editor } from "@tiptap/react";
 
 import { TabsContent } from "../ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { Form } from "../ui/form";
 import { formatDateTime } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 
-export default function PatientInfo(): JSX.Element {
 
-    const { form, appointment } = useMedicalNote();
+interface EditorType {
+    editor: Editor | null;
+}
+
+export default function PatientInfo(editor: EditorType): JSX.Element {
+
+    const { form, appointment, openModal } = useMedicalNote();
+    const router = useRouter();
     
     const birthDate = Array.isArray(appointment.userId) && appointment.userId.length > 0
         ? appointment.userId[0].birthDate: typeof appointment.userId === 'object' && appointment.userId !== null
         ? (appointment.userId as UserDetails).birthDate
         : undefined;
     
-    
+
+    const isEditorEmpty = (editor: Editor | null) => {
+        if(!editor) return true;
+        const content = editor.getJSON();
+        return content.content?.length === 0;
+    }
+
+    const handleRun = () => {
+        if(isEditorEmpty(editor.editor)){
+            router.push("/admin");
+            return;
+        }
+        else{
+            openModal({
+                title: "Unsaved Changes",
+                content: "You have unsaved changes. Are you sure you want to leave?",
+                onConfirm: () => {
+                    router.push("/admin");
+                },
+                onCancel: () => console.log("cancelled")
+            })
+        }
+    }
 
     return (
         <Card className="w-1/5 h-full overflow-auto bg-white rounded-lg shadow-xl">
-            <CardHeader className="bg-black mb-4 text-white">
+            <CardHeader className="bg-teal-600 mb-4 text-white">
                 <CardTitle className="flex text-3xl mb-2">
-                    <Link href="/admin">
-                        <ArrowLeft width={24} height={24} color="#ffffff" className="mt-2 mr-2 cursor-pointer"/>
-                    </Link>
+                    <ArrowLeft onClick={handleRun} width={24} height={24} color="#ffffff" className="mt-2 mr-2 cursor-pointer"/>
+                
                     {typeof appointment.userId === "object" && "name" in appointment.userId ? appointment.userId.name : ""}
                 </CardTitle>
                 <CardDescription>Birth Date: {birthDate ?  formatDateTime(birthDate).dateOnly : ""}</CardDescription>
@@ -75,83 +103,84 @@ export default function PatientInfo(): JSX.Element {
                                 {typeof appointment.userId === "object" && "bloodType" in appointment.userId ? appointment.userId.bloodType : "N/A"}
                             </p>
                         </div>
+                        <div className="mt-8 space-y-4">
+                            <h3 className="font-semibold mb-2">Patient Extra Notes:</h3>
+                            <p className="text-sm">
+                                {typeof appointment === "object" && "note" in appointment ? appointment.note : "N/A"}
+                            </p>
+                        </div>
                     </TabsContent>
                     <TabsContent value="vitals">
                         <div className="mt-6 space-y-4">
-                            <Form {...form}>
-                                <form action="">
-                                    <div className="grid grid-cols-2 w-full gap-1 items-center pb-2">
-                                        <CustomFormField
-                                            fieldType={FormFieldTypes.INPUT}
-                                            control={form.control}
-                                            name="height"
-                                            label="Height"
-                                            placeholder="cm"
-                                            iconSrc="/assets/icons/height.svg"
-                                            iconAlt="height"
-                                        />
-                                        <CustomFormField
-                                            fieldType={FormFieldTypes.INPUT}
-                                            control={form.control}
-                                            name="weight"
-                                            label="Weight"
-                                            placeholder="kgs"
-                                            iconSrc="/assets/icons/weight.svg"
-                                            iconAlt="weight"
-                                        />
-                                    </div>
-                                    <div className="grid w-full items-center pb-4">
-                                    </div>
-                                    <div className="grid w-full items-center pb-4">
-                                        <CustomFormField
-                                            fieldType={FormFieldTypes.INPUT}
-                                            control={form.control}
-                                            name="bloodPressure"
-                                            label="Blood Pressure"
-                                            placeholder="mmHg"
-                                            iconSrc="/assets/icons/pressure.svg"
-                                            iconAlt="pressure"
-                                        />
-                                    </div>
-                                    <div className="grid w-full items-center pb-4">
-                                        <CustomFormField
-                                            fieldType={FormFieldTypes.INPUT}
-                                            control={form.control}
-                                            name="heartRate"
-                                            label="Heart Rate"
-                                            placeholder="min"
-                                            iconSrc="/assets/icons/heart-pulse.svg"
-                                            iconAlt="heart pulse"
-                                        />
-                                    </div>
-                                    <div className="grid w-full items-center pb-4">
-                                        <CustomFormField
-                                            fieldType={FormFieldTypes.INPUT}
-                                            control={form.control}
-                                            name="temperature"
-                                            label="Temperature"
-                                            placeholder="C°"
-                                            iconSrc="/assets/icons/thermometer.svg"
-                                            iconAlt="thermometer"
-                                        />
-                                    </div>
-                                    <div className="grid w-full items-center">
-                                        <CustomFormField
-                                            fieldType={FormFieldTypes.INPUT}
-                                            control={form.control}
-                                            name="oxygenSaturation"
-                                            label="Oxygen Saturation"
-                                            placeholder="80%"
-                                            iconSrc="/assets/icons/percent.svg"
-                                            iconAlt="percent"
-                                        />
-                                    </div>
-                                </form>
-                            </Form>
+                            <div className="grid grid-cols-2 w-full gap-1 items-center pb-2">
+                                <CustomFormField
+                                    fieldType={FormFieldTypes.INPUT}
+                                    control={form.control}
+                                    name="height"
+                                    label="Height"
+                                    placeholder="cm"
+                                    iconSrc="/assets/icons/height.svg"
+                                    iconAlt="height"
+                                />
+                                <CustomFormField
+                                    fieldType={FormFieldTypes.INPUT}
+                                    control={form.control}
+                                    name="weight"
+                                    label="Weight"
+                                    placeholder="kgs"
+                                    iconSrc="/assets/icons/weight.svg"
+                                    iconAlt="weight"
+                                />
+                            </div>
+                            <div className="grid w-full items-center pb-4">
+                            </div>
+                            <div className="grid w-full items-center pb-4">
+                                <CustomFormField
+                                    fieldType={FormFieldTypes.INPUT}
+                                    control={form.control}
+                                    name="bloodPressure"
+                                    label="Blood Pressure"
+                                    placeholder="mmHg"
+                                    iconSrc="/assets/icons/pressure.svg"
+                                    iconAlt="pressure"
+                                />
+                            </div>
+                            <div className="grid w-full items-center pb-4">
+                                <CustomFormField
+                                    fieldType={FormFieldTypes.INPUT}
+                                    control={form.control}
+                                    name="heartRate"
+                                    label="Heart Rate"
+                                    placeholder="min"
+                                    iconSrc="/assets/icons/heart-pulse.svg"
+                                    iconAlt="heart pulse"
+                                />
+                            </div>
+                            <div className="grid w-full items-center pb-4">
+                                <CustomFormField
+                                    fieldType={FormFieldTypes.INPUT}
+                                    control={form.control}
+                                    name="temperature"
+                                    label="Temperature"
+                                    placeholder="C°"
+                                    iconSrc="/assets/icons/thermometer.svg"
+                                    iconAlt="thermometer"
+                                />
+                            </div>
+                            <div className="grid w-full items-center">
+                                <CustomFormField
+                                    fieldType={FormFieldTypes.INPUT}
+                                    control={form.control}
+                                    name="oxygenSaturation"
+                                    label="Oxygen Saturation"
+                                    placeholder="80%"
+                                    iconSrc="/assets/icons/percent.svg"
+                                    iconAlt="percent"
+                                />
+                            </div>
                         </div>
                     </TabsContent>
                 </Tabs>
-                
             </CardContent>
         </Card>
     )

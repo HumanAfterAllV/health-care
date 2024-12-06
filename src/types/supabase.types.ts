@@ -37,17 +37,17 @@ export interface Appointment {
 }
 
 
-export interface MedicalNote{
-  noteId: string;
+export interface MedicalNoteTypes{
+  appointmentId: string;
   height: string;
   weight: string;
   bloodPressure: string;
   heartRate: string;
   temperature: string;
   oxygenSaturation: string;
-  muscleMassIndex: number | string;
-  userId: string;
-  appointmentId: string;
+  medicalNoteText: {
+    html: string;
+};
 }
 
 

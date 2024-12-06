@@ -54,7 +54,7 @@ export default function PatientForm(): JSX.Element {
             throw new Error("An error occurred. Please try again.")
         }
     }
-    catch (error) {
+    catch (error: unknown) {
         console.log(error)
     }
     finally{

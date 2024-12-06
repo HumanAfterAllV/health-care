@@ -1,5 +1,7 @@
-import { MedicalNoteProvider } from "@/components/medical/MedicalNoteContext";
-import MedicalNoteForm from "@/components/medical/MedicalNoteForm";
+import { MedicalNoteProvider } from "@/hooks/MedicalNoteContext";
+
+import MedicalNoteForm from "@/components/medical/MedicalNoteForm"
+;
 import { getDoctorAppointmentForMedicalNote } from "@/lib/actions/doctor.actions";
 import { Appointment } from "@/types/supabase.types";
 

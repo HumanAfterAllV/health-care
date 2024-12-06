@@ -97,6 +97,7 @@ export const getRecentAppointments = async () => {
         const {data, error} = await supabase
         .from("appointment")
         .select(`*, primaryPhysician(name)`)
+        .not("status", "eq", "completed")
         
         if(error){
             throw error;

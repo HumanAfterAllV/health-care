@@ -39,7 +39,7 @@ export default function DataTable<TData, TValue>({
    
     return (
         <>
-            <Table>
+            <Table className="overflow-hidden">
                 <TableHeader className="text-gray-500">
                     {table.getHeaderGroups().map((headerGroup) => (
                     <TableRow key={headerGroup.id} className="">
