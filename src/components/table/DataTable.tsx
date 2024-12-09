@@ -1,4 +1,4 @@
-"use client"
+import { getRecentAppointments } from "@/lib/actions/appointment.actions"
 
 import {
     ColumnDef,
@@ -16,20 +16,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-
 import { Button } from "@/components/ui/button"
+
 import Image from "next/image"
 
-interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[]
-    data: TData[]
-}
 
 
-export default function DataTable<TData, TValue>({
-    columns,
-    data,
-}: DataTableProps<TData, TValue>): JSX.Element {
+export default async function DataTable(): JSX.Element {
+    const {data, counts} = await getRecentAppointments();
     const table = useReactTable({
         data,
         columns,

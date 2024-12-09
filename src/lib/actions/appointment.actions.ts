@@ -163,3 +163,21 @@ export const updateAppointment = async ({appointmentId, appointment}) => {
         throw error;
     }
 }
+
+export const getNumberOfPatients = async () => {
+    try{
+        const {count: countPatient, error} = await supabase
+        .from("patient")
+        .select("userId", { count: "exact" });
+
+        if(error){
+            throw error;
+        }
+
+        return countPatient;
+    }
+    catch(error: unknown){
+        console.error('Error getting appointments:', error);
+        throw error;
+    }
+}

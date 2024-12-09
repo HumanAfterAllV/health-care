@@ -45,12 +45,12 @@ export default function SearchPatient(): JSX.Element {
     },[debouncedSearchTerm]);
 
     return (
-        <div className="relative w-full max-w-md mx-auto mt-8">
+        <div className="relative w-full max-w-md mx-auto">
             <div className="relative">
                 <Input
                     type="text"
                     placeholder="Search patients"
-                    className="pl-10 pr-10 py-2 w-full rounded-full border border-gray-300 focus:border-teal-500 focus:ring focus:ring-teal-200 focus:ring-opacity-50"
+                    className="pl-10 pr-10 py-2 w-full rounded-2xl border border-gray-500 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white"
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
@@ -60,7 +60,7 @@ export default function SearchPatient(): JSX.Element {
                 <ul className="absolute z-10 mt-2 w-full bg-white rounded-lg shadow-lg border">
                     {result.map((patient) => (
                         <li key={patient.userId} className="last:border-none">
-                            <Link href={`/admin/${patient.userId}`} className="block px-4 py-2 hover:bg-gray-100">
+                            <Link href={`/admin/${patient.userId}`} className="block px-4 py-2 hover:bg-indigo-100">
                                 {patient.name}
                             </Link>
                         </li>

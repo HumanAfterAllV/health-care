@@ -1,33 +1,32 @@
-import clsx from "clsx";
-import Image from "next/image";
+import { Users, Calendar, Hourglass, TriangleAlert } from 'lucide-react'
+import { getNumberOfPatients, getRecentAppointments } from '@/lib/actions/appointment.actions'
+import { Card } from './ui/card';
 
-interface StatCardProps {
-    type: "appointments" | "pending" | "cancelled";
-    count: number;
-    label: string;
-    icon: string;
-}
 
-export default function StatCard({count = 0, label, icon, type}: StatCardProps): JSX.Element {
+export default async function StatCard(): Promise<JSX.Element> {
+    const { counts } = await getRecentAppointments();
+    const countPatient = getNumberOfPatients();
+
+    const stats = [
+        { icon: Users, label: "Patients", count: countPatient, color: "bg-indigo-600" },
+        { icon: Calendar, label: "Scheduled", count: counts.scheduledCount, color: "bg-cyan-500" },
+        { icon: Hourglass, label: "Pending", count: counts.pendingCount, color: "bg-pink-500", },
+        { icon: TriangleAlert, label: "Cancelled", count: counts.cancelledCount, color: "bg-red-500" },
+    ];
     return (
-        <div className={clsx("stat-card", {
-            "bg-appointments": type === "appointments",
-            "bg-pending": type === "pending",
-            "bg-cancelled": type === "cancelled"
-        })}>
-            <div className="flex items-center gap-4">
-                <Image
-                    src={icon}
-                    alt={label}
-                    width={32}
-                    height={32}
-                    className="size-8 w-fit"
-                />
-                <h2 className="text-32-bold text-dark-200">{count}</h2>
+        <div>
+            <p className="text-xl font-semibold pb-2">Report</p>
+            <div className="grid grid-cols-4 gap-4">
+                {stats.map((stat, index) => (
+                    <Card key={index} className="flex flex-col items-center justify-center p-4 text-center bg-white">
+                        <div className={`mb-3 rounded-full ${stat.color} p-3 text-white`}>
+                            <stat.icon className="h-6 w-6"/>
+                        </div>
+                        <div className='text-2xl font-bold'>{stat.count}</div>
+                        <div className='text-sm text-muted-foreground'>{stat.label}</div>
+                    </Card>
+                ))}
             </div>
-
-            <p className="text-14-regular">{label}</p>
-
         </div>
     )
 }
