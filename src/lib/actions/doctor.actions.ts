@@ -24,6 +24,7 @@ export const getDoctorAppointmentForMedicalNote = async (appointmentId: string) 
                 doctor_id
             )
             ,userId(
+                userId,
                 name,
                 gender,
                 birthDate,
@@ -223,24 +224,54 @@ export const saveMedicalNoteAndVitalSigns = async(appointment: Appointment, medi
 
 
 export const getPatientsByName =  async(name: string) => {
-    if(!name){
-        throw new Error("Missing required parameter: name");
+    const trimName = name.trim();
+
+    if(!trimName){
+        return [];
     }
     try{
         const {data, error} = await supabase
         .from("patient")
         .select("*")
-        .ilike("name", `%${name}%`);
+        .ilike("name", `%${trimName}%`);
     
         if(error){
             console.error("Error getting patients:", error);
             throw error;
         }
     
-        return data;
+        return data || [];
     }
     catch(error: unknown){
         console.error("Error getting patients:", error);
         throw error;
     }
 }
+export const getPatientMedicalNotes = async (userId: string) => {
+    if (!userId) {
+        throw new Error("Error: Missing userId.");
+    }
+
+    try{
+        const { data, error} = await supabase
+        .from("medicalNote")
+        .select(`noteId,
+                createdAt,
+                appointmentId(userId)`)
+        .eq("appointmentId.userId", userId)
+        
+        if(error){
+            console.error("Error getting medical notes:", error);
+            throw new Error("Error getting medical notes");
+        }
+        return data.filter((note) => note.appointmentId?.userId === userId).map((note) => ({
+            noteId: note.noteId,
+            createdAt: note.createdAt,
+        }));
+    }
+    catch(error: unknown){
+        console.error("Error getting medical notes:", error);
+        throw new Error("Error getting medical notes");
+    }
+};
+

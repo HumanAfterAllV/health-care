@@ -17,7 +17,7 @@ import { useMedicalNote } from "@/hooks/MedicalNoteContext";
 
 import PatientInfo from "./PatientInfo";
 import MedicalNoteText from "./MedicalNoteText";
-/* import PatientHistory from "./PatientHistory"; */
+import PatientHistory from "./PatientHistory";
 import SubmitButton from "../SubmitButton";
 
 
@@ -69,9 +69,9 @@ export default function MedicalNoteForm(): JSX.Element {
     
     return(
         <Form {...form}>
-            <form  onSubmit={form.handleSubmit(onSubmit)} className="flex h-screen bg-gradient-to-br from-teal-100 to-blue-100 p-4 space-x-4">
+            <form  onSubmit={form.handleSubmit(onSubmit)} className="flex h-screen bg-gradient-to-br from-teal-100 to-blue-100 p-2 space-x-4">
                 <PatientInfo editor={editor}/>
-                <div className="flex flex-col h-full">
+                <div className="flex flex-col w-screen">
                     <MedicalNoteText editor={editor}/>
                     <div className="mt-2">
                         <SubmitButton isLoading={loading}>
@@ -79,7 +79,7 @@ export default function MedicalNoteForm(): JSX.Element {
                         </SubmitButton>
                     </div>
                 </div>
-               {/*  <PatientHistory /> */}
+                <PatientHistory />
             </form>
         </Form>
     )

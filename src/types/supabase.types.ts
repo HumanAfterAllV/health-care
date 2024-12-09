@@ -31,21 +31,24 @@ export interface Appointment {
   primaryPhysician: string | PrimaryPhysician | PrimaryPhysician[];
   reason?: string;
   note?: string;
-  userId: string | UserDetails | UserDetails[]
+  userId: string | UserDetails | UserDetails[];
   cancellationReason?: string | null;
   createdAt?: Date; 
 }
 
 
 export interface MedicalNoteTypes{
-  appointmentId: string;
-  height: string;
-  weight: string;
-  bloodPressure: string;
-  heartRate: string;
-  temperature: string;
-  oxygenSaturation: string;
-  medicalNoteText: {
+  noteId?: string;
+  userId?: string;
+  appointmentId?: string;
+  height?: string;
+  weight?: string;
+  bloodPressure?: string;
+  heartRate?: string;
+  temperature?: string;
+  oxygenSaturation?: string;
+  createdAt?: Date;
+  medicalNoteText?: {
     html: string;
 };
 }

@@ -38,8 +38,8 @@ export default function DataTable<TData, TValue>({
     })
    
     return (
-        <>
-            <Table className="overflow-hidden">
+        <div className="data-table">
+            <Table className="shad-table">
                 <TableHeader className="text-gray-500">
                     {table.getHeaderGroups().map((headerGroup) => (
                     <TableRow key={headerGroup.id} className="">
@@ -88,7 +88,7 @@ export default function DataTable<TData, TValue>({
                     size="sm"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
-                    className="shad-gray-btn"
+                    className="shad-teal-btn"
                 >
                     <Image
                         src="/assets/icons/arrow.svg"
@@ -102,7 +102,7 @@ export default function DataTable<TData, TValue>({
                     size="sm"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
-                    className="shad-gray-btn"
+                    className="shad-teal-btn"
                 >
                     <Image
                         src="/assets/icons/arrow.svg"
@@ -114,7 +114,7 @@ export default function DataTable<TData, TValue>({
                 </Button>
 
             </div>
-        </>
+        </div>
     )
 }
 

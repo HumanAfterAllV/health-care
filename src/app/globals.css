@@ -124,11 +124,11 @@
 
   /* Data Table */
   .data-table {
-    @apply z-10 w-full overflow-hidden rounded-lg border border-gray-800 shadow-lg;
+    @apply z-10 w-full overflow-hidden;
   }
 
   .table-actions {
-    @apply flex w-full items-center justify-between space-x-2 p-4;
+    @apply flex w-full items-center justify-between space-x-2 p-1;
   }
 
   /* ===== ALIGNMENTS */
@@ -198,8 +198,8 @@
     @apply bg-red-700 text-white !important;
   }
 
-  .shad-gray-btn {
-    @apply border border-teal-600 cursor-pointer bg-teal-600 text-white !important;
+  .shad-teal-btn {
+    @apply cursor-pointer bg-teal-500 text-white !important;
   }
 
   .shad-input-label {
@@ -247,11 +247,11 @@
   }
 
   .shad-table {
-    @apply rounded-lg overflow-hidden !important;
+    @apply overflow-hidden !important;
   }
 
   .shad-table-row-header {
-    @apply border-b border-gray-800 text-white hover:bg-transparent !important;
+    @apply hover:bg-transparent !important;
   }
 
   .shad-table-row {

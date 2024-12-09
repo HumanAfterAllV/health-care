@@ -83,7 +83,7 @@ export const MedicalNoteProvider = ({children, appointment,}: {children: ReactNo
         try {
 
             if (!data.medicalNoteText || data.medicalNoteText === null || data.medicalNoteText === undefined) {
-                throw new Error("El editor está vacío. Por favor, escribe una nota médica antes de guardar.");
+                throw new Error("The editor is empty. Please add some content to the medical note.");
               }          
 
             const medicalNoteData = {

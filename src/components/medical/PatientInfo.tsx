@@ -53,7 +53,7 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
     }
 
     return (
-        <Card className="w-1/5 h-full overflow-auto bg-white rounded-lg shadow-xl">
+        <Card className="w-1/4 h-full overflow-auto bg-white rounded-lg shadow-xl">
             <CardHeader className="bg-teal-600 mb-4 text-white">
                 <CardTitle className="flex text-3xl mb-2">
                     <ArrowLeft onClick={handleRun} width={24} height={24} color="#ffffff" className="mt-2 mr-2 cursor-pointer"/>
