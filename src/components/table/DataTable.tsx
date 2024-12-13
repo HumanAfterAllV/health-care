@@ -1,4 +1,4 @@
-import { getRecentAppointments } from "@/lib/actions/appointment.actions"
+"use client"
 
 import {
     ColumnDef,
@@ -18,12 +18,19 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 
-import Image from "next/image"
+import { Card } from "../ui/card"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
+interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[]
+    data: TData[]
+}
 
-
-export default async function DataTable(): JSX.Element {
-    const {data, counts} = await getRecentAppointments();
+export default function DataTable<TData, TValue>({
+    columns,
+    data,
+}: DataTableProps<TData, TValue>): JSX.Element {
+    
     const table = useReactTable({
         data,
         columns,
@@ -32,14 +39,14 @@ export default async function DataTable(): JSX.Element {
     })
    
     return (
-        <div className="data-table">
-            <Table className="shad-table">
+        <Card className="p-4">
+            <Table>
                 <TableHeader className="text-gray-500">
                     {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id} className="">
+                    <TableRow key={headerGroup.id}>
                         {headerGroup.headers.map((header) => {
                             return (
-                                <TableHead key={header.id}>
+                                <TableHead key={header.id} >
                                 {header.isPlaceholder
                                     ? null
                                     : flexRender(
@@ -82,33 +89,19 @@ export default async function DataTable(): JSX.Element {
                     size="sm"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
-                    className="shad-teal-btn"
                 >
-                    <Image
-                        src="/assets/icons/arrow.svg"
-                        width={24}
-                        height={24}
-                        alt="arrow"
-                    />
+                    <ChevronLeft/>
                 </Button>
                 <Button
                     variant="outline"
                     size="sm"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
-                    className="shad-teal-btn"
                 >
-                    <Image
-                        src="/assets/icons/arrow.svg"
-                        width={24}
-                        height={24}
-                        alt="arrow"
-                        className="rotate-180"
-                    />
+                   <ChevronRight/>
                 </Button>
-
             </div>
-        </div>
+        </Card>
     )
 }
 

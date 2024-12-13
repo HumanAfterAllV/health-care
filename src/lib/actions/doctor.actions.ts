@@ -251,7 +251,7 @@ export const getPatientMedicalNotes = async (userId: string) => {
     if (!userId) {
         throw new Error("Error: Missing userId.");
     }
-
+    
     try{
         const { data, error} = await supabase
         .from("medicalNote")

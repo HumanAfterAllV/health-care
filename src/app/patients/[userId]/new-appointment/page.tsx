@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { getUser } from "@/lib/actions/patient.actions";
@@ -23,14 +22,18 @@ export default async function NewAppointment({params: {userId}}: SearchParamProp
                         © 2024 CarePulse
                     </p>
                 </div>
+{/*                 <div className="w-1/3 h-full overflow-hidden">
+                    <video 
+                        className="h-full w-full object-cover"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                    >
+                        <source src="/assets/video/test.mp4" />
+                    </video>
+                </div> */}
             </section>
-            <Image
-                src="/assets/images/test-5.jpg"
-                height={1000} 
-                width={1000}
-                alt="patient"
-                className="side-img max-w-[390px] bg-bottom"
-            />
         </div>
     )
 }

@@ -1,4 +1,3 @@
-import Link from "next/link";
 
 import { getRecentAppointments } from "@/lib/actions/appointment.actions";
 
@@ -6,40 +5,33 @@ import { columns } from "@/components/table/Columns";
 import StatCard from "@/components/StatCard";
 import DataTable from "@/components/table/DataTable";
 
-import { Button } from "@/components/ui/button";
-import SearchPatient from "@/components/SearchPatient";
+import { Card } from "@/components/ui/card";
 import WelcomeBanner from "@/components/WelcomeBanner";
-import Calendar from "@/components/Calendar";
-import { Plus } from "lucide-react";
+import RecentPatient from "@/components/RecentPatient";
 
+export default async function Page() : Promise<JSX.Element> {
 
-export default function Page() : JSX.Element {
+    const{ data } = await getRecentAppointments();
+
     return (
-        <div className="flex-1 p-8 ml-20">
-            <div className="mb-8 flex items-center justify-between">
-                <h1 className="text-xl font-semibold">Dashboard</h1>
-                <div className="flex flex-row gap-4">
-                    <SearchPatient/>
-                    <Button className=" bg-indigo-600 rounded-2xl text-white">
-                        <Plus className="h-5 w-5 mr-2"/>
-                        Add Patient
-                    </Button>
-                </div>
-            </div>
-            <div className="grid gap-8">
+        <>
+            <div className="grid gap-8 px-10">
                 <WelcomeBanner/>
-                <div className="grid grid-cols-[2fr_1fr] gap-8">
-                    <div className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <div className="space-y-8 bg-indigo-50">
+                        <h2 className="text-xl font-semibold mb-4 text-[#0077B6]">Report</h2>
                         <StatCard/>
                     </div>
-                    <div className="">
-                        <Calendar/>
-                    </div>
+                    <Card className="col-span-1 bg-white p-6 rounded-xl">
+                        <h2 className="text-xl font-semibold mb-4 text-[#0077B6]">Recent Patients</h2>
+                        <RecentPatient />
+                    </Card>
                 </div>
             </div>
-                <div className="overflow-x-auto pt-10">
-                    <DataTable />
-                </div>
-        </div>
+            <Card className="col-span-1 md:col-span-2 lg:col-span-3 bg-white p-6 rounded-xl m-10">
+                  <h2 className="text-xl font-semibold mb-4 text-[#0077B6]">All Patients</h2>
+                  <DataTable columns={columns} data={data}/>
+            </Card>
+        </>
     );
 }

@@ -25,13 +25,13 @@ export default async function Register({params: {userId} }: SearchParamProps): P
                         <p className="copyright py-12">
                             © 2024 NextHealth
                         </p>
-                        <Link href={"/?admin=true"} className="text-green-500 ">
+                        <Link href={"/?admin=true"} className="text-[#00B4D8]">
                             Admin
                         </Link>
                     </div>
                 </div>
             </div>
-            <Image src="/assets/images/doctor-world.jpg" height={1000} width={1000} alt="patient" className="side-img max-w-[390px]"/>
+            <Image src="/assets/images/doctor-1.jpg" height={1000} width={1000} alt="patient" className="side-img max-w-[390px]"/>
         </section>
         
     )

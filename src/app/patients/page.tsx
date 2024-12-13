@@ -21,13 +21,13 @@ export default function Page({ searchParams }: SearchParamProps): JSX.Element {
                         <p className="justify-items-end text-dark-600 xl:text-left">
                             © 2024 NextHealth
                         </p>
-                        <Link href={"/patients/?admin=true"} className="text-teal-600 ">
+                        <Link href={"/patients/?admin=true"} className="text-[#00B4D8] ">
                             Admin
                         </Link>
                     </div>
                 </div>
             </div>
-            <Image src="/assets/images/test-4.jpg" height={1000} width={1000} alt="patient" className="side-img max-w-[50%]"/>
+            <Image src="/assets/images/doctor-world.jpg" height={1000} width={1000} alt="patient" className="side-img max-w-[50%]"/>
         </section>
     )
 }

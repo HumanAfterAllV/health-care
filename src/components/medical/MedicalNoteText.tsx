@@ -8,13 +8,15 @@ import { EditorContent, Editor } from "@tiptap/react";
 
 import { getTemplate } from "@/lib/actions/doctor.actions";
 
+import SubmitButton from "../SubmitButton";
+
 import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectValue, SelectTrigger  } from "../ui/select";
 import { Button } from "../ui/button";
 
 import { LucideProps } from 'lucide-react';
-import { FileText, Bold, Italic, Underline, List, AlignLeft, AlignCenter, SquareMinus ,AlignRight, Highlighter, Undo, Redo, Heading1, Heading2, Heading3, Brush } from 'lucide-react';
+import { Bold, Italic, Underline, List, AlignLeft, AlignCenter, SquareMinus ,AlignRight, Highlighter, Undo, Redo, Heading1, Heading2, Heading3, Brush } from 'lucide-react';
 
 interface ToolBarItem {
     icon: ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>;
@@ -48,10 +50,10 @@ const ToolBar = ({editor}: EditorType): JSX.Element => {
             icon: Brush, 
             action: () => {
               const currentColor = editor.getAttributes('textStyle').color;
-              const newColor = currentColor === '#0d9488' ? '#000000' : '#0d9488'; 
+              const newColor = currentColor === '#0096C7' ? '#000000' : '#0096C7'; 
               editor.chain().focus().setColor(newColor).run();
             }, 
-            isActive: editor.getAttributes('textStyle').color === '#0d9488', 
+            isActive: editor.getAttributes('textStyle').color === '#0096C7', 
             tooltip: 'Color' 
         },
         { icon: Undo, action: () => editor.chain().focus().undo().run(), isActive: false, tooltip: 'Undo' },
@@ -68,7 +70,7 @@ const ToolBar = ({editor}: EditorType): JSX.Element => {
                                 variant="outline"
                                 size="icon"
                                 onClick={action}
-                                className={`p-2 hover:bg-gray-200 ${isActive ? 'bg-gray-200' : 'bg-white'} flex-shrink-0`}
+                                className={`p-2 hover:bg-[#CAF0F8] ${isActive ? 'bg-[#CAF0F8]' : 'bg-white'} flex-shrink-0`}
                             >
                                 <Icon className="h-4 w-4" />
                             </Button>
@@ -87,7 +89,7 @@ const ToolBar = ({editor}: EditorType): JSX.Element => {
 export default function MedicalNoteText({ editor }: { editor: Editor | null }): JSX.Element {
 
 
-    const { appointment } = useMedicalNote();
+    const { appointment, loading } = useMedicalNote();
 
       const applyTemplate = async(templateType: string) => {
         const template = await getTemplate(templateType, appointment);
@@ -97,21 +99,20 @@ export default function MedicalNoteText({ editor }: { editor: Editor | null }): 
     };
 
     return (
-        <Card className="flex h-full flex-1 flex-col shadow-lg bg-white">
-            <CardHeader className="p-4 flex flex-row gap-1 items-center">
-                <FileText width={24} height={24} className="mr-1"/>
-                <CardTitle className="text-2xl">New Medical Note</CardTitle>
+        <Card className="flex h-[650px] flex-1 flex-col shadow-lg bg-white rounded-2xl">
+            <CardHeader className="flex flex-row gap-4 items-center justify-between bg-[#00B4D8] text-white rounded-t-lg">
+                <CardTitle className="flex items-center gap-2">New Medical Note</CardTitle>
                 <Select onValueChange={(value) => applyTemplate(value)}>
-                    <SelectTrigger className="w-[180px] border-gray-400 pl-2">
+                    <SelectTrigger className="w-[180px] border-white">
                         <SelectValue placeholder="Select template"/>
                     </SelectTrigger>
                     <SelectContent className="shad-select-content">
                         <SelectGroup>
-                            <SelectItem className="hover:bg-gray-100" value="Consultation">Consultation</SelectItem>
-                            <SelectItem className="hover:bg-gray-100" value="RoutineCheckUp">Routine CheckUp</SelectItem>
-                            <SelectItem className="hover:bg-gray-100" value="FollowUp">Follow Up</SelectItem>
-                            <SelectItem className="hover:bg-gray-100" value="SecondOpinion">Second Option</SelectItem>
-                            <SelectItem className="hover:bg-gray-100" value="EmergencyVisit">Emergency</SelectItem>
+                            <SelectItem className="hover:bg-[#CAF0F8]" value="Consultation">Consultation</SelectItem>
+                            <SelectItem className="hover:bg-[#CAF0F8]" value="RoutineCheckUp">Routine CheckUp</SelectItem>
+                            <SelectItem className="hover:bg-[#CAF0F8]" value="FollowUp">Follow Up</SelectItem>
+                            <SelectItem className="hover:bg-[#CAF0F8]" value="SecondOpinion">Second Option</SelectItem>
+                            <SelectItem className="hover:bg-[#CAF0F8]" value="EmergencyVisit">Emergency</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
@@ -134,6 +135,9 @@ export default function MedicalNoteText({ editor }: { editor: Editor | null }): 
                         />
                     </div>
                 </div>
+                <SubmitButton isLoading={loading} className="mt-4 bg-[#00B4D8] text-white hover:bg-[#48CAE4]">
+                    Save
+                </SubmitButton>
             </CardContent>
         </Card>
     );

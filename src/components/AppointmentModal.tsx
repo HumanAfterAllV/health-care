@@ -12,12 +12,9 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 
-import { Button } from "./ui/button";
-
 import { Appointment, Patient } from "@/types/supabase.types";
 
 import AppointmentForm from "./forms/AppointmentForm";
-import { CalendarCheck2, TriangleAlert } from "lucide-react";
   
 interface AppointmentModalProps {
     type: "schedule" | "cancel";
@@ -39,23 +36,20 @@ export default function AppointmentModal ({type, patient, userId, appointment}: 
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild className="flex space-x-2">
                 {type === "schedule" ? (
-                    <Button
-                        className="hover:bg-gray-100"
-                        size="sm"
-                        variant="outline"
+                    <div
+                        className="cursor-pointer hover:bg-[#CAF0F8] p-2 rounded text-sm"
                         onClick={() => setOpen(true)}
                     >
-                        <CalendarCheck2 size={16} className="text-teal-500" />
-                    </Button>
+                        <span>Schedule</span>
+                    </div>
                 ) : (
-                    <Button
-                        className="hover:bg-gray-100"
-                        size="sm"
-                        variant="outline"
+                    <div
+                        className="cursor-pointer hover:bg-red-100 p-2 rounded text-sm"
                         onClick={() => setOpen(true)}
                     >
-                        <TriangleAlert size={16} className="text-red-500"/>
-                    </Button>
+
+                        <span>Cancel</span>
+                    </div>
                 )}
             </DialogTrigger>
             <DialogContent className="shad-dialog sm:max-w-md">

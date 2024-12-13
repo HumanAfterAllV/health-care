@@ -1,20 +1,26 @@
 import Image from "next/image"
 import { Card } from "./ui/card"
+import { formatDateTime } from "@/lib/utils"
 
 export default function WelcomeBanner(): JSX.Element {
+    const currentTime = formatDateTime(new Date()).dateTime;
+
     return (
-        <Card className="flex items-center gap-8 justify-start bg-indigo-600 p-4 text-white rounded-2xl">
-            <div className="h-32 w-32">
+        <Card className="flex items-center justify-between bg-[#00B4D8] p-4 text-white rounded-2xl">
+            <div className="flex items-center gap-8">
                 <Image
-                    src="/assets/images/test.png"
+                    src="/assets/images/ui-doc2.png"
                     alt="profile"
-                    width={128}
-                    height={128}
+                    width={120}
+                    height={120}
                 />
+                <div className="space-y-1">
+                    <p className="text-3xl font-light">Welcome, <span className="text-3xl font-bold">Dr. Jasmine</span></p>
+                    <p className="text-white">Have a nice day at work</p>
+                </div>
             </div>
-            <div className="space-y-1">
-                <p className="text-3xl font-light">Welcome, <span className="text-3xl font-bold">Dr. Smith</span></p>
-                <p className="text-indigo-100">Have a nice day at work</p>
+            <div className="font-semibold">
+                {currentTime}
             </div>
         </Card>
     )

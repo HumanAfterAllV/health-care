@@ -181,3 +181,23 @@ export const getNumberOfPatients = async () => {
         throw error;
     }
 }
+
+export const getRecentPatients = async () => {
+    try{
+        const {data, error} = await supabase
+        .from("patient")
+        .select("name, email, phone, createdAt")
+        .order("createdAt", { ascending: false })
+        .limit(3);
+
+        if(error){
+            throw error;
+        }
+
+        return data;
+    }
+    catch(error: unknown){
+        console.error('Error getting appointments:', error);
+        throw error;
+    }
+}

@@ -10,7 +10,8 @@ import { Appointment } from "@/types/supabase.types";
 import { formatDateTime } from "@/lib/utils";
 import { Doctors } from "@/constants";
 
-import { Notebook } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 
 import StatusBadge from "../StatusBadge";
@@ -67,37 +68,50 @@ export const columns: ColumnDef<Appointment>[] = [
             </div>
         )
     },
-    {
+    {   
         id: "actions",
         header: () => <div className="pl-4">Actions</div>,
-        cell: ({ row : { original: data} }) => {
-            return(
-                <div className="flex gap-2 items-center">
-                    <AppointmentModal 
-                        patient={data.patient}
-                        userId={data.userId}
-                        appointment={data}
-                        type="schedule"
-                        title="Schedule"
-                        description="Please confirm the following details to schedule the appointment."                        
-                    />
-                    {data.status === "scheduled" && (
-                        <Link className="" href={`/admin/note/${data.appointmentId}`}>
-                            <Button variant="outline" size="sm" className="hover:bg-gray-100">
-                                <Notebook size={16} />
-                            </Button>
-                        </Link>
-                    )}
-                    <AppointmentModal
-                        patient={data.patient}
-                        userId={data.userId}
-                        appointment={data}
-                        type="cancel"
-                        title="Cancel Appointment"
-                        description="Are you sure you want to cancel your appointment?"
-                    />
-                </div>
-            )
+        cell: ({ row: { original: data } }) => {
+          return (
+            <div className="flex gap-2 items-center">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm" className="hover:bg-gray-100">
+                            <MoreHorizontal size={20} />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" sideOffset={4} className="w-48 bg-white shadow-lg">
+                        {data.status === "scheduled" ? (
+                            <DropdownMenuItem asChild>
+                                <Link href={`/admin/note/${data.appointmentId}`} className="cursor-pointer hover:bg-[#CAF0F8] p-2 rounded">
+                                    Medical Note
+                                </Link>
+                            </DropdownMenuItem>         
+                        ) : null}
+                        <DropdownMenuItem asChild>
+                            <AppointmentModal
+                                patient={data.patient}
+                                userId={data.userId}
+                                appointment={data}
+                                type="schedule"
+                                title="Schedule"
+                                description="Please confirm the following details to schedule the appointment."
+                            />
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <AppointmentModal
+                                patient={data.patient}
+                                userId={data.userId}
+                                appointment={data}
+                                type="cancel"
+                                title="Cancel Appointment"
+                                description="Are you sure you want to cancel your appointment?"
+                            />
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+          );
         },
-    },
+      }
 ];

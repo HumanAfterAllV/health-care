@@ -54,7 +54,7 @@ export default function FileUploader({ files, onChange }: FileUploaderProps): JS
             <Image src="/assets/icons/upload.svg" width={40} height={40} alt="upload icon" />
             <div className="file-upload_label mt-2">
                 <p className="text-14-regular">
-                <span className="text-green-500">Click to upload</span> or drag and drop files here
+                <span className="text-[#00B4D8]">Click to upload</span> or drag and drop files here
                 </p>
                 <p>SVG, PNG, JPG or GIF (max 800x400)</p>
             </div>

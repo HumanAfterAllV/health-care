@@ -1,3 +1,8 @@
+/**
+ * *Important Note*
+ * TODO Correct alignment and positioning of components
+ */
+
 "use client";
 
 import { useEditor } from "@tiptap/react";
@@ -18,11 +23,10 @@ import { useMedicalNote } from "@/hooks/MedicalNoteContext";
 import PatientInfo from "./PatientInfo";
 import MedicalNoteText from "./MedicalNoteText";
 import PatientHistory from "./PatientHistory";
-import SubmitButton from "../SubmitButton";
 
 
 export default function MedicalNoteForm(): JSX.Element {
-    const { form, onSubmit, loading } = useMedicalNote();
+    const { form, onSubmit } = useMedicalNote();
 
     const editor = useEditor({
         extensions: [
@@ -32,27 +36,26 @@ export default function MedicalNoteForm(): JSX.Element {
                 horizontalRule: {HTMLAttributes: {class: 'my-4'}},
             }),
             TextStyle,
-            Color,
             Image.configure({
                 inline: true
             }),
             TextAlign.configure({
-                types: ['heading', 'paragraph'],}),
+                types: ['heading', 'paragraph'],
+            }),
             Under,
             Highlight.configure({
-                HTMLAttributes: {class: 'bg-teal-200'}
+                HTMLAttributes: {class: 'bg-[#90E0EF]' }
             }),
             Placeholder.configure({
                 placeholder: 'Type something...',
             }),
-            
+            Color,
         ],
         editorProps: {
             attributes: {
-                class: 'flex flex-col px-4 py-3 justify-start w-full h-full focus:outline-teal-500 overflow-auto font-family: inter;',
+                class: 'flex flex-col px-4 py-3 justify-start w-full h-full focus:outline-[#00B4D8] overflow-auto font-family: inter',
             },
         },
-        /* content: localStorage.getItem('content') || '', */
         editable: true,
     
         onUpdate: ({ editor }) => {
@@ -69,17 +72,18 @@ export default function MedicalNoteForm(): JSX.Element {
     
     return(
         <Form {...form}>
-            <form  onSubmit={form.handleSubmit(onSubmit)} className="flex h-screen bg-gradient-to-br from-teal-100 to-blue-100 p-2 space-x-4">
-                <PatientInfo editor={editor}/>
-                <div className="flex flex-col w-screen">
-                    <MedicalNoteText editor={editor}/>
-                    <div className="mt-2">
-                        <SubmitButton isLoading={loading}>
-                            Save
-                        </SubmitButton>
+            <form  onSubmit={form.handleSubmit(onSubmit)} className="h-screen overflow-hidden">
+                <div className="h-screen grid grid-cols-1 md:grid-cols-[1fr_3fr_1fr] gap-2 ml-8 mr-4">
+                    <div className="sticky top-0 self-start overflow-auto h-full p-4">
+                        <PatientInfo /* editor={editor} *//>
+                    </div>
+                    <div className="overflow-auto p-4">
+                        <MedicalNoteText editor={editor}/>
+                    </div >
+                    <div className="sticky top-0 self-start overflow-auto max-h-screen p-4">
+                        <PatientHistory />
                     </div>
                 </div>
-                <PatientHistory />
             </form>
         </Form>
     )

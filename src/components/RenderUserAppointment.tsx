@@ -82,7 +82,7 @@ export default function RenderUserAppointment(): JSX.Element {
                     alt="success"
                 />
                 <h2 className="header mb-6 max-w-[600px] text-center">
-                    Your <span className="text-green-500">appointment request</span> has been successfully submitted <span className="text-gray-600">{doctorAppointment.patient}</span>!
+                    Your <span className="text-[#48CAE4]">appointment request</span> has been successfully submitted <span className="text-gray-600">{doctorAppointment.patient}</span>!
                 </h2>
                 <p>
                     We will be in touch with you shortly to confirm your appointment.
@@ -110,11 +110,19 @@ export default function RenderUserAppointment(): JSX.Element {
                     <p>{formatDateTime(doctorAppointment.schedule).dateTime}</p>
                 </div>
             </section>
-            <Button variant="outline" className="shad-primary-btn" asChild>
-                <Link href={`/patients/${doctorAppointment.userId}/new-appointment`}>
-                    New Appointment
-                </Link>
-            </Button>
+            <div className="flex flex-row gap-6">
+
+                <Button variant="outline" className="shad-primary-btn" asChild>
+                    <Link href="/">
+                        Back to Home
+                    </Link>
+                </Button>
+                <Button variant="outline" className="shad-primary-btn" asChild>
+                    <Link href={`/patients/${doctorAppointment.userId}/new-appointment`}>
+                        New Appointment
+                    </Link>
+                </Button>
+            </div>
         </>
     )
 }

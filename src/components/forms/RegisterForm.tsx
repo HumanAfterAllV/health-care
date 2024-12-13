@@ -190,7 +190,7 @@ export default function RegisterForm({user}: {user: User}): JSX.Element {
                     placeholder="Select a physician"
                 >
                     {Doctors.map((doctor) => (
-                        <SelectItem key={doctor.name} value={doctor.name} className="hover:bg-gray-100">
+                        <SelectItem key={doctor.name} value={doctor.name} className="hover:bg-[#CAF0F8]">
                             <div className="flex cursor-pointer items-center gap-2">
                                 <Image 
                                     src={doctor.image} 
@@ -228,7 +228,7 @@ export default function RegisterForm({user}: {user: User}): JSX.Element {
                         placeholder="Select blood type"
                     >
                         {BloodTypes.map((type) => (
-                            <SelectItem value={type} key={type} className="flex cursor-pointer hover:bg-gray-100">
+                            <SelectItem value={type} key={type} className="flex cursor-pointer hover:bg-[#CAF0F8]">
                                 {type}
                             </SelectItem>
                         ))}
@@ -280,7 +280,7 @@ export default function RegisterForm({user}: {user: User}): JSX.Element {
                         placeholder="Select an identification type"
                     >
                         {IdentificationTypes.map((type) => (
-                            <SelectItem key={type} value={type} className="cursor-pointer hover:bg-gray-100">
+                            <SelectItem key={type} value={type} className="cursor-pointer hover:bg-[#CAF0F8]">
                                 {type}
                             </SelectItem>
                         ))}

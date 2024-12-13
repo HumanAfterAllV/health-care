@@ -1,21 +1,21 @@
+import { getRecentAppointments } from '@/lib/actions/appointment.actions';
+import { getNumberOfPatients } from '@/lib/actions/appointment.actions'
+
 import { Users, Calendar, Hourglass, TriangleAlert } from 'lucide-react'
-import { getNumberOfPatients, getRecentAppointments } from '@/lib/actions/appointment.actions'
 import { Card } from './ui/card';
 
-
 export default async function StatCard(): Promise<JSX.Element> {
-    const { counts } = await getRecentAppointments();
+    const {counts} = await getRecentAppointments();
     const countPatient = getNumberOfPatients();
 
     const stats = [
-        { icon: Users, label: "Patients", count: countPatient, color: "bg-indigo-600" },
-        { icon: Calendar, label: "Scheduled", count: counts.scheduledCount, color: "bg-cyan-500" },
+        { icon: Users, label: "Patients", count: countPatient, color: "bg-[#023E8A]" },
+        { icon: Calendar, label: "Scheduled", count: counts.scheduledCount, color: "bg-[#48CAE4]" },
         { icon: Hourglass, label: "Pending", count: counts.pendingCount, color: "bg-pink-500", },
         { icon: TriangleAlert, label: "Cancelled", count: counts.cancelledCount, color: "bg-red-500" },
     ];
     return (
         <div>
-            <p className="text-xl font-semibold pb-2">Report</p>
             <div className="grid grid-cols-4 gap-4">
                 {stats.map((stat, index) => (
                     <Card key={index} className="flex flex-col items-center justify-center p-4 text-center bg-white">

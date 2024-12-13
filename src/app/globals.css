@@ -191,16 +191,13 @@
   }
   
   .shad-primary-btn {
-    @apply bg-teal-500 hover:bg-teal-300 text-white !important;
+    @apply bg-[#00B4D8] hover:bg-[#48CAE4] text-white !important;
   }
 
   .shad-danger-btn {
     @apply bg-red-700 text-white !important;
   }
 
-  .shad-teal-btn {
-    @apply cursor-pointer bg-teal-500 text-white !important;
-  }
 
   .shad-input-label {
     @apply bg-transparent text-xs text-dark-200 !important;
@@ -317,7 +314,7 @@
 }
 
 .react-datepicker__time-list-item:hover {
-  background-color: #0d9488 !important;
+  background-color: #00B4D8 !important;
 }
 
 .react-datepicker__input-container input {
@@ -326,13 +323,13 @@
 }
 
 .react-datepicker__day--selected {
-  background-color: #0d9488 !important;
+  background-color: #00B4D8 !important;
   color: #1a1d21 !important;
   border-radius: 4px;
 }
 
 .react-datepicker__time-list-item--selected {
-  background-color: #0d9488 !important;
+  background-color: #00B4D8 !important;
 }
 
 .react-datepicker__time-container {
@@ -361,12 +358,12 @@
 .ProseMirror h1 {
   font-size: 2em;
   font-weight: bold;
-  color: #0d9488;
+  color: #0096C7;
 }
 .ProseMirror h2 {
   font-size: 1.5em;
   font-weight: bold;
-  color: #0d9488;
+  color: #0096C7;
 }
 .ProseMirror h3 {
   font-size: 1.17em;

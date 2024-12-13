@@ -21,75 +21,7 @@ import { Doctors } from "@/constants";
 import { Button } from "@/components/ui/button";
 
 export default function Page(): JSX.Element {
-/* 
-    const headerRef = useRef<HTMLHeadElement>(null);
-    const heroRef = useRef<HTMLDivElement>(null);
-    const servicesRef = useRef<HTMLDivElement>(null);
-    const doctorsRef = useRef<HTMLDivElement>(null);
-    const ctaRef = useRef<HTMLDivElement>(null); */
 
-/*     useEffect(() => {
-        const headerAnimation = gsap.from(headerRef.current, {
-            opacity: 0,
-            duration: 1,
-            y: -100,
-            delay: 0.5,
-            ease: "power3.out",
-        });
-        const heroAnimation = gsap.from(heroRef.current.children, {
-            opacity: 0,
-            duration: 1,
-            stagger: 0.2,
-            y: 50,
-            ease: "power3.out",
-            delay: 0.5,
-        });
-
-        const servicesAnimation = gsap.from(servicesRef.current.children, {
-            opacity: 0,
-            duration: 1,
-            stagger: 0.2,
-            y: 50,
-            ease: "power3.out",
-            scrollTrigger: {
-                trigger: servicesRef.current,
-                start: "top 80%",
-            },
-        });
-
-        const doctorsAnimation = gsap.from(doctorsRef.current.children, {
-            opacity: 0,
-            duration: 1,
-            stagger: 0.2,
-            y: 50,
-            ease: "power3.out",
-            scrollTrigger: {
-                trigger: doctorsRef.current,
-                start: "top 80%",
-            },
-        });
-
-        const ctaAnimation = gsap.from(ctaRef.current, {
-            opacity: 0,
-            duration: 1,
-            scale: 0.9,
-            y: 50,
-            ease: "power3.out",
-            scrollTrigger: {
-                trigger: ctaRef.current,
-                start: "top 80%",
-            },
-        });
-
-        return () => {
-            headerAnimation.kill();
-            heroAnimation.kill();
-            servicesAnimation.kill();
-            doctorsAnimation.kill();
-            ctaAnimation.kill();
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-        };
-    }, []); */
     return (
         <div className="flex flex-col min-h-screen">
             <header /* ref={headerRef} */ className="bg-white">
@@ -244,7 +176,7 @@ export default function Page(): JSX.Element {
                                     NextHealth
                                 </h3>
                                 <p className="mt-2 text-sm">
-                                    Take care of you and your family's health with our quality medical care.
+                                    Take care of you and your family&apos;s health with our quality medical care.
                                 </p>
                             </div>
                             <div>

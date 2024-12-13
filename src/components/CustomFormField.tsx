@@ -21,8 +21,6 @@ import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 
-import { useEditor } from "@tiptap/react";
-
 import PhoneInput from 'react-phone-number-input'
 import DatePicker from "react-datepicker";
 
@@ -50,7 +48,7 @@ const RenderField = ({field, props}: {field; props: CustomProps})=> {
     switch(fieldType){
         case FormFieldTypes.INPUT:
             return (
-                <div className="flex border rounded-md border-gray-300">
+                <div className="flex border rounded-md border-gray-500">
                     {iconSrc && (
                         <Image src={iconSrc} alt={iconAlt || 'icon'} height={24} width={24} className="ml-2"/>
                     )}

@@ -5,101 +5,118 @@ import { getUser } from '@/lib/actions/patient.actions';
 import { getPatientMedicalNotes } from '@/lib/actions/doctor.actions';
 import { formatDateTime } from '@/lib/utils';
 
+import { ClockIcon, MapPinIcon, PhoneIcon, MailIcon, HeartPulseIcon, Hospital, Dna } from 'lucide-react'
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+
 
 export default async function Page({params: {userId} }: SearchParamProps): Promise<JSX.Element> {
 
     const user = await getUser(userId);
     const notes = await getPatientMedicalNotes(userId);
 
+    const birthDate = user.birthDate ? new Date(user.birthDate) : null;
+    
+    const calculateAge = (birthDate: Date): number => {
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+        if(monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())){
+            age--;
+        }
+        return age;
+    }
+
+    const age = birthDate ?  calculateAge(birthDate) : "";
+
     console.log(notes);
     return (
-        <div className='min-h-screen bg-gradient-to-br from-teal-200 to-teal-100 p-8'>
-            <main className='container mx-auto px-4'>
-                <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
-                    <div className='p-6 sm:p-10'>
-                        <h1 className='text-3xl font-bold text-gray-900 mb-6'>Patient profile</h1>
-                        <Card>
-                            <CardContent className="p-6">
-                                <div className="flex items-center space-x-6">
-                                    <div>
-                                        <h2 className="text-2xl font-semibold text-gray-900">{user.name}</h2>
-                                        <p className="text-sm text-gray-500">ID: {user.userId}</p>
+        <div className='container mx-auto p-6'>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <Card className="md:col-span-2 lg:col-span-2 bg-gradient-to-br from-[#ADE8F4] to-cyan-50">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-2xl font-bold text-[#0077B6]">Patient Information</CardTitle>
+                        <Avatar className="h-16 w-16 bg-[#ADE8F4] rounded-full">
+                            <AvatarImage alt={user.name} />
+                            <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                        </Avatar>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <div className="space-y-2">
+                                <h3 className="text-xl font-semibold text-[#0077B6]">{user.name}</h3>
+                                <p className="text-sm text-[#0077B6]">Age: {age} - {user.gender}</p>
+                                <p className="text-sm text-[#0077B6]">Birth date: {formatDateTime(user.birthDate).dateOnly}</p>
+                                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                    <MailIcon className="h-4 w-4" />
+                                    <span>{user.email}</span>
+                                </div>
+                                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                    <PhoneIcon className="h-4 w-4" />
+                                    <span>{user.phone ? user.phone : "N/A"}</span>
+                                </div>
+                                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                    <MapPinIcon className="h-4 w-4" />
+                                    <span>{user.address ? user.address : "N/A" }</span>
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                    <HeartPulseIcon className="h-4 w-4 text-red-500" />
+                                    <p>Blood Type: <span className='font-semibold'>{user.bloodType ? user.bloodType : "N/A"}</span></p>
+                                </div>
+                                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                    <Dna className="h-4 w-4 text-blue-500" />
+                                    <span>Allergies: {user.allergies}</span>
+                                </div>
+                                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                    <Hospital className="h-4 w-4 text-green-500" />
+                                    <span>Medication: {user.currentMedication}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="md:col-span-2 lg:col-span-1 bg-gradient-to-br from-cyan-100 to-indigo-50">
+                    <CardHeader>
+                        <CardTitle className="text-xl font-bold text-cyan-800">Recent Appointments</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                        {notes.map((note) => (
+                            <Link href="" key={note.noteId} className="block">
+                                <div className="rounded-lg bg-white p-4 shadow-md transition-all hover:shadow-lg">
+                                    <div className="flex items-center justify-between">
+                                        <div className="space-y-1">
+                                            <div className="flex items-center space-x-2 text-sm text-gray-500">
+                                                <ClockIcon className="h-4 w-4" />
+                                                <span>{formatDateTime(note.createdAt).dateTime}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500">Birth Date</p>
-                                        <p className="mt-1 text-sm text-gray-900">{formatDateTime(user.birthDate).dateOnly}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500">Gender</p>
-                                        <p className="mt-1 text-sm text-gray-900">{user.gender}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500">Phone</p>
-                                        <p className="mt-1 text-sm text-gray-900">{user.phone}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500">Email</p>
-                                        <p className="mt-1 text-sm text-gray-900">{user.email}</p>
-                                    </div>
-                                    <div className="sm:col-span-2">
-                                        <p className="text-sm font-medium text-gray-500">Address</p>
-                                        <p className="mt-1 text-sm text-gray-900">{user.address}</p>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500">Allergies</p>
-                                        <p className="mt-1 text-sm text-gray-900">{user.allergies}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500">Current Medication</p>
-                                        <p className="mt-1 text-sm text-gray-900">{user.currentMedication}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500">Family Medical History</p>
-                                        <p className="mt-1 text-sm text-gray-900">{user.familyMedicalHistory}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-500">Emergency Contact</p>
-                                        <p className="mt-1 text-sm text-gray-900">{user.emergencyContactName}</p>
-                                        <p className="mt-1 text-sm text-gray-900">{user.emergencyContactNumber}</p>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                        <Separator className='my-8'/>
-                        <Card className="bg-white/80 backdrop-blur-sm">
-                            <CardHeader>
-                                <CardTitle>Medical Notes</CardTitle>
-                            </CardHeader>
-                            {!notes.length ? (
-                                <CardContent className="p-6">
-                                    <p className="text-gray-500">No medical notes available</p>
-                                </CardContent>
-                            ) : (
-                                <ScrollArea>
-                                    <CardContent className="p-6">
-                                        <ul className="space-y-4">
-                                            {notes.map((note, index) => (
-                                                <li key={note.noteId}>
-                                                    <Link href={`/notes/${note.noteId}`} className="">
-                                                        <p className='text-sm'>{index + 1}.- {formatDateTime(note.createdAt).dateTime}</p>
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </CardContent>
-                                </ScrollArea>
-                            )}
-                        </Card>
-                    </div>
-                </div>
-            </main>
+                            </Link>
+                        ))}
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="md:col-span-2 lg:col-span-3 bg-gradient-to-br from-pink-100 to-indigo-50">
+                    <CardHeader>
+                        <CardTitle className="text-xl font-bold text-pink-800">Medical History Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                            <p className="text-gray-700">
+                                This section would typically contain a summary of the patient&apos;s medical history, 
+                                including past conditions, surgeries, and ongoing treatments. For privacy reasons, 
+                                we&apos;re not displaying mock medical data here.
+                            </p>
+                            <Button className="bg-pink-600 hover:bg-pink-700">View Full Medical History</Button>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     )
 };

@@ -1,27 +1,32 @@
-import { useRouter } from "next/navigation";
+/**
+ * TODO: Modal for unsaved changes
+ */
 
+/* import { useRouter } from "next/navigation";
+ */
 import { useMedicalNote } from "../../hooks/MedicalNoteContext";
 
 import CustomFormField from "../CustomFormField";
 
 import { FormFieldTypes } from "@/types/supabase.types";
-import { Editor } from "@tiptap/react";
-
+/* import { Editor } from "@tiptap/react";
+ */
 import { TabsContent } from "../ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { formatDateTime } from "@/lib/utils";
-import { ArrowLeft } from "lucide-react";
+import { DropletIcon, ShieldAlertIcon, User2Icon } from "lucide-react";
+import { HeightIcon } from "@radix-ui/react-icons";
 
 
-interface EditorType {
+/* interface EditorType {
     editor: Editor | null;
-}
+} */
 
-export default function PatientInfo(editor: EditorType): JSX.Element {
+export default function PatientInfo(/* editor: EditorType */): JSX.Element {
 
-    const { form, appointment, openModal } = useMedicalNote();
-    const router = useRouter();
+    const { form, appointment, /* openModal */ } = useMedicalNote();
+    /* const router = useRouter(); */
     
     const birthDate = Array.isArray(appointment.userId) && appointment.userId.length > 0
         ? appointment.userId[0].birthDate: typeof appointment.userId === 'object' && appointment.userId !== null
@@ -29,7 +34,7 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
         : undefined;
     
 
-    const isEditorEmpty = (editor: Editor | null) => {
+/*     const isEditorEmpty = (editor: Editor | null) => {
         if(!editor) return true;
         const content = editor.getJSON();
         return content.content?.length === 0;
@@ -50,68 +55,61 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
                 onCancel: () => console.log("cancelled")
             })
         }
-    }
+    } */
 
     return (
-        <Card className="w-1/4 h-full overflow-auto bg-white rounded-lg shadow-xl">
-            <CardHeader className="bg-teal-600 mb-4 text-white">
-                <CardTitle className="flex text-3xl mb-2">
-                    <ArrowLeft onClick={handleRun} width={24} height={24} color="#ffffff" className="mt-2 mr-2 cursor-pointer"/>
-                
-                    {typeof appointment.userId === "object" && "name" in appointment.userId ? appointment.userId.name : ""}
+        <Card className="h-[650px] rounded-2xl bg-gradient-to-br from-indigo-100 to-cyan-50">
+            <CardHeader className="bg-[#00B4D8] text-white rounded-t-lg">
+                <CardTitle className="flex items-center gap-2">
+{/*                     <ArrowLeft onClick={handleRun} width={24} height={24} color="#ffffff" className="mt-2 mr-2 cursor-pointer"/>*/}
+                    <User2Icon className="h-5 w-5" />
+                    Patient Information
                 </CardTitle>
-                <CardDescription>Birth Date: {birthDate ?  formatDateTime(birthDate).dateOnly : ""}</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-6 text-sm">
                 <Tabs defaultValue="info" className="w-full">
                     <TabsList className="flex bg-gray-200 rounded-md">
                         <TabsTrigger 
                             value="info" 
-                            className="flex-1 text-sm font-medium text-gray-700 rounded-lg py-2 px-4 hover:bg-gray-300 data-[state=active]:bg-teal-500 data-[state=active]:text-white"
-                            >
-                                Info
+                            className="flex-1 text-sm font-medium text-gray-500 rounded-lg py-2 px-4 hover:bg-[#CAF0F8] data-[state=active]:bg-[#48CAE4] data-[state=active]:text-white"
+                        >
+                            Info
                         </TabsTrigger>
                         <TabsTrigger 
                             value="vitals"
-                            className="flex-1 text-sm font-medium text-gray-700 rounded-lg py-2 px-4 hover:bg-gray-300 data-[state=active]:bg-teal-500 data-[state=active]:text-white" 
-                            >
-                                Vitals signs
+                            className="flex-1 text-sm font-medium text-gray-500 rounded-lg py-2 px-4 hover:bg-[#CAF0F8] data-[state=active]:bg-[#48CAE4] data-[state=active]:text-white" 
+                        >
+                            Vitals signs
                         </TabsTrigger>
                     </TabsList>
                     <TabsContent value="info">
-                        <div className="mt-8 space-y-4">
-                            <h3 className="font-semibold mb-2">Allergies:</h3>
-                            <p className="text-sm">
-                                {typeof appointment?.userId === "object" && "allergies" in appointment.userId ? appointment.userId.allergies : "N/A"}
-                            </p>
-                        </div>
-                        <div className="mt-8 space-y-4">
-                            <h3 className="font-semibold">Current Medication:</h3>
-                            <p className="text-sm">
-                                {typeof appointment.userId === "object" && "currentMedication" in appointment.userId ? appointment.userId.currentMedication : "N/A"}
-                            </p>
-                        </div>
-                        <div className="mt-8 space-y-4">
-                            <h3 className="font-semibold mb-2">Family Medical History:</h3>
-                            <p className="text-sm">
-                                {typeof appointment.userId === "object" && "familyMedicalHistory" in appointment.userId ? appointment.userId.familyMedicalHistory : "N/A"}
-                            </p>
-                        </div>
-                        <div className="mt-8 space-y-4">
-                            <h3 className="font-semibold mb-2">Blood Type:</h3>
-                            <p className="text-sm">
-                                {typeof appointment.userId === "object" && "bloodType" in appointment.userId ? appointment.userId.bloodType : "N/A"}
-                            </p>
-                        </div>
-                        <div className="mt-8 space-y-4">
-                            <h3 className="font-semibold mb-2">Patient Extra Notes:</h3>
-                            <p className="text-sm">
-                                {typeof appointment === "object" && "note" in appointment ? appointment.note : "N/A"}
-                            </p>
+                        <div className="mt-6 space-y-9">
+                            <div className="flex items-center gap-2 text-indigo-800">
+                                <User2Icon className="h-5 w-5"/>
+                                <div>
+                                    <div className="font-semibold text-[#0096C7]">{typeof appointment?.userId === "object" && "name" in appointment.userId ? appointment.userId.name : "N/A"}</div>
+                                    <div className="text-sm text-[#00B4D8]">Birth Date: {birthDate ?  formatDateTime(birthDate).dateOnly : ""}</div>
+                                    <div className="text-sm text-[#00B4D8]">Gender: {typeof appointment?.userId === "object" && "gender" in appointment.userId ? appointment.userId.gender : "N/A"}</div>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2 text-pink-800">
+                                <DropletIcon className="h-5 w-5"/>
+                                <div>
+                                    <div className="font-semibold">Blood Type</div>
+                                    <div className="text-sm text-pink-600">{typeof appointment?.userId === "object" && "bloodType" in appointment.userId ? appointment.userId.bloodType : "N/A"}</div>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2 text-cyan-800">
+                                <ShieldAlertIcon className="h-5 w-5"/>
+                                <div>
+                                    <div className="font-semibold">Allergies</div>
+                                    <div className="text-sm text-cyan-600">{typeof appointment?.userId === "object" && "allergies" in appointment.userId ? appointment.userId.allergies : "N/A"}</div>
+                                </div>
+                            </div>
                         </div>
                     </TabsContent>
                     <TabsContent value="vitals">
-                        <div className="mt-6 space-y-4">
+                        <div className="mt-6 space-y-2">
                             <div className="grid grid-cols-2 w-full gap-1 items-center pb-2">
                                 <CustomFormField
                                     fieldType={FormFieldTypes.INPUT}
@@ -119,7 +117,6 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
                                     name="height"
                                     label="Height"
                                     placeholder="cm"
-                                    iconSrc="/assets/icons/height.svg"
                                     iconAlt="height"
                                 />
                                 <CustomFormField
@@ -128,7 +125,6 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
                                     name="weight"
                                     label="Weight"
                                     placeholder="kgs"
-                                    iconSrc="/assets/icons/weight.svg"
                                     iconAlt="weight"
                                 />
                             </div>
@@ -141,7 +137,6 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
                                     name="bloodPressure"
                                     label="Blood Pressure"
                                     placeholder="mmHg"
-                                    iconSrc="/assets/icons/pressure.svg"
                                     iconAlt="pressure"
                                 />
                             </div>
@@ -152,7 +147,6 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
                                     name="heartRate"
                                     label="Heart Rate"
                                     placeholder="min"
-                                    iconSrc="/assets/icons/heart-pulse.svg"
                                     iconAlt="heart pulse"
                                 />
                             </div>
@@ -163,7 +157,6 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
                                     name="temperature"
                                     label="Temperature"
                                     placeholder="C°"
-                                    iconSrc="/assets/icons/thermometer.svg"
                                     iconAlt="thermometer"
                                 />
                             </div>
@@ -174,7 +167,6 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
                                     name="oxygenSaturation"
                                     label="Oxygen Saturation"
                                     placeholder="80%"
-                                    iconSrc="/assets/icons/percent.svg"
                                     iconAlt="percent"
                                 />
                             </div>
@@ -185,3 +177,4 @@ export default function PatientInfo(editor: EditorType): JSX.Element {
         </Card>
     )
 }
+

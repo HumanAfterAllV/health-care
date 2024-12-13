@@ -204,7 +204,7 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                             placeholder="Select doctor"
                         >
                             {doctors.map((doctor) => (
-                                <SelectItem key={doctor.doctor_id} value={doctor.doctor_id!} className="cursor-pointer hover:bg-gray-100">
+                                <SelectItem key={doctor.doctor_id} value={doctor.doctor_id!} className="cursor-pointer hover:bg-[#CAF0F8]">
                                     <div className="flex items-center gap-2">
                                         <Image
                                             src={doctor.image!} 
@@ -236,7 +236,7 @@ export default function AppointmentForm({ type, userId, patient, appointment, se
                                 placeholder="Select reason for appointment"
                             >
                                 {ReasonOptions.map((reason) => (
-                                    <SelectItem className="flex cursor-pointer hover:bg-gray-100" key={reason} value={reason}>
+                                    <SelectItem className="flex cursor-pointer hover:bg-[#CAF0F8]" key={reason} value={reason}>
                                         {reason}
                                     </SelectItem>
                                 ))}
