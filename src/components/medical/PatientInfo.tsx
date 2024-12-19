@@ -16,7 +16,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { formatDateTime } from "@/lib/utils";
 import { DropletIcon, ShieldAlertIcon, User2Icon } from "lucide-react";
-import { HeightIcon } from "@radix-ui/react-icons";
 
 
 /* interface EditorType {
@@ -58,8 +57,8 @@ export default function PatientInfo(/* editor: EditorType */): JSX.Element {
     } */
 
     return (
-        <Card className="h-[650px] rounded-2xl bg-gradient-to-br from-indigo-100 to-cyan-50">
-            <CardHeader className="bg-[#00B4D8] text-white rounded-t-lg">
+        <Card className="h-[650px] rounded-2xl bg-[#e8ebfe] shadow-md">
+            <CardHeader className="bg-blue-900 text-white rounded-t-lg">
                 <CardTitle className="flex items-center gap-2">
 {/*                     <ArrowLeft onClick={handleRun} width={24} height={24} color="#ffffff" className="mt-2 mr-2 cursor-pointer"/>*/}
                     <User2Icon className="h-5 w-5" />
@@ -68,16 +67,16 @@ export default function PatientInfo(/* editor: EditorType */): JSX.Element {
             </CardHeader>
             <CardContent className="pt-6 text-sm">
                 <Tabs defaultValue="info" className="w-full">
-                    <TabsList className="flex bg-gray-200 rounded-md">
+                    <TabsList className="flex bg-white rounded-md">
                         <TabsTrigger 
                             value="info" 
-                            className="flex-1 text-sm font-medium text-gray-500 rounded-lg py-2 px-4 hover:bg-[#CAF0F8] data-[state=active]:bg-[#48CAE4] data-[state=active]:text-white"
+                            className="flex-1 text-sm font-medium text-gray-500 rounded-lg py-2 px-6 data-[state=active]:bg-[#0865fe] data-[state=active]:text-white"
                         >
                             Info
                         </TabsTrigger>
                         <TabsTrigger 
                             value="vitals"
-                            className="flex-1 text-sm font-medium text-gray-500 rounded-lg py-2 px-4 hover:bg-[#CAF0F8] data-[state=active]:bg-[#48CAE4] data-[state=active]:text-white" 
+                            className="flex-1 text-sm font-medium text-gray-500 rounded-lg py-2 px-6  data-[state=active]:bg-[#0865fe] data-[state=active]:text-white" 
                         >
                             Vitals signs
                         </TabsTrigger>
@@ -87,9 +86,9 @@ export default function PatientInfo(/* editor: EditorType */): JSX.Element {
                             <div className="flex items-center gap-2 text-indigo-800">
                                 <User2Icon className="h-5 w-5"/>
                                 <div>
-                                    <div className="font-semibold text-[#0096C7]">{typeof appointment?.userId === "object" && "name" in appointment.userId ? appointment.userId.name : "N/A"}</div>
-                                    <div className="text-sm text-[#00B4D8]">Birth Date: {birthDate ?  formatDateTime(birthDate).dateOnly : ""}</div>
-                                    <div className="text-sm text-[#00B4D8]">Gender: {typeof appointment?.userId === "object" && "gender" in appointment.userId ? appointment.userId.gender : "N/A"}</div>
+                                    <div className="font-semibold text-blue-700">{typeof appointment?.userId === "object" && "name" in appointment.userId ? appointment.userId.name : "N/A"}</div>
+                                    <div className="text-sm text-blue-500">Birth Date: {birthDate ?  formatDateTime(birthDate).dateOnly : ""}</div>
+                                    <div className="text-sm text-blue-500">Gender: {typeof appointment?.userId === "object" && "gender" in appointment.userId ? appointment.userId.gender : "N/A"}</div>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 text-pink-800">
@@ -109,8 +108,8 @@ export default function PatientInfo(/* editor: EditorType */): JSX.Element {
                         </div>
                     </TabsContent>
                     <TabsContent value="vitals">
-                        <div className="mt-6 space-y-2">
-                            <div className="grid grid-cols-2 w-full gap-1 items-center pb-2">
+                        <div className="space-y-2">
+                            <div className="grid grid-cols-2 w-full gap-1 items-center">
                                 <CustomFormField
                                     fieldType={FormFieldTypes.INPUT}
                                     control={form.control}
@@ -128,9 +127,9 @@ export default function PatientInfo(/* editor: EditorType */): JSX.Element {
                                     iconAlt="weight"
                                 />
                             </div>
-                            <div className="grid w-full items-center pb-4">
+                            <div className="grid w-full items-center">
                             </div>
-                            <div className="grid w-full items-center pb-4">
+                            <div className="grid w-full items-center">
                                 <CustomFormField
                                     fieldType={FormFieldTypes.INPUT}
                                     control={form.control}
@@ -140,7 +139,7 @@ export default function PatientInfo(/* editor: EditorType */): JSX.Element {
                                     iconAlt="pressure"
                                 />
                             </div>
-                            <div className="grid w-full items-center pb-4">
+                            <div className="grid w-full items-center">
                                 <CustomFormField
                                     fieldType={FormFieldTypes.INPUT}
                                     control={form.control}
@@ -150,7 +149,7 @@ export default function PatientInfo(/* editor: EditorType */): JSX.Element {
                                     iconAlt="heart pulse"
                                 />
                             </div>
-                            <div className="grid w-full items-center pb-4">
+                            <div className="grid w-full items-center">
                                 <CustomFormField
                                     fieldType={FormFieldTypes.INPUT}
                                     control={form.control}

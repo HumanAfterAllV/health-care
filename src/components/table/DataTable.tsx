@@ -39,7 +39,7 @@ export default function DataTable<TData, TValue>({
     })
    
     return (
-        <Card className="p-4">
+        <Card className="p-4 shadow-none border-none">
             <Table>
                 <TableHeader className="text-gray-500">
                     {table.getHeaderGroups().map((headerGroup) => (

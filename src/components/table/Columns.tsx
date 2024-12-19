@@ -21,17 +21,17 @@ export const columns: ColumnDef<Appointment>[] = [
     {
         accessorKey: "patient",
         header: "Patient",
-        cell: ({ row }) => <p>{String(row.original.patient)}</p>
+        cell: ({ row }) => <p className="font-semibold">{String(row.original.patient)}</p>
     },
     {
         accessorKey: "schedule",
         header: "Appointment",
-        cell: ({ row }) => <p>{formatDateTime(row.original.schedule).dateTime}</p>
+        cell: ({ row }) => <p className="font-semibold">{formatDateTime(row.original.schedule).dateTime}</p>
     },
     {
         accessorKey: "reason",
         header: "Reason",
-        cell: ({ row }) => <p>{row.original.reason}</p>
+        cell: ({ row }) => <p className="font-semibold">{row.original.reason}</p>
     },
     {
         accessorKey: "primaryPhysician",
@@ -54,7 +54,7 @@ export const columns: ColumnDef<Appointment>[] = [
                         height={100}
                         className="size-8"
                     />
-                    <p>Dr. {doctor?.name}</p>
+                    <p className="font-semibold">Dr. {doctor?.name}</p>
                 </div>
             )
         }
@@ -76,14 +76,14 @@ export const columns: ColumnDef<Appointment>[] = [
             <div className="flex gap-2 items-center">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="hover:bg-gray-100">
+                        <Button variant="ghost" size="sm">
                             <MoreHorizontal size={20} />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" sideOffset={4} className="w-48 bg-white shadow-lg">
                         {data.status === "scheduled" ? (
                             <DropdownMenuItem asChild>
-                                <Link href={`/admin/note/${data.appointmentId}`} className="cursor-pointer hover:bg-[#CAF0F8] p-2 rounded">
+                                <Link href={`/admin/note/${data.appointmentId}`} className="cursor-pointer hover:bg-indigo-100 p-2 rounded">
                                     Medical Note
                                 </Link>
                             </DropdownMenuItem>         

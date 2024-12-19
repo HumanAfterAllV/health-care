@@ -191,7 +191,7 @@
   }
   
   .shad-primary-btn {
-    @apply bg-[#00B4D8] hover:bg-[#48CAE4] text-white !important;
+    @apply bg-[#0865fe] hover:bg-[#338aff] text-white !important;
   }
 
   .shad-danger-btn {
@@ -354,18 +354,100 @@
   color: #1a1d21;
 }
 
-
+/*===== TIPTAP*/
 .ProseMirror h1 {
   font-size: 2em;
   font-weight: bold;
-  color: #0096C7;
+  color: #0077B6;
 }
 .ProseMirror h2 {
   font-size: 1.5em;
   font-weight: bold;
-  color: #0096C7;
+  color: #0077B6;
 }
 .ProseMirror h3 {
   font-size: 1.17em;
   font-weight: bold;
 }
+
+/*===== SERVICE CARD*/
+.service-img-wrapper{
+  @apply w-3/5 h-[250px] relative overflow-hidden;
+  clip-path: polygon(50% 0%, 100% 0, 100% 85%, 90% 100%, 50% 100%, 0 100%, 0 0);
+  
+}
+
+.service{
+  @apply w-max h-[36px];
+}
+
+.service p{
+  @apply uppercase text-[32px] font-semibold text-[#d5d5d5] transition-colors;
+}
+
+.service.active p{
+  color: white;
+}
+
+.line{
+  position: relative;
+  will-change: transform;
+}
+
+.index span{
+  @apply text-[20px] font-semibold leading-3 flex justify-center items-center;
+}
+
+
+/*===== LENIS*/
+.lenis.lenis-smooth{
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth[data-lenis-prevent]{
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped{
+    overflow: hidden;
+}
+
+.lenis.lenis.lenis-smooth iframe{
+  pointer-events: none;
+}
+
+
+/* @media (max-width: 900px){
+  .sticky {
+    flex-direction: column;
+  }
+
+  .col:nth-child(1){
+    padding-top: 25%;
+    justify-content: flex-start;
+  }
+
+  .col:nth-child(2){
+    flex-direction: row;
+    gap: 1.5em;
+  }
+
+  .service-img-wrapper{
+    width: 25%;
+  }
+
+  .service-copy p{
+    font-size: 14px;
+  }
+
+  .progress-bar {
+    top: 15%;
+    height: 50%;
+    transform: rotate(-90deg);
+  }
+
+  .index {
+    top: 5%;
+    bottom: unset;
+  }
+} */

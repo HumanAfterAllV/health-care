@@ -6,7 +6,7 @@ import { getPatientMedicalNotes } from '@/lib/actions/doctor.actions';
 import { formatDateTime } from '@/lib/utils';
 
 import { ClockIcon, MapPinIcon, PhoneIcon, MailIcon, HeartPulseIcon, Hospital, Dna } from 'lucide-react'
-import { Button } from '@/components/ui/button';
+/* import { Button } from '@/components/ui/button'; */
 import { Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
@@ -34,10 +34,10 @@ export default async function Page({params: {userId} }: SearchParamProps): Promi
     return (
         <div className='container mx-auto p-6'>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <Card className="md:col-span-2 lg:col-span-2 bg-gradient-to-br from-[#ADE8F4] to-cyan-50">
+                <Card className="md:col-span-2 lg:col-span-2 bg-[#e8ebfe] shadow-md rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-2xl font-bold text-[#0077B6]">Patient Information</CardTitle>
-                        <Avatar className="h-16 w-16 bg-[#ADE8F4] rounded-full">
+                        <CardTitle className="text-2xl font-bold text-blue-900">Patient Information</CardTitle>
+                        <Avatar className="h-16 w-16 bg-orange-100 rounded-full">
                             <AvatarImage alt={user.name} />
                             <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                         </Avatar>
@@ -45,9 +45,9 @@ export default async function Page({params: {userId} }: SearchParamProps): Promi
                     <CardContent>
                         <div className="grid gap-4 md:grid-cols-2">
                             <div className="space-y-2">
-                                <h3 className="text-xl font-semibold text-[#0077B6]">{user.name}</h3>
-                                <p className="text-sm text-[#0077B6]">Age: {age} - {user.gender}</p>
-                                <p className="text-sm text-[#0077B6]">Birth date: {formatDateTime(user.birthDate).dateOnly}</p>
+                                <h3 className="text-xl font-semibold text-blue-900">{user.name}</h3>
+                                <p className="text-sm text-blue-900">Age: {age} - {user.gender}</p>
+                                <p className="text-sm text-blue-900">Birth date: {formatDateTime(user.birthDate).dateOnly}</p>
                                 <div className="flex items-center space-x-2 text-sm text-gray-600">
                                     <MailIcon className="h-4 w-4" />
                                     <span>{user.email}</span>
@@ -78,18 +78,18 @@ export default async function Page({params: {userId} }: SearchParamProps): Promi
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="md:col-span-2 lg:col-span-1 bg-gradient-to-br from-cyan-100 to-indigo-50">
+                <Card className="md:col-span-2 lg:col-span-1 bg-[#e8ebfe] shadow-md rounded-2xl">
                     <CardHeader>
-                        <CardTitle className="text-xl font-bold text-cyan-800">Recent Appointments</CardTitle>
+                        <CardTitle className="text-xl font-bold text-blue-900">Recent Appointments</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
                         {notes.map((note) => (
                             <Link href="" key={note.noteId} className="block">
-                                <div className="rounded-lg bg-white p-4 shadow-md transition-all hover:shadow-lg">
+                                <div className="rounded-lg bg-green-400 p-4 shadow-md transition-all hover:shadow-lg">
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-1">
-                                            <div className="flex items-center space-x-2 text-sm text-gray-500">
+                                            <div className="flex items-center space-x-2 text-sm text-white">
                                                 <ClockIcon className="h-4 w-4" />
                                                 <span>{formatDateTime(note.createdAt).dateTime}</span>
                                             </div>
@@ -101,9 +101,9 @@ export default async function Page({params: {userId} }: SearchParamProps): Promi
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="md:col-span-2 lg:col-span-3 bg-gradient-to-br from-pink-100 to-indigo-50">
+                <Card className="md:col-span-2 lg:col-span-3 bg-[#e8ebfe] shadow-md rounded-2xl">
                     <CardHeader>
-                        <CardTitle className="text-xl font-bold text-pink-800">Medical History Summary</CardTitle>
+                        <CardTitle className="text-xl font-bold text-blue-900">Medical History Summary</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
@@ -112,7 +112,7 @@ export default async function Page({params: {userId} }: SearchParamProps): Promi
                                 including past conditions, surgeries, and ongoing treatments. For privacy reasons, 
                                 we&apos;re not displaying mock medical data here.
                             </p>
-                            <Button className="bg-pink-600 hover:bg-pink-700">View Full Medical History</Button>
+                            {/* <Button className="bg-pink-500 hover:bg-pink-400">View Full Medical History</Button> */}
                         </div>
                     </CardContent>
                 </Card>

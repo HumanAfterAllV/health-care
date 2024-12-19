@@ -10,13 +10,13 @@ export default async function RecentPatient(): Promise<JSX.Element> {
         <div className="space-y-4">
             {data.map((patient,index) => (
                 <div key={index} className="flex items-center space-x-4">
-                    <Avatar  className="rounded-full bg-[#CAF0F8]">
+                    <Avatar  className="rounded-full bg-orange-100">
                         <AvatarImage alt={patient.name}/>
                         <AvatarFallback>{patient.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                     </Avatar>
                     <div>
-                        <p className="text-sm font-medium leading-none">{patient.name}</p>
-                        <p className="text-xs text-gray-500">{patient.email}</p>
+                        <p className="text-sm font-semibold leading-none ">{patient.name}</p>
+                        <p className="text-xs font-light text-gray-500">{patient.email}</p>
                     </div>
                 </div>
             ))}

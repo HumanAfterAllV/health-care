@@ -51,8 +51,8 @@ export default function PatientHistory(): JSX.Element {
 
     console.log(notes);
     return(
-        <Card className="h-[650px] overflow-auto shadow-lg rounded-2xl bg-gradient-to-br from-cyan-50 to-indigo-100">
-            <CardHeader className="bg-[#00B4D8] text-white rounded-t-lg">
+        <Card className="h-[650px] overflow-auto shadow-lg rounded-2xl bg-[#e8ebfe]">
+            <CardHeader className="bg-blue-900 text-white rounded-t-lg">
                 <CardTitle className="flex items-center gap-2">
                     <CalendarIcon className="h-5 w-5"/>
                     Previous Notes
@@ -60,10 +60,10 @@ export default function PatientHistory(): JSX.Element {
             </CardHeader>
             <CardContent className="pt-6">
                 {notes.map((note, index) => (
-                    <div key={note.noteId} className={`mb-4 last:mb-0 p-4 rounded-lg ${
-                        index % 2 === 0 ? 'bg-white' : 'bg-indigo-50'
+                    <div key={note.noteId} className={`mb-4 last:mb-0 p-4 rounded-lg text-white ${
+                        index % 2 === 0 ? 'bg-green-400' : 'bg-green-500'
                     }`}>
-                        <div className="font-semibold text-[#0077B6] flex items-center gap-2">
+                        <div className="text-sm flex items-center gap-2">
                             <CalendarIcon className="h-4 w-4" />
                             {note.createdAt ? formatDateTime(note.createdAt).dateTime : "N/A"}
                         </div> 

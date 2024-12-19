@@ -44,7 +44,7 @@ export default function MedicalNoteForm(): JSX.Element {
             }),
             Under,
             Highlight.configure({
-                HTMLAttributes: {class: 'bg-[#90E0EF]' }
+                HTMLAttributes: {class: 'bg-[#ADE8F4]' }
             }),
             Placeholder.configure({
                 placeholder: 'Type something...',
@@ -53,7 +53,7 @@ export default function MedicalNoteForm(): JSX.Element {
         ],
         editorProps: {
             attributes: {
-                class: 'flex flex-col px-4 py-3 justify-start w-full h-full focus:outline-[#00B4D8] overflow-auto font-family: inter',
+                class: 'flex flex-col px-4 py-3 justify-start w-full h-full focus:outline-[#0865fe] overflow-auto font-family: inter',
             },
         },
         editable: true,

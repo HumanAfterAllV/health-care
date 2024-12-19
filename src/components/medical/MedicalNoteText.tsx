@@ -50,10 +50,10 @@ const ToolBar = ({editor}: EditorType): JSX.Element => {
             icon: Brush, 
             action: () => {
               const currentColor = editor.getAttributes('textStyle').color;
-              const newColor = currentColor === '#0096C7' ? '#000000' : '#0096C7'; 
+              const newColor = currentColor === '#0077B6' ? '#000000' : '#0077B6'; 
               editor.chain().focus().setColor(newColor).run();
             }, 
-            isActive: editor.getAttributes('textStyle').color === '#0096C7', 
+            isActive: editor.getAttributes('textStyle').color === '#0077B6', 
             tooltip: 'Color' 
         },
         { icon: Undo, action: () => editor.chain().focus().undo().run(), isActive: false, tooltip: 'Undo' },
@@ -70,7 +70,7 @@ const ToolBar = ({editor}: EditorType): JSX.Element => {
                                 variant="outline"
                                 size="icon"
                                 onClick={action}
-                                className={`p-2 hover:bg-[#CAF0F8] ${isActive ? 'bg-[#CAF0F8]' : 'bg-white'} flex-shrink-0`}
+                                className={`p-2 hover:bg-indigo-100 ${isActive ? 'bg-indigo-100' : 'bg-white'} flex-shrink-0`}
                             >
                                 <Icon className="h-4 w-4" />
                             </Button>
@@ -100,19 +100,19 @@ export default function MedicalNoteText({ editor }: { editor: Editor | null }): 
 
     return (
         <Card className="flex h-[650px] flex-1 flex-col shadow-lg bg-white rounded-2xl">
-            <CardHeader className="flex flex-row gap-4 items-center justify-between bg-[#00B4D8] text-white rounded-t-lg">
+            <CardHeader className="flex flex-row gap-4 items-center justify-between bg-blue-900 text-white rounded-t-lg">
                 <CardTitle className="flex items-center gap-2">New Medical Note</CardTitle>
                 <Select onValueChange={(value) => applyTemplate(value)}>
-                    <SelectTrigger className="w-[180px] border-white">
+                    <SelectTrigger className="w-[180px] bg-[#0865fe] border-none text-white rounded-md">
                         <SelectValue placeholder="Select template"/>
                     </SelectTrigger>
                     <SelectContent className="shad-select-content">
                         <SelectGroup>
-                            <SelectItem className="hover:bg-[#CAF0F8]" value="Consultation">Consultation</SelectItem>
-                            <SelectItem className="hover:bg-[#CAF0F8]" value="RoutineCheckUp">Routine CheckUp</SelectItem>
-                            <SelectItem className="hover:bg-[#CAF0F8]" value="FollowUp">Follow Up</SelectItem>
-                            <SelectItem className="hover:bg-[#CAF0F8]" value="SecondOpinion">Second Option</SelectItem>
-                            <SelectItem className="hover:bg-[#CAF0F8]" value="EmergencyVisit">Emergency</SelectItem>
+                            <SelectItem className="hover:bg-indigo-100" value="Consultation">Consultation</SelectItem>
+                            <SelectItem className="hover:bg-indigo-100" value="RoutineCheckUp">Routine CheckUp</SelectItem>
+                            <SelectItem className="hover:bg-indigo-100" value="FollowUp">Follow Up</SelectItem>
+                            <SelectItem className="hover:bg-indigo-100" value="SecondOpinion">Second Option</SelectItem>
+                            <SelectItem className="hover:bg-indigo-100" value="EmergencyVisit">Emergency</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
@@ -135,7 +135,7 @@ export default function MedicalNoteText({ editor }: { editor: Editor | null }): 
                         />
                     </div>
                 </div>
-                <SubmitButton isLoading={loading} className="mt-4 bg-[#00B4D8] text-white hover:bg-[#48CAE4]">
+                <SubmitButton isLoading={loading} className="mt-4 bg-[#0865fe] text-white hover:bg-[#338aff]">
                     Save
                 </SubmitButton>
             </CardContent>

@@ -8,13 +8,14 @@ import { getPatientsByName } from "@/lib/actions/doctor.actions"
 import { Input } from "./ui/input"
 import { Search, Loader } from "lucide-react"
 
-export default function SearchPatient(): JSX.Element {
-    const [ searchTerm, setSearchTerm ] = useState<string>("");
-    interface Patient {
-        userId: string;
-        name: string;
-    }
+interface Patient {
+    userId: string;
+    name: string;
+}
 
+export default function SearchPatient(): JSX.Element {
+
+    const [ searchTerm, setSearchTerm ] = useState<string>("");
     const [result, setResults] = useState<Array<Patient>>([])
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -44,13 +45,18 @@ export default function SearchPatient(): JSX.Element {
 
     },[debouncedSearchTerm]);
 
+    const handlePatientSelect = () => {
+        setSearchTerm("");
+    };
+
     return (
         <div className="relative w-full max-w-md mx-auto">
             <div className="relative">
                 <Input
                     type="text"
                     placeholder="Search patients"
-                    className="pl-8 bg-white border-[#48CAE4] focus:border-[#0096C7] focus:ring-[#0096C7]"
+                    value={searchTerm}
+                    className="pl-8 bg-white focus:ring-[#0865fe]"
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" size={20} />
@@ -60,7 +66,7 @@ export default function SearchPatient(): JSX.Element {
                 <ul className="absolute z-10 mt-2 w-full bg-white rounded-lg shadow-lg border">
                     {result.map((patient) => (
                         <li key={patient.userId} className="last:border-none">
-                            <Link href={`/admin/${patient.userId}`} className="block px-4 py-2 hover:bg-[#CAF0F8]">
+                            <Link href={`/admin/${patient.userId}`} className="block px-4 py-2 hover:bg-indigo-100" onClick={handlePatientSelect}>
                                 {patient.name}
                             </Link>
                         </li>

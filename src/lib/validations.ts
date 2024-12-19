@@ -126,14 +126,14 @@ export function getAppointmentSchema(type: string) {
 export const MedicalNoteSchema = z.object({
   height: z
     .string()
-    .min(1, "Height is required")
+    .min(1, "Required")
     .refine((val) => {
       const num = Number(val);
       return !isNaN(num) && num >= 50 && num <= 300;
     }, "Height must be a number between 50 and 300 cm"),
   weight: z
     .string()
-    .min(1, "Weight is required")
+    .min(1, "Required")
     .refine((val) => {
       const num = Number(val);
       return !isNaN(num) && num >= 1 && num <= 300;
