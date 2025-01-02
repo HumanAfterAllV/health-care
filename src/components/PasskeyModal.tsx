@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
+import { decryptKey, encryptKey } from "@/lib/utils";
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -20,11 +22,8 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp"
   
-import { decryptKey, encryptKey } from "@/lib/utils";
-
-  
-
 export default function PasskeyModal(): JSX.Element {
+    
     const router = useRouter()
     const [open, setOpen]  = useState<boolean>(true)
     const [passkey, setPassKey] = useState<string>("");
@@ -35,9 +34,9 @@ export default function PasskeyModal(): JSX.Element {
 
     useEffect(() => {
 
-        const accesKey = encryptedKey && decryptKey(encryptedKey);
+        const accessKey = encryptedKey && decryptKey(encryptedKey);
 
-        if(accesKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY){
+        if(accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY){
             setOpen(false)
             router.push("/admin")
             
@@ -47,7 +46,7 @@ export default function PasskeyModal(): JSX.Element {
             setError("Invalid Passkey. Please try again.")
         }
 
-    },[encryptedKey]);
+    },[encryptedKey, router]);
 
 
     const closeModal = () => {
@@ -106,7 +105,7 @@ export default function PasskeyModal(): JSX.Element {
                         {error && <p className="shad-error text-14regular mt-4 flex justify-center">{error}</p>}
                     </div>
                     <AlertDialogFooter>
-                        <AlertDialogAction onClick={(e) => validatePassKey(e)} className="shad-primary-btn w-full">
+                        <AlertDialogAction onClick={(e) => validatePassKey(e)} className="shad-primary-btn-rt bg-green-400 w-full">
                             Enter Admin Passkey
                         </AlertDialogAction>
                     </AlertDialogFooter>

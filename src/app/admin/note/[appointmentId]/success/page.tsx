@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button";
 
 export default function Page(): JSX.Element {
+    
     return(
         <div className="flex h-screen max-h-screen px-[5%]">
             <div className="success-img">
@@ -20,7 +21,7 @@ export default function Page(): JSX.Element {
                     <p className="pb-4">
                         The medical note has been saved successfully.
                     </p>
-                    <Button variant="outline" className="shad-primary-btn" asChild>
+                    <Button aria-label="Return Dashboard" variant="outline" className="shad-primary-btn-rt bg-green-400" asChild>
                         <Link href="/admin">
                             Return to Dashboard
                         </Link>

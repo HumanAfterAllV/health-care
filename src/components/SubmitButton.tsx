@@ -9,7 +9,7 @@ interface ButtonProps{
 
 export default function SubmitButton({isLoading, className, children}: ButtonProps) {
     return(
-        <Button type="submit" disabled={isLoading} className={className ?? "shad-primary-btn w-full"}>
+        <Button type="submit" disabled={isLoading} aria-label="Submit" className={className ?? "shad-primary-btn-rt bg-green-400 w-full"}>
             {isLoading ? (
                 <div className="flex items-center gap-4">
                     <Image 

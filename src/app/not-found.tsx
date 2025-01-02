@@ -1,14 +1,16 @@
+
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { FileQuestion } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 
 export default function NotFound(){
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-indigo-50 p-4 text-center">
-            <FileQuestion className="h-24 w-24 text-[#0096C7] mb-8" />
-            <h1 className="mb-4 text-4xl font-bold text-[#023E8A]">404 - Page Not Found</h1>
-            <p className="mb-8 text-xl text-[#0096C7]">Oops! The page you&apos;re looking for doesn&apos;t exist.</p>
-            <Button asChild className="bg-[#00B4D8] hover:bg-[#48CAE4]">
+        <div className="flex min-h-screen flex-col items-center justify-center bg-white p-4 text-center">
+            <FileQuestion className="h-24 w-24 mb-8" />
+            <h1 className="mb-4 text-4xl font-bold">404 - Page Not Found</h1>
+            <p className="mb-8 text-xl">Oops! The page you&apos;re looking for doesn&apos;t exist.</p>
+            <Button asChild className="shad-primary-btn-rt">
                 <Link href="/">
                     Return to Home
                 </Link>

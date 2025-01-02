@@ -1,33 +1,61 @@
-import Image from "next/image"
+"use client"
+
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import Link from "next/link"
+import Image from "next/image";
+
+import { useAnimationsGSAP } from "@/hooks/useAnimationsGSAP";  
 
 import PatientForms from "@/components/forms/PatientForms"
 import PasskeyModal from "@/components/PasskeyModal";
 import Logo from "@/components/Logo";
+import SkeletonCard from "@/components/SkeletonCard";
 
-export default function Page({ searchParams }: SearchParamProps): JSX.Element {
-    const isAdmin = searchParams?.admin === "true";
+function PatientPageContent(): JSX.Element {
+
+    const searchParams = useSearchParams();
+    const isAdmin = searchParams.get("admin") === "true";
+
+    const { elementRef: formAppear } = useAnimationsGSAP("FormAppear");
     
     return(
-        <section className="flex h-screen max-h-screen">
+        <section className="flex h-screen max-h-screen overflow-hidden">
             {isAdmin && <PasskeyModal/>}
-            <div className="remove-scroll container my-auto">
+            <div ref={formAppear} className="remove-scroll container my-auto">
                 <div className="sub-container max-w-[496px]">
-                    <Link href="/" className="py-8">
-                        <Logo />
-                    </Link>
-                    <PatientForms />
-                    <div className="text-14-regular mt-20 flex justify-between">
+                    <Logo className="py-8 animate-item"/>
+                    <PatientForms className="space-y-6 flex-1 overflow-hidden"/>
+                    <div className="text-14-regular mt-20 flex justify-between animate-item">
                         <p className="justify-items-end text-dark-600 xl:text-left">
                             © 2024 NextHealth
                         </p>
-                        <Link href={"/patients/?admin=true"} className="text-[#00B4D8] ">
+                        <Link href={"/patients/?admin=true"} className="text-green-400 ">
                             Admin
                         </Link>
                     </div>
                 </div>
             </div>
-            <Image src="/assets/images/doctor-world.jpg" height={1000} width={1000} alt="patient" className="side-img max-w-[50%]"/>
+            <div className="flex-wrap w-1/2 h-full hidden lg:flex">
+                <div className="relative w-full h-full">
+                    <Image
+                    src="/assets/images/doctor-2.jpg"
+                    alt="Doctors"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={true}
+                    />
+                </div>
+            </div>
         </section>
     )
 }
+
+export default function Page(): JSX.Element {
+    return (
+      <Suspense fallback={<SkeletonCard />}>
+        <PatientPageContent />
+      </Suspense>
+    );
+  }

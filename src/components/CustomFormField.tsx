@@ -2,31 +2,30 @@
 
 import React from "react";
 import Image from "next/image";
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-  } from "@/components/ui/form";
-
 import { Control } from "react-hook-form";
 import { E164Number } from "libphonenumber-js/core";
-  
-import 'react-phone-number-input/style.css'
-import "react-datepicker/dist/react-datepicker.css";
-  
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
-import { Textarea } from "./ui/textarea";
-import { Checkbox } from "./ui/checkbox";
 
+import "react-datepicker/dist/react-datepicker.css";
+import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import DatePicker from "react-datepicker";
 
 import { FormFieldTypes } from "@/types/supabase.types";
 
-interface CustomProps {
+import {
+FormControl,
+FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+  } from "@/components/ui/form";
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
+
+
+export type CustomProps = {
     control: Control<any>,
     fieldType:  FormFieldTypes,
     name: string,
@@ -34,6 +33,7 @@ interface CustomProps {
     placeholder?: string,
     value?: string,
     iconSrc?: string,
+    icon?: Icon,
     iconAlt?: string,
     disabled?: boolean,
     dateFormat?: string,
@@ -44,14 +44,17 @@ interface CustomProps {
 }
 
 const RenderField = ({field, props}: {field; props: CustomProps})=> {
-    const {fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton, disabled} = props;
+    const {fieldType, iconSrc, iconAlt, icon,placeholder, showTimeSelect, dateFormat, renderSkeleton, disabled} = props;
     switch(fieldType){
         case FormFieldTypes.INPUT:
             return (
-                <div className="flex border rounded-md border-gray-500">
+                <div className="flex border-[1px] items-center border-gray-400 rounded-lg">
                     {iconSrc && (
                         <Image src={iconSrc} alt={iconAlt || 'icon'} height={24} width={24} className="ml-2"/>
                     )}
+                    {icon && 
+                        React.createElement(icon, { className: "h-6 w-6 ml-2 text-gray-400" })
+                    }
                     <FormControl>
                         <Input
                             placeholder={placeholder}
@@ -76,7 +79,7 @@ const RenderField = ({field, props}: {field; props: CustomProps})=> {
             )
         case FormFieldTypes.DATE_PICKER:
             return (
-                <div className="flex rounded-md border border-dark-500">
+                <div className="flex rounded-lg border border-gray-400">
                     <Image src="/assets/icons/calendar.svg" height={24} width={24} alt="calendar" className="ml-2"/>
                     <FormControl>
                         <DatePicker

@@ -14,24 +14,29 @@ const config = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+
     },
     extend: {
-      screens:{
-        "max-900": {max: "900px"},
+      screens: {
+        "less-than-xl2": {"max": "1320px"},
+        "xl2": {"min": "1320px"},
       },
       colors: {
         orange: {
-          500: "#e77a66"
+          500: "#E77A66"
         },
         purple:{
           500: "#9688E9",
+          600: "#5a45bf"
         },
         green: {
+          200: "#C6F3E8",
+          300: "#72E2C5",
           400: "#48dAB3",
           500: "#5EB996",
+        },
+        yellow:{
+          500: "#FFF47F"
         },
         blue: {
           100: "#CAF0F8",
@@ -59,6 +64,7 @@ const config = {
           500: "#363A3D",
           600: "#76828D",
           700: "#ABB8C4",
+          800: "#010101",
         },
       },
       fontFamily: {

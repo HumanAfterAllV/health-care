@@ -68,7 +68,7 @@ export const getTemplate = async (type: string, appointment: Appointment): Promi
     const templates = {
         "Consultation": `
             <h1 style="text-align: center;">Consultation Report</h1>
-            <h2 style="text-align: center;">Next-Care Center</h2>
+            <h2 style="text-align: center;">HealthCare Solutions</h2>
             <p style="text-align: center;">Phone: (04)0987654321 | Address: Miami Blvd #300</p>
             <hr/>
             <p>Assigned Physician: <span style="font-weight: bold;">${typeof appointment.primaryPhysician === "object" && "name" in appointment.primaryPhysician ? appointment.primaryPhysician.name : ""} - ${typeof appointment.primaryPhysician === "object" && "specialty" in appointment.primaryPhysician ? appointment.primaryPhysician.specialty : ""}</span></p>
@@ -87,7 +87,7 @@ export const getTemplate = async (type: string, appointment: Appointment): Promi
         `,
         "RoutineCheckUp": `
             <h1 style="text-align: center;">Routine Check-up Summary</h1>
-            <h2 style="text-align: center;">Next-Care Center</h2>
+            <h2 style="text-align: center;">HealthCare Solutions</h2>
             <p style="text-align: center;">Phone: (04)0987654321 | Address: Miami Blvd #300</p>
             <hr/>
             <p>Assigned Physician: <span style="font-weight: bold;">${typeof appointment.primaryPhysician === "object" && "name" in appointment.primaryPhysician ? appointment.primaryPhysician.name : ""} - ${typeof appointment.primaryPhysician === "object" && "specialty" in appointment.primaryPhysician ? appointment.primaryPhysician.specialty : ""}</span></p>
@@ -106,7 +106,7 @@ export const getTemplate = async (type: string, appointment: Appointment): Promi
         `,
       "FollowUp": `
             <h1 style="text-align: center;">Follow-Up Instructions</h1>
-            <h2 style="text-align: center;">Next-Care Center</h2>
+            <h2 style="text-align: center;">HealthCare Solutions</h2>
             <p style="text-align: center;">Phone: (04)0987654321 | Address: Miami Blvd #300</p>
             <hr/>
             <p >Assigned Physician: <span style="font-weight: bold;">${typeof appointment.primaryPhysician === "object" && "name" in appointment.primaryPhysician ? appointment.primaryPhysician.name : ""} - ${typeof appointment.primaryPhysician === "object" && "specialty" in appointment.primaryPhysician ? appointment.primaryPhysician.specialty : ""}</span></p>
@@ -126,7 +126,7 @@ export const getTemplate = async (type: string, appointment: Appointment): Promi
         `,
         "SecondOpinion": `
             <h1 style="text-align: center;">Second Opinion Review</h1>
-            <h2 style="text-align: center;">Next-Care Center</h2>
+            <h2 style="text-align: center;">HealthCare Solutions</h2>
             <p style="text-align: center;">Phone: (04)0987654321 | Address: Miami Blvd #300</p>
             <hr/>
             <p>Reviewed by: <span style="font-weight: bold;">${typeof appointment.primaryPhysician === "object" && "name" in appointment.primaryPhysician ? appointment.primaryPhysician.name : ""} - ${typeof appointment.primaryPhysician === "object" && "specialty" in appointment.primaryPhysician ? appointment.primaryPhysician.specialty : ""}</span></p>
@@ -146,7 +146,7 @@ export const getTemplate = async (type: string, appointment: Appointment): Promi
         `,
         "EmergencyVisit": `
             <h1 style="text-align: center;">Emergency Visit Report</h1>
-            <h2 style="text-align: center;">Next-Care Center</h2>
+            <h2 style="text-align: center;">HealthCare Solutions</h2>
             <p style="text-align: center;">Phone: (04)0987654321 | Address: Miami Blvd #300</p>
             <hr/>
             <p>Attending Physician: <span style="font-weight: bold;">${typeof appointment.primaryPhysician === "object" && "name" in appointment.primaryPhysician ? appointment.primaryPhysician.name : ""} - ${typeof appointment.primaryPhysician === "object" && "specialty" in appointment.primaryPhysician ? appointment.primaryPhysician.specialty : ""}</span></p>
@@ -247,31 +247,54 @@ export const getPatientsByName =  async(name: string) => {
         throw error;
     }
 }
+
 export const getPatientMedicalNotes = async (userId: string) => {
     if (!userId) {
         throw new Error("Error: Missing userId.");
     }
     
-    try{
-        const { data, error} = await supabase
-        .from("medicalNote")
-        .select(`noteId,
+    try {
+        const { data, error } = await supabase
+            .from("medicalNote")
+            .select(`
+                noteId,
                 createdAt,
-                appointmentId(userId)`)
-        .eq("appointmentId.userId", userId)
+                appointmentId(
+                    userId, 
+                    reason, 
+                    schedule, 
+                    primaryPhysician(
+                        name, 
+                        specialty
+                    )
+                )
+            `)
+            .eq("appointmentId.userId", userId);
         
-        if(error){
+        if (error) {
             console.error("Error getting medical notes:", error);
             throw new Error("Error getting medical notes");
         }
-        return data.filter((note) => note.appointmentId?.userId === userId).map((note) => ({
-            noteId: note.noteId,
-            createdAt: note.createdAt,
-        }));
-    }
-    catch(error: unknown){
+        if (data) {
+            // @ts-expect-error: data is an array of MedicalNoteTypes
+            const filteredNotes = data.filter(note => note.appointmentId && note.appointmentId.userId === userId);
+            return filteredNotes.map(note => ({
+                noteId: note.noteId,
+                createdAt: note.createdAt,
+                // @ts-expect-error: note.appointmentId is an object of type Appointment
+                reason: note.appointmentId.reason || "N/A",
+                // @ts-expect-error: note.appointmentId is an object of type Appointment
+                schedule: note.appointmentId.schedule || "N/A",
+                primaryPhysician: {
+                    // @ts-expect-error: note.appointmentId.primaryPhysician is an object of type PrimaryPhysician
+                    name: note.appointmentId.primaryPhysician.name || "N/A",
+                    // @ts-expect-error: note.appointmentId.primaryPhysician is an object of type PrimaryPhysician
+                    specialty: note.appointmentId.primaryPhysician.specialty || "N/A",
+                },
+            }));
+        }
+    } catch (error: unknown) {
         console.error("Error getting medical notes:", error);
         throw new Error("Error getting medical notes");
     }
 };
-

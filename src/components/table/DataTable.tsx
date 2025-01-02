@@ -1,5 +1,7 @@
 "use client"
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import {
     ColumnDef,
     flexRender,
@@ -15,16 +17,18 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
-import { Card } from "../ui/card"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Card } from "../ui/card";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
-}
+};
 
 export default function DataTable<TData, TValue>({
     columns,
@@ -36,7 +40,7 @@ export default function DataTable<TData, TValue>({
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-    })
+    });
    
     return (
         <Card className="p-4 shadow-none border-none">

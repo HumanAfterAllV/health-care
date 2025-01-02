@@ -1,46 +1,60 @@
-import Link from "next/link";
-import { ReactNode } from "react";
+"use client";
 
+import Link from "next/link";
+import { ReactNode, useState, useEffect } from "react";
+import { usePathname } from "next/navigation"
+
+import {Button} from "@/components/ui/button";
 import SidebarNav from "@/components/SidebarNav";
 import SearchPatient from "@/components/SearchPatient";
 
-import {Button} from "@/components/ui/button";
-
-import { Plus } from "lucide-react";
-
 export default function Layout({ children }: { children: ReactNode }) {
+    
+    const pathname = usePathname();
+    const [title, setTitle] = useState<string>("Dashboard");
+
+    useEffect(() => {
+        const getTitle = () => {
+           if (pathname === "/admin") {
+                setTitle("Dashboard");
+           } else if (pathname.startsWith("/admin/note")) {
+                setTitle("Medical Note");
+           } else if (pathname.startsWith("/admin/")) {
+                setTitle("Patient");
+           }
+        };
+
+        getTitle();
+    }, [pathname]);
+     
     return (
-        <div className="flex min-h-screen bg-indigo-50">
-            <SidebarNav />
-            <div className="flex-1 ml-20">
-                <div className="sticky top-0 z-10 mb-1 flex items-center justify-between p-8 bg-indigo-50">
-                    <h1 className="text-xl font-semibold text-blue-900">Dashboard</h1>
+        <section className="flex min-h-screen ">
+            {/* <SidebarNav /> */}
+            <div className="flex-1 mx-5">
+                <div className="sticky top-0 z-40 mb-1 flex items-center justify-between p-8 bg-white">
+                    <h1 className="text-[32px] font-medium">{title}</h1>
                     <div className="flex flex-row gap-4">
                         <SearchPatient/>
-                        <Link href="/admin">
-                            <Button 
-                            variant="outline" 
-                            className="border-[#0865fe] text-[#0865fe] hover:bg-indigo-100"
-                            >
+                        <Button 
+                        variant="ghost" 
+                        className="shad-primary-btn-rt"
+                        >
+                            <Link href="/admin">
                                 Dashboard
-                            </Button>
-                        </Link>
-                        <Link href="/">
-                            <Button 
-                            variant="outline" 
-                            className="border-[#0865fe] text-[#0865fe] hover:bg-indigo-100"
-                            >
+                            </Link>
+                        </Button>
+                        <Button 
+                            variant="ghost" 
+                            className="shad-primary-btn-rt"
+                        >
+                            <Link href="/">
                                 Back to Home
-                            </Button>
-                        </Link>
-                        <Button className=" bg-[#0865fe] rounded-2xl text-white">
-                            <Plus className="h-5 w-5 mr-2"/>
-                            Add Patient
+                            </Link>
                         </Button>
                     </div>
                 </div>
                 {children}
             </div>
-        </div>
+        </section>
     )
 }

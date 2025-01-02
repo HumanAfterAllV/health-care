@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { Appointment, Patient } from "@/types/supabase.types";
 
 import {
     Dialog,
@@ -11,9 +12,6 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
-
-import { Appointment, Patient } from "@/types/supabase.types";
-
 import AppointmentForm from "./forms/AppointmentForm";
   
 interface AppointmentModalProps {
@@ -37,7 +35,7 @@ export default function AppointmentModal ({type, patient, userId, appointment}: 
             <DialogTrigger asChild className="flex space-x-2">
                 {type === "schedule" ? (
                     <div
-                        className="cursor-pointer hover:bg-indigo-100 p-2 rounded text-sm"
+                        className="cursor-pointer hover:bg-green-200 p-2 rounded text-sm"
                         onClick={() => setOpen(true)}
                     >
                         <span>Schedule</span>

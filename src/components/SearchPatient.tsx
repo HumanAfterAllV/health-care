@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Search, Loader } from "lucide-react"
 
 import { getPatientsByName } from "@/lib/actions/doctor.actions"
 
 import { Input } from "./ui/input"
-import { Search, Loader } from "lucide-react"
 
 interface Patient {
     userId: string;
@@ -50,23 +50,23 @@ export default function SearchPatient(): JSX.Element {
     };
 
     return (
-        <div className="relative w-full max-w-md mx-auto">
+        <div className="relative w-full max-w-md mx-auto z-50">
             <div className="relative">
                 <Input
                     type="text"
                     placeholder="Search patients"
                     value={searchTerm}
-                    className="pl-8 bg-white focus:ring-[#0865fe]"
+                    className="pl-8 h-[50px] bg-white focus:ring-dark-800"
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-500" size={20} />
                 {isLoading && <Loader className="absolute right-3 top-1/2 transform -translate-y-1/2 animate-spin text-gray-400" size={15} />}
             </div>
             {result.length > 0 && (
-                <ul className="absolute z-10 mt-2 w-full bg-white rounded-lg shadow-lg border">
+                <ul className="absolute mt-2 w-full bg-white rounded-lg shadow-lg border">
                     {result.map((patient) => (
                         <li key={patient.userId} className="last:border-none">
-                            <Link href={`/admin/${patient.userId}`} className="block px-4 py-2 hover:bg-indigo-100" onClick={handlePatientSelect}>
+                            <Link href={`/admin/${patient.userId}`} className="block px-4 py-2 hover:bg-gray-100 bg-white" onClick={handlePatientSelect}>
                                 {patient.name}
                             </Link>
                         </li>

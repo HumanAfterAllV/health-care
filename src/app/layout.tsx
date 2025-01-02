@@ -1,19 +1,38 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
-import { cn } from "../lib/utils";
+import localFont from "next/font/local";
 import "./globals.css";
 /* import { ThemeProvider } from "@/components/theme-provider";
  */
-const fontSans = FontSans({
-  subsets: ["latin"],
-  display: "swap",
-  weight: [ '300','400', '500', '600', '700'],
-  variable: '--font-sans',
-})
+
+const generalSansFont = localFont({
+  src: [
+    {
+      path: "./fonts/GeneralSans/GeneralSans-Light.otf",
+      weight: "300",
+    },
+    {
+      path: "./fonts/GeneralSans/GeneralSans-Regular.otf",
+      weight: "400",
+    },
+    {
+      path: "./fonts/GeneralSans/GeneralSans-Medium.otf",
+      weight: "500",
+    },
+    {
+      path:"./fonts/GeneralSans/GeneralSans-Semibold.otf",
+      weight: "600",
+    },
+    {
+      path: "./fonts/GeneralSans/GeneralSans-Bold.otf",
+      weight: "700",
+    }
+  ],
+  variable: "--font-general-sans",
+});
 
 export const metadata: Metadata = {
-  title: "NextCare",
-  description: "A health care management system",
+  title: "Health Solutions",
+  description: "A health care solution for everyone.",
   icons: {
     icon: '/assets/icons/logo-icon.svg',
   }
@@ -26,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn('min-h-screen font-sans antialiased', fontSans.variable)}>
+      <body className={`${generalSansFont.variable}`} suppressHydrationWarning={true}>
 {/*         <ThemeProvider
           attribute='class'
           defaultTheme='dark'

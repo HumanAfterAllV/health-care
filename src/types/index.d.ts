@@ -1,5 +1,14 @@
 /* eslint-disable no-unused-vars */
 
+declare type Icon = ForwardRefExoticComponent<
+  Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+>;
+
+declare interface Icon  {
+  icon: ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>>
+}
+
+
 declare type SearchParamProps = {
     params: { [key: string]: string };
     searchParams: { [key: string]: string | string[] | undefined };
@@ -15,9 +24,12 @@ declare type SearchParamProps = {
     email: string;
     phone: string;
   }
+
+
   declare interface User extends CreateUserParams {
     userId: string;
   }
+  
   
   declare interface RegisterUserParams extends CreateUserParams {
     userId: string;
@@ -81,14 +93,16 @@ declare type SearchParamProps = {
   declare interface UserDetails {
     userId?: string;
     name?: string;
+    email?: string;
     gender?: string;
+    address?: string;
+    phone?: string;
     birthDate?:  Date;
     allergies?: string;
     bloodType?: BloodType;
     currentMedication?: string;
     familyMedicalHistory?: string;
     pastMedicalHistory?: string;
-  }
-
+  };
 
   

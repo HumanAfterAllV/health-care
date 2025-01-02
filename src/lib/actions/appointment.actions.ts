@@ -188,7 +188,8 @@ export const getRecentPatients = async () => {
         .from("patient")
         .select("name, email, phone, createdAt")
         .order("createdAt", { ascending: false })
-        .limit(3);
+        .limit(3)
+        
 
         if(error){
             throw error;

@@ -1,7 +1,8 @@
 import {Home, Calendar, Mail, Users, Settings, LogOut} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
 
+import { cn } from '@/lib/utils';
+
+import { Button } from './ui/button';
 
 export default function SidebarNav(): JSX.Element {
 
@@ -14,7 +15,7 @@ export default function SidebarNav(): JSX.Element {
     ];
 
     return (
-        <nav className="fixed flex flex-col h-[calc(100%-16px)] w-[72px] items-center gap-4 bg-blue-900 py-4 rounded-2xl m-2 mb-4">
+        <nav className="fixed flex flex-col h-[calc(100%-16px)] w-[72px] items-center gap-4 bg-purple-600 py-4 rounded-3xl m-2 mb-4">
             {navItems.map((item,index) => (
             <Button
                 key={index}
@@ -22,7 +23,7 @@ export default function SidebarNav(): JSX.Element {
                 size="icon"
                 className={cn(
                 "h-10 w-10 text-white hover:bg-",
-                item.active && "bg-[#0865fe]"
+                item.active && ""
                 )}
             >
                 <item.icon className="h-5 w-5"/>
@@ -32,7 +33,7 @@ export default function SidebarNav(): JSX.Element {
             <Button
             variant="ghost"
             size="icon"
-            className="mt-auto text-white hover:bg-[#0865fe]"
+            className="mt-auto text-white hover:bg-"
             >
                 <LogOut className="h-5 w-5"/>
             </Button>

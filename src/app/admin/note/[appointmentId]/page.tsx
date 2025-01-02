@@ -1,17 +1,29 @@
-import { MedicalNoteProvider } from "@/hooks/MedicalNoteContext";
+"use client";
 
-import MedicalNoteForm from "@/components/medical/MedicalNoteForm"
-;
+import { useFetch } from "@/hooks/useFetch";
+import { useParams } from "next/navigation";
+import { MedicalNoteProvider } from "@/hooks/useNoteContext";
+
 import { getDoctorAppointmentForMedicalNote } from "@/lib/actions/doctor.actions";
-import { Appointment } from "@/types/supabase.types";
 
-export default async function Page({params: {appointmentId} }: SearchParamProps): Promise<JSX.Element> {
+import MedicalNoteForm from "@/components/medical/MedicalNoteForm";
+import SkeletonCard from "@/components/SkeletonCard";
+import ErrorRender from "@/components/ErrorRender";
+
+export default function Page(): JSX.Element | null {
+    const params = useParams();
+    const appointmentId = params.appointmentId as string;
+
+    const {data: appointment, loading, error} = useFetch(getDoctorAppointmentForMedicalNote, appointmentId);
+
+    if(loading) return <SkeletonCard />;
+    if(error) return <ErrorRender code={error.status} />;
     
-    const appointment: Appointment = await getDoctorAppointmentForMedicalNote(appointmentId);
     return (
-
-        <MedicalNoteProvider appointment={appointment}>
-            <MedicalNoteForm/>
-        </MedicalNoteProvider>
+        appointment && (
+            <MedicalNoteProvider appointment={appointment}>
+                <MedicalNoteForm/>
+            </MedicalNoteProvider>
+        )
     )
 }

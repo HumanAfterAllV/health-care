@@ -1,19 +1,16 @@
 "use client";
 
-
 import Image from "next/image"
 import Link from "next/link"
-
 import { ColumnDef } from "@tanstack/react-table"
-import { Appointment } from "@/types/supabase.types";
-
-import { formatDateTime } from "@/lib/utils";
-import { Doctors } from "@/constants";
-
 import { MoreHorizontal } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
 
+import { Doctors } from "@/constants";
+import { Appointment } from "@/types/supabase.types";
+import { formatDateTime } from "@/lib/utils";
+
+import { Button } from "../ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import StatusBadge from "../StatusBadge";
 import AppointmentModal from "../AppointmentModal";
 
@@ -83,7 +80,7 @@ export const columns: ColumnDef<Appointment>[] = [
                     <DropdownMenuContent align="end" sideOffset={4} className="w-48 bg-white shadow-lg">
                         {data.status === "scheduled" ? (
                             <DropdownMenuItem asChild>
-                                <Link href={`/admin/note/${data.appointmentId}`} className="cursor-pointer hover:bg-indigo-100 p-2 rounded">
+                                <Link href={`/admin/note/${data.appointmentId}`} className="cursor-pointer hover:bg-green-200 p-2 rounded">
                                     Medical Note
                                 </Link>
                             </DropdownMenuItem>         

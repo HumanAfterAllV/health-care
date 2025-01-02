@@ -5,13 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-import { getDoctorAppointment } from "@/lib/actions/appointment.actions";
 import { Doctors } from "@/constants";
+import { getDoctorAppointment } from "@/lib/actions/appointment.actions";
 import { formatDateTime } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
-
-import Skeleton from "@/components/Skeleton";
 
 interface DoctorAppointment {
     appointmentId: string;
@@ -60,12 +58,7 @@ export default function RenderUserAppointment(): JSX.Element {
     if(!doctorAppointment){
         return(
             <div className="flex flex-col gap-4">
-                <Skeleton className="h-10 w-2/3" />
-                <div className="flex items-center gap-3">
-                    <Skeleton className="h-24 w-24 rounded-full"/>
-                    <Skeleton className="h-6 w-1/2"/>
-                </div>
-                <Skeleton className="h-6 w-1/4"/>
+                <p>Loading...</p>
             </div>
         )
     }
@@ -82,7 +75,7 @@ export default function RenderUserAppointment(): JSX.Element {
                     alt="success"
                 />
                 <h2 className="header mb-6 max-w-[600px] text-center">
-                    Your <span className="text-[#48CAE4]">appointment request</span> has been successfully submitted <span className="text-gray-600">{doctorAppointment.patient}</span>!
+                    Your <span className="text-green-400">appointment request</span> has been successfully submitted <span className="text-gray-600 font-medium">{doctorAppointment.patient}</span>!
                 </h2>
                 <p>
                     We will be in touch with you shortly to confirm your appointment.
@@ -111,13 +104,13 @@ export default function RenderUserAppointment(): JSX.Element {
                 </div>
             </section>
             <div className="flex flex-row gap-6">
-
-                <Button variant="outline" className="shad-primary-btn" asChild>
+                
+                <Button variant="outline" className="shad-primary-btn-rt bg-green-400" asChild>
                     <Link href="/">
                         Back to Home
                     </Link>
                 </Button>
-                <Button variant="outline" className="shad-primary-btn" asChild>
+                <Button variant="outline" className="shad-primary-btn-rt bg-green-400" asChild>
                     <Link href={`/patients/${doctorAppointment.userId}/new-appointment`}>
                         New Appointment
                     </Link>

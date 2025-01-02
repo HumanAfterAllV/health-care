@@ -1,5 +1,5 @@
 
-import { useRef, useEffect } from "react";
+/* import { useRef, useEffect } from "react";
 import Image from "next/image"
 
 import SplitType from "split-type";
@@ -161,7 +161,7 @@ export default function ContentTransition(): JSX.Element {
         <section ref={stickySectionRef} className="w-full h-full relative flex max-900:flex-col">
             <div className="col flex flex-1 flex-col justify-center items-center gap-[2em] ">
                 <div className="services relative flex flex-col align-center max-900:pt-1/4 max-900:justify-start">
-                    <div ref={indicatorRef} className="indicator absolute top-0 left-0 w-full h-[38px] translate-y-0 bg-blue-900 -z-10 rounded-md"></div>
+                    <div ref={indicatorRef} className="indicator absolute top-0 left-0 w-full h-[38px] translate-y-0 bg-green-400 -z-10 rounded-xl"></div>
                     {specialtyServices.map((service, index) => (
                         <div key={index} ref={(el) => {servicesRef.current[index] = el!}} className={`service ${index[0] ? "active" : ""}`}>
                             <p>{service}</p>
@@ -184,7 +184,7 @@ export default function ContentTransition(): JSX.Element {
                         ))}
                     </div>
                 </div>
-                <div className="w-3/5 text-lg font-light max-900:text-sm">
+                <div className="w-3/5 text-lg font-medium max-900:text-sm">
                     <p ref={serviceCopyRef}>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
                         deserunt soluta, consequatur sit et tenetur facilis ex ab
@@ -194,13 +194,13 @@ export default function ContentTransition(): JSX.Element {
                 </div>
             </div>
             <div className="progress-bar absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[2.5px] h-3/5 bg-[#d5d5d5] max-900:top-1/2 max-900:h-1/2 max-900:rotate-[-90deg]">
-                <div className="progress absolute top-0 left-0 w-full h-full bg-black origin-top transform scale-y-0 will-change-transform"></div> 
+                <div className="progress absolute top-0 left-0 w-full h-full bg-green-400 origin-top transform scale-y-0 will-change-transform"></div> 
             </div>
-            <div className="index absolute left-1/2 bottom-[10%] transform -translate-x-1/2 w-[60px] px-1 py-1 justify-between flex items-center bg-blue-900 text-white max-900:top-[5%]">
+            <div className="index absolute left-1/2 bottom-[10%] transform -translate-x-1/2 w-[60px] px-1 py-1 justify-between flex items-center bg-green-400 rounded-lg text-dark-800 max-900:top-[5%]">
                 <span ref={currentCountRef}>1</span>
-                <span className="separator relative top-[-1px] w-[20px] h-[2px] bg-white"></span>
+                <span className="separator relative top-[-1px] w-[20px] h-[2px] bg-dark-800"></span>
                 <span>9</span>
             </div>
         </section>
     )
-};
+}; */
