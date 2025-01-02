@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏥 HealthSolutions
 
-## Getting Started
+A modern medical appointment management system built with cutting-edge technologies.
 
-First, run the development server:
+![Captura de pantalla 2024-12-31 122301](https://github.com/user-attachments/assets/aa0d3da6-265a-46cb-af8e-3566817d58dc)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[![Next.js](https://img.shields.io/badge/Next.js%2015-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![GSAP](https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=black)](https://greensock.com/gsap/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## 📋 Description
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**HealthSolutions** is a medical appointment management system designed to revolutionize the experience for both patients and healthcare providers. With a focus on cutting-edge technology and modern **Bento design**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🔧 **Note:** This project is a work in progress 🚀. We are continuously working to add innovative features.
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### ✨ Key Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Online Appointment Booking**: Patients can easily schedule appointments with their preferred doctors.
+- **Appointment Management**: Administrative staff can efficiently manage and organize medical appointments.
+- **Medical Records**: Doctors can create and store medical notes securely.
+- **User-friendly Interface**: Modern and responsive design for the best user experience.
+
+---
+###📝 Usage
+
+**Admin Dashboard:**
+- Manage patients and their appointments efficiently.
+- Access medical records securely.
+
+**Patients:**
+- Book appointments and view your upcoming schedule.
+
+**Doctors:**
+- Review patient information and record medical notes.
+
+
+![Captura de pantalla 2025-01-02 103159](https://github.com/user-attachments/assets/e61418a5-a780-434c-844e-ff12a31e6b49)
+
+------------
+
+
+### 📂 Folder Structure
+
+healthsolutions/
+├── public/
+├── src/
+│   ├── components/      # Reusable UI components
+│   ├── app/             # Server-side rendered components
+│   ├── lib/             # Utility functions and API clients
+│   ├── hooks/             # Customized hooks
+│   ├── types/             # reusable types
+└── .env.local           # Environment variables (not included in version control)
