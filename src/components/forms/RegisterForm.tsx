@@ -1,7 +1,6 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -349,9 +348,6 @@ export default function RegisterForm({user}: {user: User }): JSX.Element {
                 <p className="copyright py-12">
                     © 2024 NextHealth
                 </p>
-                <Link href={"/?admin=true"} className="text-green-400 ">
-                    Admin
-                </Link>
             </div>
         </div>
     )

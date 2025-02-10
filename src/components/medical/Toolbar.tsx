@@ -69,7 +69,7 @@ export default function Toolbar({editor}: EditorType): JSX.Element {
 
     return(
         <TooltipProvider delayDuration={300}>
-            <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white">
+            <div className="fixed top-28 left-1/2 transform -translate-x-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white">
                 <div className="flex items-center gap-4 px-2 py-1 rounded-lg bg-background border shadow-lg">
                     <Select onValueChange={(value) => applyTemplate(value)}>
                         <SelectTrigger className="w-[130px] border text-dark-800 rounded-md ml-1">

@@ -11,7 +11,7 @@ export default function MainNote({ editor }: { editor: Editor | null }): JSX.Ele
             <div className="flex items-center ">
                 <Toolbar editor={editor} />
             </div>
-            <div className="space-y-8 pt-16">
+            <div className="space-y-8 pt-16 z-10">
             <EditorContent
                 placeholder="Write your note here..."
                 editor={editor} 

@@ -5,6 +5,7 @@
 
 body{
   font-family: var(--font-general-sans);
+  overflow-x: hidden;
 }
 /* ========================================== TAILWIND STYLES */
 @layer base {

@@ -88,6 +88,7 @@ export default function RecentNotes(): JSX.Element {
                         </CardContent>
                     </Card>
                 ))}
+                {!notes.length && <div>No notes found</div>}
             </div>
         </Card>
     )

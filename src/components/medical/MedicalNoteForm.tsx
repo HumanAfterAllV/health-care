@@ -74,10 +74,10 @@ export default function MedicalNoteForm(): JSX.Element {
     
     return(
         <Form {...form}>
-            <form  onSubmit={form.handleSubmit(onSubmit)} className="relative min-h-screen bg-background z-40">
+            <form  onSubmit={form.handleSubmit(onSubmit)} className="relative min-h-screen bg-background">
                 <div className="flex">
                     <div className="flex flex-1 ml-[90px]">
-                        <div className="group fixed left-0 top-0 h-screen w-1 hover:w-[300px] transition-all duration-300 ease-in-out bg-background border-r z-20">
+                        <div className="group fixed left-0 top-0 h-screen w-1 hover:w-[300px] transition-all duration-300 ease-in-out bg-background border-r z-50">
                             <div className="absolute top-1/2 -translate-y-1/2 left-1 opacity-40 group-hover:opacity-0 transition-opacity duration-300 rotate-90 text-xs text-muted-foreground whitespace-nowrap">
                                 Signos Vitales →
                             </div>
@@ -88,7 +88,7 @@ export default function MedicalNoteForm(): JSX.Element {
                         <div className="flex-1 mx-auto px-4 w-full max-w-3xl py-8">
                             <MainNote editor={editor}/>
                         </div >
-                        <div className="group fixed right-0 top-0 h-screen w-1 hover:w-[300px] transition-all duration-300 ease-in-out bg-background border-l z-20">
+                        <div className="group fixed right-0 top-0 h-screen w-1 hover:w-[300px] transition-all duration-300 ease-in-out bg-background border-l z-50">
                             <div className="absolute top-1/2 -translate-y-1/2 right-1 opacity-40 group-hover:opacity-0 transition-opacity duration-300 -rotate-90 text-xs text-muted-foreground whitespace-nowrap">
                                 ← Recent Notes
                             </div>

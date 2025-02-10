@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <section className="flex min-h-screen ">
             {/* <SidebarNav /> */}
             <div className="flex-1 mx-5">
-                <div className="sticky top-0 z-40 mb-1 flex items-center justify-between p-8 bg-white">
+                <div className="sticky top-0 z-50 mb-1 flex items-center justify-between p-8 bg-white">
                     <h1 className="text-[32px] font-medium">{title}</h1>
                     <div className="flex flex-row gap-4">
                         <SearchPatient/>
